@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Route - Simple Map</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    /* Fullscreen map */
+    html, body { height: 100%; margin: 0; }
+    #map { width: 100%; height: 100%; }
+  </style>
+  <script src="https://cdn.olamaps.io/olamaps.min.js"></script>
+</head>
+<body>
+  <div id="map"></div>
+
+  <script>
+   
+    const olaMaps = new OlaMaps({
+        apiKey: 'SDefJtPtF5sOIUKYoHUUsJlmV1R67JFZq43BiRQf',
+        mode: "3d",
+	    threedTileset: "https://api.olamaps.io/tiles/vector/v1/3dtiles/tileset.json",
+    })
+    const myMap = olaMaps.init({
+        style: "https://api.olamaps.io/tiles/vector/v1/styles/default-light-standard-mr/style.json",
+        
+        container: 'map',
+        center: [77.61648476788898, 12.931423492103944],
+        zoom: 15,
+        })
+
+    myMap.addMarker({
+      coordinates: [77.5946, 12.9716],
+      popup: { text: 'Hello from Ola Maps!' }
+    });
+  </script>
+</body>
+</html>
+       

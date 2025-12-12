@@ -1,0 +1,2 @@
+Error: Could not find or load main class org.springframework.boot.loader.JarLauncher
+Caused by: java.lang.ClassNotFoundException: org.springframework.boot.loader.JarLauncher

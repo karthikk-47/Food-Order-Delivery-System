@@ -1,0 +1,89 @@
+<app-navbar></app-navbar>
+
+<div class="cart-container">
+  <div class="cart-header">
+    <h1>🛒 Your Cart</h1>
+    <span class="item-count" *ngIf="cart?.itemCount">{{ cart?.itemCount }} items</span>
+  </div>
+
+  <div class="loading" *ngIf="loading">
+    <div class="spinner"></div>
+    <p>Loading cart...</p>
+  </div>
+
+  <div class="error" *ngIf="error">
+    <p>{{ error }}</p>
+    <button (click)="loadCart()">Retry</button>
+  </div>
+
+  <div class="empty-cart" *ngIf="!loading && (!cart || cart.items.length === 0)">
+    <div class="empty-icon">🛒</div>
+    <h2>Your cart is empty</h2>
+    <p>Looks like you haven't added anything to your cart yet.</p>
+    <button class="btn-primary" (click)="continueShopping()">Browse Food</button>
+  </div>
+
+  <div class="cart-content" *ngIf="!loading && cart && cart.items.length > 0">
+    <div class="cart-items">
+      <div class="cart-item" *ngFor="let item of cart.items">
+        <div class="item-image">
+          <img [src]="item.imageUrl || 'assets/food-placeholder.png'" [alt]="item.itemName">
+          <span class="veg-badge" *ngIf="item.isVegetarian">🥬</span>
+        </div>
+        
+        <div class="item-details">
+          <h3>{{ item.itemName }}</h3>
+          <p class="homemaker">by {{ item.homemakerName }}</p>
+          <p class="description" *ngIf="item.description">{{ item.description }}</p>
+          <p class="instructions" *ngIf="item.specialInstructions">
+            📝 {{ item.specialInstructions }}
+          </p>
+        </div>
+
+        <div class="item-price">₹{{ item.price }}</div>
+
+        <div class="quantity-controls">
+          <button class="qty-btn" (click)="updateQuantity(item, -1)">−</button>
+          <span class="quantity">{{ item.quantity }}</span>
+          <button class="qty-btn" (click)="updateQuantity(item, 1)">+</button>
+        </div>
+
+        <div class="item-subtotal">₹{{ item.subtotal }}</div>
+
+        <button class="remove-btn" (click)="removeItem(item)" title="Remove item">
+          🗑️
+        </button>
+      </div>
+    </div>
+
+    <div class="cart-summary">
+      <h2>Order Summary</h2>
+      
+      <div class="summary-row">
+        <span>Subtotal</span>
+        <span>₹{{ cart.totalAmount }}</span>
+      </div>
+      
+      <div class="summary-row">
+        <span>Delivery Fee</span>
+        <span>₹{{ cart.deliveryFee }}</span>
+      </div>
+      
+      <div class="summary-row total">
+        <span>Total</span>
+        <span>₹{{ cart.grandTotal }}</span>
+      </div>
+
+      <div class="cart-actions">
+        <button class="btn-secondary" (click)="clearCart()">Clear Cart</button>
+        <button class="btn-primary" (click)="proceedToCheckout()">
+          Proceed to Checkout
+        </button>
+      </div>
+
+      <button class="btn-link" (click)="continueShopping()">
+        ← Continue Shopping
+      </button>
+    </div>
+  </div>
+</div>

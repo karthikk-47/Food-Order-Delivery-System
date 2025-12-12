@@ -1,0 +1,54 @@
+<app-navbar></app-navbar>
+
+<div class="browse-container">
+  <div class="header">
+    <h1>Browse Homemakers</h1>
+    <p>Discover delicious homemade food near you</p>
+  </div>
+
+  <div class="filters">
+    <input 
+      type="text" 
+      [(ngModel)]="searchQuery" 
+      (ngModelChange)="filterHomemakers()"
+      placeholder="Search by name or cuisine..."
+      class="search-input">
+    
+    <select [(ngModel)]="selectedCuisine" (ngModelChange)="filterHomemakers()" class="cuisine-select">
+      <option *ngFor="let cuisine of cuisines" [value]="cuisine === 'All' ? '' : cuisine">
+        {{ cuisine }}
+      </option>
+    </select>
+  </div>
+
+  <div class="homemakers-grid" *ngIf="!loading; else loadingState">
+    <div class="homemaker-card" *ngFor="let homemaker of filteredHomemakers">
+      <div class="homemaker-image">
+        <img [src]="homemaker.image || 'assets/default-homemaker.png'" [alt]="homemaker.name">
+        <span class="badge" *ngIf="homemaker.isVerified">✓ Verified</span>
+      </div>
+      <div class="homemaker-info">
+        <h3>{{ homemaker.name }}</h3>
+        <div class="rating">
+          <span class="stars">⭐ {{ homemaker.rating || 4.5 }}</span>
+          <span class="reviews">({{ homemaker.reviewCount || 0 }} reviews)</span>
+        </div>
+        <p class="cuisine">{{ homemaker.cuisine }}</p>
+        <p class="description">{{ homemaker.description || 'Delicious homemade food' }}</p>
+        <div class="meta">
+          <span class="distance">📍 {{ homemaker.distance || '2.5' }} km</span>
+          <span class="delivery-time">⏱️ {{ homemaker.deliveryTime || '30-40' }} min</span>
+        </div>
+        <a [routerLink]="['/user/homemaker', homemaker.id]" class="btn-view">View Menu</a>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #loadingState>
+    <div class="loading">Loading homemakers...</div>
+  </ng-template>
+
+  <div class="empty-state" *ngIf="!loading && filteredHomemakers.length === 0">
+    <p>No homemakers found matching your criteria</p>
+  </div>
+</div>

@@ -1,0 +1,303 @@
+<app-navbar></app-navbar>
+
+<div class="wallet-container">
+  <!-- Header -->
+  <div class="header">
+    <h1>💰 My Wallet</h1>
+    <p class="subtitle">Manage your earnings and withdrawals</p>
+  </div>
+
+  <!-- Error Message -->
+  <div class="alert alert-error" *ngIf="errorMessage">
+    <span class="icon">❌</span>
+    <span>{{ errorMessage }}</span>
+  </div>
+
+  <!-- Success Message -->
+  <div class="alert alert-success" *ngIf="successMessage">
+    <span class="icon">✅</span>
+    <span>{{ successMessage }}</span>
+  </div>
+
+  <!-- Navigation Tabs -->
+  <div class="tabs">
+    <button 
+      class="tab" 
+      [class.active]="activeTab === 'overview'"
+      (click)="setTab('overview')">
+      💼 Overview
+    </button>
+    <button 
+      class="tab" 
+      [class.active]="activeTab === 'withdraw'"
+      (click)="setTab('withdraw')">
+      🏦 Request Withdrawal
+    </button>
+    <button 
+      class="tab" 
+      [class.active]="activeTab === 'history'"
+      (click)="setTab('history')">
+      📋 Withdrawal History
+    </button>
+  </div>
+
+  <!-- Overview Tab -->
+  <div class="tab-content" *ngIf="activeTab === 'overview'">
+    <div class="wallet-stats" *ngIf="wallet">
+      <!-- Current Balance Card -->
+      <div class="stat-card balance-card">
+        <div class="card-header">
+          <h3>Current Balance</h3>
+          <span class="icon">💳</span>
+        </div>
+        <div class="balance-amount">₹{{ wallet.balance | number:'1.2-2' }}</div>
+        <p class="card-description">Available for withdrawal</p>
+        <button 
+          class="btn btn-primary btn-sm"
+          (click)="setTab('withdraw')"
+          [disabled]="wallet.balance < minWithdrawalAmount">
+          Withdraw Now
+        </button>
+        <small *ngIf="wallet.balance < minWithdrawalAmount" class="minimum-note">
+          Minimum withdrawal: ₹{{ minWithdrawalAmount }}
+        </small>
+      </div>
+
+      <!-- Total Earnings Card -->
+      <div class="stat-card earnings-card">
+        <div class="card-header">
+          <h3>Total Earnings</h3>
+          <span class="icon">📈</span>
+        </div>
+        <div class="earnings-amount">₹{{ wallet.totalEarnings | number:'1.2-2' }}</div>
+        <p class="card-description">Lifetime earnings</p>
+      </div>
+
+      <!-- Total Withdrawn Card -->
+      <div class="stat-card withdrawn-card">
+        <div class="card-header">
+          <h3>Total Withdrawn</h3>
+          <span class="icon">💸</span>
+        </div>
+        <div class="withdrawn-amount">₹{{ wallet.totalWithdrawn | number:'1.2-2' }}</div>
+        <p class="card-description">Money received</p>
+      </div>
+
+      <!-- Last Withdrawal Card -->
+      <div class="stat-card last-withdrawal-card">
+        <div class="card-header">
+          <h3>Last Withdrawal</h3>
+          <span class="icon">🕐</span>
+        </div>
+        <div class="date-text" *ngIf="wallet.lastWithdrawalDate">
+          {{ formatDate(wallet.lastWithdrawalDate) }}
+        </div>
+        <div class="date-text" *ngIf="!wallet.lastWithdrawalDate">
+          No withdrawal yet
+        </div>
+        <p class="card-description">Latest transaction</p>
+      </div>
+    </div>
+
+    <!-- Info Box -->
+    <div class="info-box">
+      <h4>💡 Withdrawal Guidelines</h4>
+      <ul>
+        <li>Minimum withdrawal amount: ₹{{ minWithdrawalAmount }}</li>
+        <li>Maximum withdrawal amount: ₹{{ maxWithdrawalAmount }}</li>
+        <li>Processing time: 2-5 business days</li>
+        <li>No withdrawal fees</li>
+        <li>Withdrawals are processed every business day</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Withdrawal Request Tab -->
+  <div class="tab-content" *ngIf="activeTab === 'withdraw'">
+    <div class="withdrawal-section">
+      <h2>Request a Withdrawal</h2>
+      <p class="section-subtitle">Choose your preferred withdrawal method and enter the details</p>
+
+      <form [formGroup]="withdrawalForm" (ngSubmit)="requestWithdrawal()">
+        
+        <!-- Amount -->
+        <div class="form-group">
+          <label for="amount">Withdrawal Amount (₹) <span class="required">*</span></label>
+          <input 
+            type="number" 
+            id="amount" 
+            formControlName="amount" 
+            class="form-control" 
+            [min]="minWithdrawalAmount"
+            [max]="maxWithdrawalAmount"
+            placeholder="Enter amount">
+          <div class="form-hint">
+            Available balance: <strong>₹{{ wallet?.balance | number:'1.2-2' }}</strong>
+          </div>
+          <small class="form-text error" *ngIf="withdrawalForm.get('amount')?.hasError('required') && withdrawalForm.get('amount')?.touched">
+            Amount is required
+          </small>
+          <small class="form-text error" *ngIf="withdrawalForm.get('amount')?.hasError('min') && withdrawalForm.get('amount')?.touched">
+            Minimum amount: ₹{{ minWithdrawalAmount }}
+          </small>
+          <small class="form-text error" *ngIf="withdrawalForm.get('amount')?.hasError('max') && withdrawalForm.get('amount')?.touched">
+            Maximum amount: ₹{{ maxWithdrawalAmount }}
+          </small>
+        </div>
+
+        <!-- Withdrawal Method -->
+        <div class="form-group">
+          <label>Withdrawal Method <span class="required">*</span></label>
+          <div class="method-buttons">
+            <button 
+              type="button"
+              class="method-btn"
+              [class.active]="selectedMethod === 'BANK_TRANSFER'"
+              (click)="onMethodChange('BANK_TRANSFER')">
+              🏦 Bank Transfer
+            </button>
+            <button 
+              type="button"
+              class="method-btn"
+              [class.active]="selectedMethod === 'UPI'"
+              (click)="onMethodChange('UPI')">
+              📱 UPI
+            </button>
+            <button 
+              type="button"
+              class="method-btn"
+              [class.active]="selectedMethod === 'CHEQUE'"
+              (click)="onMethodChange('CHEQUE')">
+              📄 Cheque
+            </button>
+          </div>
+        </div>
+
+        <!-- Bank Transfer Details -->
+        <div *ngIf="selectedMethod === 'BANK_TRANSFER'" class="method-details">
+          <div class="form-group">
+            <label for="bankAccount">Bank Account Number <span class="required">*</span></label>
+            <input 
+              type="text" 
+              id="bankAccount" 
+              formControlName="bankAccountNumber" 
+              class="form-control" 
+              placeholder="Enter 9-18 digit account number">
+            <small class="form-text error" *ngIf="withdrawalForm.get('bankAccountNumber')?.hasError('required') && withdrawalForm.get('bankAccountNumber')?.touched">
+              Account number is required
+            </small>
+          </div>
+
+          <div class="form-group">
+            <label for="bankIFSC">Bank IFSC Code <span class="required">*</span></label>
+            <input 
+              type="text" 
+              id="bankIFSC" 
+              formControlName="bankIFSC" 
+              class="form-control" 
+              placeholder="e.g., SBIN0001234"
+              maxlength="11">
+            <small class="form-text error" *ngIf="withdrawalForm.get('bankIFSC')?.hasError('required') && withdrawalForm.get('bankIFSC')?.touched">
+              IFSC code is required
+            </small>
+          </div>
+        </div>
+
+        <!-- UPI Details -->
+        <div *ngIf="selectedMethod === 'UPI'" class="method-details">
+          <div class="form-group">
+            <label for="upiId">UPI ID <span class="required">*</span></label>
+            <input 
+              type="email" 
+              id="upiId" 
+              formControlName="upiId" 
+              class="form-control" 
+              placeholder="e.g., yourname@googleplay">
+            <small class="form-text error" *ngIf="withdrawalForm.get('upiId')?.hasError('required') && withdrawalForm.get('upiId')?.touched">
+              UPI ID is required
+            </small>
+            <small class="form-text error" *ngIf="withdrawalForm.get('upiId')?.hasError('pattern') && withdrawalForm.get('upiId')?.touched">
+              Enter a valid UPI ID
+            </small>
+          </div>
+        </div>
+
+        <!-- Cheque Details -->
+        <div *ngIf="selectedMethod === 'CHEQUE'" class="method-details">
+          <div class="form-group">
+            <label for="chequeNumber">Cheque Number <span class="required">*</span></label>
+            <input 
+              type="text" 
+              id="chequeNumber" 
+              formControlName="chequeNumber" 
+              class="form-control" 
+              placeholder="Enter cheque number">
+            <small class="form-text error" *ngIf="withdrawalForm.get('chequeNumber')?.hasError('required') && withdrawalForm.get('chequeNumber')?.touched">
+              Cheque number is required
+            </small>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="form-actions">
+          <button 
+            type="button" 
+            class="btn btn-secondary" 
+            (click)="cancelWithdrawal()"
+            [disabled]="isSubmitting">
+            Cancel
+          </button>
+          <button 
+            type="submit" 
+            class="btn btn-primary" 
+            [disabled]="!withdrawalForm.valid || isSubmitting">
+            <span *ngIf="!isSubmitting">Request Withdrawal</span>
+            <span *ngIf="isSubmitting">Processing...</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Withdrawal History Tab -->
+  <div class="tab-content" *ngIf="activeTab === 'history'">
+    <div class="history-section">
+      <h2>Withdrawal History</h2>
+      
+      <div class="history-empty" *ngIf="withdrawalHistory.length === 0">
+        <p>📭 No withdrawal history yet</p>
+      </div>
+
+      <div class="history-list" *ngIf="withdrawalHistory.length > 0">
+        <div class="history-item" *ngFor="let withdrawal of withdrawalHistory">
+          <div class="item-header">
+            <div class="item-main">
+              <div class="amount">₹{{ withdrawal.amount | number:'1.2-2' }}</div>
+              <div class="details">
+                <span class="method">{{ withdrawal.method | replace:'_':' ' }}</span>
+                <span class="date">{{ formatDate(withdrawal.requestDate) }}</span>
+              </div>
+            </div>
+            <div class="status" [class]="'status-' + withdrawal.status.toLowerCase()">
+              <span class="icon">{{ getStatusIcon(withdrawal.status) }}</span>
+              <span class="text">{{ withdrawal.status }}</span>
+            </div>
+          </div>
+
+          <div class="item-body" *ngIf="withdrawal.transactionId || withdrawal.rejectionReason">
+            <div *ngIf="withdrawal.transactionId" class="transaction-id">
+              <strong>Transaction ID:</strong> {{ withdrawal.transactionId }}
+            </div>
+            <div *ngIf="withdrawal.rejectionReason" class="rejection-reason">
+              <strong>Rejection Reason:</strong> {{ withdrawal.rejectionReason }}
+            </div>
+          </div>
+
+          <div class="item-footer" *ngIf="withdrawal.completedDate">
+            <small>Completed: {{ formatDate(withdrawal.completedDate) }}</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

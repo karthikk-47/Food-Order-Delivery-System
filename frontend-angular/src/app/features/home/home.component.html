@@ -1,0 +1,207 @@
+<div class="home-page">
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-background">
+            <div class="hero-overlay"></div>
+            <div class="floating-elements">
+                <span class="float-item" style="--delay: 0s; --x: 10%; --y: 20%;">🍕</span>
+                <span class="float-item" style="--delay: 0.5s; --x: 85%; --y: 15%;">🍜</span>
+                <span class="float-item" style="--delay: 1s; --x: 75%; --y: 70%;">🥗</span>
+                <span class="float-item" style="--delay: 1.5s; --x: 20%; --y: 75%;">🍛</span>
+                <span class="float-item" style="--delay: 2s; --x: 50%; --y: 10%;">🍔</span>
+                <span class="float-item" style="--delay: 2.5s; --x: 90%; --y: 45%;">🥘</span>
+            </div>
+        </div>
+
+        <div class="hero-content" [@fadeInUp] *ngIf="showContent">
+            <div class="hero-badge">
+                <span class="badge-icon">🏠</span>
+                <span class="badge-text">Homemade Food Delivery</span>
+            </div>
+
+            <h1 class="hero-title">
+                Delicious <span class="highlight">Homemade</span> Food,
+                <br>Delivered Fresh
+            </h1>
+
+            <p class="hero-subtitle">
+                Experience the taste of authentic home-cooked meals from local chefs in your neighborhood.
+                Fresh, healthy, and made with love.
+            </p>
+
+            <div class="hero-cta">
+                <a class="btn btn-primary btn-lg" href="#get-started">
+                    <span>Get Started</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7" />
+                    </svg>
+                </a>
+                <a class="btn btn-white btn-lg" href="#how-it-works">
+                    <span>How It Works</span>
+                </a>
+            </div>
+
+            <!-- Stats -->
+            <div class="hero-stats">
+                <div class="stat-item" *ngFor="let stat of stats">
+                    <span class="stat-icon">{{ stat.icon }}</span>
+                    <span class="stat-value">{{ stat.value }}</span>
+                    <span class="stat-label">{{ stat.label }}</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section" id="how-it-works">
+        <div class="container">
+            <div class="section-header scroll-animate">
+                <span class="section-badge">Why Choose Us</span>
+                <h2 class="section-title">The Best Homemade Food Experience</h2>
+                <p class="section-subtitle">We bring together passionate home chefs and food lovers</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card scroll-animate" *ngFor="let feature of features; let i = index"
+                    [style.animation-delay]="(i * 0.1) + 's'">
+                    <div class="feature-icon">{{ feature.icon }}</div>
+                    <h3 class="feature-title">{{ feature.title }}</h3>
+                    <p class="feature-description">{{ feature.description }}</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Get Started Section - Role Cards -->
+    <section class="roles-section" id="get-started">
+        <div class="container">
+            <div class="section-header scroll-animate">
+                <span class="section-badge">Join Us Today</span>
+                <h2 class="section-title">Choose Your Role</h2>
+                <p class="section-subtitle">Whether you want to order, cook, deliver, or manage - we have a place for
+                    you</p>
+            </div>
+
+            <div class="roles-grid" [@staggerCards]>
+                <div class="role-card" *ngFor="let role of roles" [style.--role-color]="role.color"
+                    [style.--role-gradient]="role.gradient">
+                    <div class="role-icon-wrapper">
+                        <div class="role-icon">{{ role.icon }}</div>
+                        <div class="role-icon-bg"></div>
+                    </div>
+
+                    <div class="role-content">
+                        <h3 class="role-title">{{ role.title }}</h3>
+                        <p class="role-subtitle">{{ role.subtitle }}</p>
+                        <p class="role-description">{{ role.description }}</p>
+
+                        <ul class="role-features">
+                            <li *ngFor="let feature of role.features">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <circle cx="12" cy="12" r="10" [attr.fill]="role.color" opacity="0.1" />
+                                    <path d="M8 12l3 3 5-6" [attr.stroke]="role.color" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                                <span>{{ feature }}</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="role-actions">
+                        <a [routerLink]="role.loginRoute" class="btn btn-role-primary"
+                            [style.background]="role.gradient">
+                            <span>Login</span>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4M10 17l5-5-5-5M15 12H3" />
+                            </svg>
+                        </a>
+                        <a *ngIf="role.signupRoute" [routerLink]="role.signupRoute" class="btn btn-role-outline"
+                            [style.color]="role.color" [style.border-color]="role.color">
+                            <span>Sign Up</span>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path
+                                    d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M8.5 11a4 4 0 100-8 4 4 0 000 8zM20 8v6M23 11h-6" />
+                            </svg>
+                        </a>
+                        <span *ngIf="!role.signupRoute" class="admin-note">
+                            Contact support for admin access
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content scroll-animate">
+                <div class="cta-text">
+                    <h2>Ready to Experience <span class="highlight">Homemade</span> Goodness?</h2>
+                    <p>Join thousands of happy customers enjoying authentic home-cooked meals</p>
+                </div>
+                <div class="cta-buttons">
+                    <a routerLink="/login/user" class="btn btn-primary btn-lg">
+                        Order Now
+                    </a>
+                    <a routerLink="/signup/homemaker" class="btn btn-outline btn-lg">
+                        Become a Chef
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <span class="logo-icon">🍲</span>
+                        <span class="logo-text">HomeBites</span>
+                    </div>
+                    <p class="footer-tagline">Delicious homemade food, delivered fresh to your door.</p>
+                </div>
+
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Platform</h4>
+                        <ul>
+                            <li><a routerLink="/login/user">Order Food</a></li>
+                            <li><a routerLink="/signup/homemaker">Become a Chef</a></li>
+                            <li><a routerLink="/signup/executive">Become a Partner</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Company</h4>
+                        <ul>
+                            <li><a href="#">About Us</a></li>
+                            <li><a href="#">Careers</a></li>
+                            <li><a href="#">Contact</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Legal</h4>
+                        <ul>
+                            <li><a href="#">Terms of Service</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Refund Policy</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; {{ currentYear }} HomeBites. All rights reserved.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Facebook">📘</a>
+                    <a href="#" aria-label="Twitter">🐦</a>
+                    <a href="#" aria-label="Instagram">📷</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>

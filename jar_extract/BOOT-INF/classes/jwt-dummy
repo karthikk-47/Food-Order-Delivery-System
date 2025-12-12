@@ -1,0 +1,12 @@
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.
+eyJzdWIiOiJ1c2VyQGV4YW1wbGUuY29tIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE3MDU5MDkzNjAsImV4cCI6MTcwNTk5NTc2MH0.
+dGhpcy1pcy1hLWR1bW15LXNpZ25hdHVyZS1mb3ItZGVtb2l0LXRlc3Q=
+
+
+
+{
+  "sub": "user@example.com",
+  "role": "USER",
+  "iat": 1705909360,
+  "exp": 1705995760
+}

@@ -1,0 +1,328 @@
+<div class="signup-page" [style.--role-color]="roleConfig.color" [style.--role-gradient]="roleConfig.gradient">
+    <!-- Background -->
+    <div class="signup-background">
+        <div class="bg-pattern"></div>
+        <div class="bg-gradient"></div>
+    </div>
+
+    <!-- Back to Home -->
+    <a routerLink="/" class="back-home">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 12H5M12 19l-7-7 7-7" />
+        </svg>
+        <span>Back to Home</span>
+    </a>
+
+    <div class="signup-container">
+        <!-- Left Side - Branding -->
+        <div class="signup-branding">
+            <div class="branding-content">
+                <div class="brand-icon">{{ roleConfig.icon }}</div>
+                <h1 class="brand-title">Join HomeBites</h1>
+                <p class="brand-tagline">{{ roleConfig.title }}</p>
+
+                <div class="benefits-list">
+                    <div class="benefit-item" *ngIf="roleConfig.role === 'USER'">
+                        <span class="benefit-icon">✓</span>
+                        <span>Access to 500+ home chefs</span>
+                    </div>
+                    <div class="benefit-item" *ngIf="roleConfig.role === 'USER'">
+                        <span class="benefit-icon">✓</span>
+                        <span>Exclusive member discounts</span>
+                    </div>
+                    <div class="benefit-item" *ngIf="roleConfig.role === 'USER'">
+                        <span class="benefit-icon">✓</span>
+                        <span>Real-time order tracking</span>
+                    </div>
+
+                    <div class="benefit-item" *ngIf="roleConfig.role === 'HOMEMAKER'">
+                        <span class="benefit-icon">✓</span>
+                        <span>Zero platform fees for first month</span>
+                    </div>
+                    <div class="benefit-item" *ngIf="roleConfig.role === 'HOMEMAKER'">
+                        <span class="benefit-icon">✓</span>
+                        <span>Set your own prices</span>
+                    </div>
+                    <div class="benefit-item" *ngIf="roleConfig.role === 'HOMEMAKER'">
+                        <span class="benefit-icon">✓</span>
+                        <span>Weekly payouts guaranteed</span>
+                    </div>
+
+                    <div class="benefit-item" *ngIf="roleConfig.role === 'DELIVERYEXECUTIVE'">
+                        <span class="benefit-icon">✓</span>
+                        <span>₹15,000+ average monthly earnings</span>
+                    </div>
+                    <div class="benefit-item" *ngIf="roleConfig.role === 'DELIVERYEXECUTIVE'">
+                        <span class="benefit-icon">✓</span>
+                        <span>Flexible working hours</span>
+                    </div>
+                    <div class="benefit-item" *ngIf="roleConfig.role === 'DELIVERYEXECUTIVE'">
+                        <span class="benefit-icon">✓</span>
+                        <span>Daily/Weekly payout options</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Side - Signup Form -->
+        <div class="signup-form-section">
+            <div class="signup-card">
+                <div class="signup-header">
+                    <div class="role-badge" [style.background]="roleConfig.gradient">
+                        <span>{{ roleConfig.icon }}</span>
+                    </div>
+                    <h2>Create Account</h2>
+                    <p>Join as a {{ roleConfig.title.replace(' Signup', '') }}</p>
+                </div>
+
+                <!-- Progress Steps -->
+                <div class="progress-steps">
+                    <div class="step" [class.active]="currentStep >= 1" [class.completed]="currentStep > 1">
+                        <span class="step-number">1</span>
+                        <span class="step-label">Basic Info</span>
+                    </div>
+                    <div class="step-line" [class.active]="currentStep > 1"></div>
+                    <div class="step" [class.active]="currentStep >= 2">
+                        <span class="step-number">2</span>
+                        <span class="step-label">Details</span>
+                    </div>
+                </div>
+
+                <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="signup-form">
+                    <!-- Step 1: Basic Information -->
+                    <div class="form-step" [class.active]="currentStep === 1">
+                        <div class="form-group">
+                            <label class="form-label">Full Name</label>
+                            <div class="input-wrapper">
+                                <span class="input-icon">👤</span>
+                                <input type="text" formControlName="name" class="form-input"
+                                    placeholder="Enter your full name"
+                                    [class.is-invalid]="f['name'].invalid && f['name'].touched" />
+                            </div>
+                            <span class="form-error" *ngIf="f['name'].invalid && f['name'].touched">
+                                Name is required (min 2 characters)
+                            </span>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Email Address</label>
+                            <div class="input-wrapper">
+                                <span class="input-icon">📧</span>
+                                <input type="email" formControlName="email" class="form-input"
+                                    placeholder="Enter your email"
+                                    [class.is-invalid]="f['email'].invalid && f['email'].touched" />
+                            </div>
+                            <span class="form-error" *ngIf="f['email'].invalid && f['email'].touched">
+                                Please enter a valid email
+                            </span>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Mobile Number</label>
+                            <div class="input-wrapper">
+                                <span class="input-icon">📱</span>
+                                <input type="tel" formControlName="mobile" class="form-input"
+                                    placeholder="10-digit mobile number"
+                                    [class.is-invalid]="f['mobile'].invalid && f['mobile'].touched" maxlength="10" />
+                            </div>
+                            <span class="form-error" *ngIf="f['mobile'].invalid && f['mobile'].touched">
+                                Please enter a valid 10-digit mobile number
+                            </span>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Password</label>
+                                <div class="input-wrapper">
+                                    <span class="input-icon">🔒</span>
+                                    <input [type]="showPassword ? 'text' : 'password'" formControlName="password"
+                                        class="form-input" placeholder="Min 6 characters"
+                                        [class.is-invalid]="f['password'].invalid && f['password'].touched" />
+                                    <button type="button" class="toggle-password" (click)="togglePassword()">
+                                        {{ showPassword ? '🙈' : '👁️' }}
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Confirm Password</label>
+                                <div class="input-wrapper">
+                                    <span class="input-icon">🔐</span>
+                                    <input [type]="showPassword ? 'text' : 'password'" formControlName="confirmPassword"
+                                        class="form-input" placeholder="Confirm password"
+                                        [class.is-invalid]="f['confirmPassword'].invalid && f['confirmPassword'].touched" />
+                                </div>
+                                <span class="form-error"
+                                    *ngIf="f['confirmPassword'].errors?.['passwordMismatch'] && f['confirmPassword'].touched">
+                                    Passwords do not match
+                                </span>
+                            </div>
+                        </div>
+
+                        <button type="button" class="btn-next" (click)="nextStep()"
+                            [style.background]="roleConfig.gradient">
+                            Continue
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- Step 2: Role-specific Details -->
+                    <div class="form-step" [class.active]="currentStep === 2">
+                        <!-- User specific fields -->
+                        <ng-container *ngIf="roleConfig.role === 'USER'">
+                            <div class="form-group">
+                                <label class="form-label">Delivery Address</label>
+                                <div class="input-wrapper">
+                                    <span class="input-icon">📍</span>
+                                    <textarea formControlName="address" class="form-input form-textarea"
+                                        placeholder="Enter your complete address" rows="3"
+                                        [class.is-invalid]="f['address']?.invalid && f['address']?.touched"></textarea>
+                                </div>
+                            </div>
+                        </ng-container>
+
+                        <!-- Homemaker specific fields -->
+                        <ng-container *ngIf="roleConfig.role === 'HOMEMAKER'">
+                            <div class="form-group">
+                                <label class="form-label">Kitchen Address</label>
+                                <div class="input-wrapper">
+                                    <span class="input-icon">📍</span>
+                                    <textarea formControlName="address" class="form-input form-textarea"
+                                        placeholder="Enter your kitchen address" rows="2"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Cuisine Types (Select all that apply)</label>
+                                <div class="cuisine-grid">
+                                    <button type="button" class="cuisine-tag" *ngFor="let cuisine of cuisineOptions"
+                                        [class.selected]="isCuisineSelected(cuisine)" (click)="toggleCuisine(cuisine)"
+                                        [style.--tag-color]="roleConfig.color">
+                                        {{ cuisine }}
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">FSSAI License (Optional)</label>
+                                <div class="input-wrapper">
+                                    <span class="input-icon">📜</span>
+                                    <input type="text" formControlName="fssaiLicense" class="form-input"
+                                        placeholder="Enter FSSAI license number" />
+                                </div>
+                            </div>
+                        </ng-container>
+
+                        <!-- Delivery Executive specific fields -->
+                        <ng-container *ngIf="roleConfig.role === 'DELIVERYEXECUTIVE'">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Driving License No.</label>
+                                    <div class="input-wrapper">
+                                        <span class="input-icon">🪪</span>
+                                        <input type="text" formControlName="licenseNo" class="form-input"
+                                            placeholder="Enter license number"
+                                            [class.is-invalid]="f['licenseNo']?.invalid && f['licenseNo']?.touched" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Vehicle Type</label>
+                                    <div class="input-wrapper">
+                                        <span class="input-icon">🛵</span>
+                                        <select formControlName="vehicleType" class="form-input form-select">
+                                            <option value="">Select vehicle type</option>
+                                            <option *ngFor="let type of vehicleTypes" [value]="type.value">
+                                                {{ type.label }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Vehicle Number</label>
+                                    <div class="input-wrapper">
+                                        <span class="input-icon">🔢</span>
+                                        <input type="text" formControlName="vehicleNumber" class="form-input"
+                                            placeholder="e.g., MH01AB1234"
+                                            [class.is-invalid]="f['vehicleNumber']?.invalid && f['vehicleNumber']?.touched" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Aadhar Number</label>
+                                    <div class="input-wrapper">
+                                        <span class="input-icon">🆔</span>
+                                        <input type="text" formControlName="aadharNo" class="form-input"
+                                            placeholder="12-digit Aadhar number" maxlength="12"
+                                            [class.is-invalid]="f['aadharNo']?.invalid && f['aadharNo']?.touched" />
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+
+                        <!-- Terms Agreement -->
+                        <div class="form-group terms-group">
+                            <label class="checkbox-wrapper">
+                                <input type="checkbox" formControlName="agreeTerms" />
+                                <span class="checkmark"></span>
+                                <span>I agree to the <a href="#" [style.color]="roleConfig.color">Terms of Service</a>
+                                    and <a href="#" [style.color]="roleConfig.color">Privacy Policy</a></span>
+                            </label>
+                        </div>
+
+                        <!-- Success/Error Messages -->
+                        <div class="success-alert" *ngIf="success">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M22 11.08V12a10 10 0 11-5.93-9.14" />
+                                <polyline points="22 4 12 14.01 9 11.01" />
+                            </svg>
+                            <span>{{ success }}</span>
+                        </div>
+
+                        <div class="error-alert" *ngIf="error">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <circle cx="12" cy="12" r="10" />
+                                <line x1="12" y1="8" x2="12" y2="12" />
+                                <line x1="12" y1="16" x2="12.01" y2="16" />
+                            </svg>
+                            <span>{{ error }}</span>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="form-actions">
+                            <button type="button" class="btn-back" (click)="prevStep()">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path d="M19 12H5M12 19l-7-7 7-7" />
+                                </svg>
+                                Back
+                            </button>
+                            <button type="submit" class="btn-submit" [disabled]="loading"
+                                [style.background]="roleConfig.gradient">
+                                <span class="spinner" *ngIf="loading"></span>
+                                <span *ngIf="!loading">Create Account</span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="signup-footer">
+                    <p>
+                        Already have an account?
+                        <a [routerLink]="getLoginRoute()" class="login-link" [style.color]="roleConfig.color">
+                            Sign in
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

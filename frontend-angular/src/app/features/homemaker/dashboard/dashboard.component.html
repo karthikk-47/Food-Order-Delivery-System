@@ -1,0 +1,244 @@
+<app-navbar></app-navbar>
+
+<div class="homemaker-dashboard">
+  <!-- Header -->
+  <header class="dashboard-header">
+    <div class="container">
+      <div class="header-content">
+        <div class="welcome-section">
+          <h1 class="animate-fade-in-down">{{ profile?.businessName || profile?.name || 'Home Chef' }}</h1>
+          <p class="text-muted">Manage your menu, orders, and grow your business</p>
+        </div>
+        <div class="header-actions">
+          <button class="btn btn-homemaker" routerLink="/homemaker/menus/new">
+            <span class="icon">➕</span>
+            Create Menu
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-container">
+    <div class="spinner-lg"></div>
+    <p>Loading your dashboard...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error" class="error-container">
+    <p class="error-message">{{ error }}</p>
+    <button class="btn btn-homemaker" (click)="loadDashboardData()">Retry</button>
+  </div>
+
+  <!-- Dashboard Content -->
+  <div *ngIf="!loading && !error" class="dashboard-content container">
+    <!-- Stats Cards -->
+    <div class="stats-grid animate-fade-in-up">
+      <div class="stat-card card">
+        <div class="stat-icon homemaker-gradient">
+          <span>📦</span>
+        </div>
+        <div class="stat-info">
+          <h3>{{ stats.todayOrders }}</h3>
+          <p>Today's Orders</p>
+        </div>
+      </div>
+
+      <div class="stat-card card">
+        <div class="stat-icon homemaker-gradient">
+          <span>💰</span>
+        </div>
+        <div class="stat-info">
+          <h3>₹{{ stats.todayRevenue | number:'1.0-0' }}</h3>
+          <p>Today's Revenue</p>
+        </div>
+      </div>
+
+      <div class="stat-card card">
+        <div class="stat-icon" style="background: linear-gradient(135deg, #F1C40F 0%, #F39C12 100%)">
+          <span>⏳</span>
+        </div>
+        <div class="stat-info">
+          <h3>{{ stats.pendingOrders }}</h3>
+          <p>Pending Orders</p>
+        </div>
+      </div>
+
+      <div class="stat-card card">
+        <div class="stat-icon" style="background: linear-gradient(135deg, #2ECC71 0%, #27AE60 100%)">
+          <span>🔥</span>
+        </div>
+        <div class="stat-info">
+          <h3>{{ stats.activeOrders }}</h3>
+          <p>Active Orders</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pending Orders Alert -->
+    <div *ngIf="pendingOrders.length > 0" class="alert-banner animate-fade-in-up stagger-1">
+      <div class="alert-icon">⚠️</div>
+      <div class="alert-content">
+        <h3>You have {{ pendingOrders.length }} pending order{{ pendingOrders.length > 1 ? 's' : '' }}</h3>
+        <p>Please review and accept/reject them as soon as possible</p>
+      </div>
+    </div>
+
+    <!-- Pending Orders Section -->
+    <section *ngIf="pendingOrders.length > 0" class="pending-orders-section animate-fade-in-up stagger-2">
+      <div class="section-header">
+        <h2>Pending Orders - Action Required</h2>
+      </div>
+
+      <div class="orders-grid">
+        <div *ngFor="let order of pendingOrders" class="order-card card pending-card">
+          <div class="order-header">
+            <div class="order-info">
+              <h3>{{ order.userName }}</h3>
+              <p class="order-id">Order #{{ order.id }}</p>
+              <p class="order-date">{{ order.orderDate | date:'short' }}</p>
+            </div>
+            <span class="order-status status-pending">
+              {{ getStatusLabel(order.orderStatus) }}
+            </span>
+          </div>
+
+          <div class="order-items">
+            <div *ngFor="let item of order.items" class="order-item">
+              <span class="item-name">{{ item.menuItemName }}</span>
+              <span class="item-quantity">x{{ item.quantity }}</span>
+            </div>
+          </div>
+
+          <div class="order-footer">
+            <div class="order-amount">
+              <span class="label">Total:</span>
+              <span class="amount">₹{{ order.totalAmount }}</span>
+            </div>
+            <div class="order-actions">
+              <button class="btn btn-sm btn-outline" (click)="rejectOrder(order.id)">
+                Reject
+              </button>
+              <button class="btn btn-sm btn-homemaker" (click)="acceptOrder(order.id)">
+                Accept
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Active Orders Section -->
+    <section *ngIf="activeOrders.length > 0" class="active-orders-section animate-fade-in-up stagger-3">
+      <div class="section-header">
+        <h2>Active Orders</h2>
+        <a routerLink="/homemaker/orders" class="view-all-link">View All →</a>
+      </div>
+
+      <div class="orders-grid">
+        <div *ngFor="let order of activeOrders" class="order-card card">
+          <div class="order-header">
+            <div class="order-info">
+              <h3>{{ order.userName }}</h3>
+              <p class="order-id">Order #{{ order.id }}</p>
+            </div>
+            <span class="order-status" [ngClass]="getStatusClass(order.orderStatus)">
+              {{ getStatusLabel(order.orderStatus) }}
+            </span>
+          </div>
+
+          <div class="order-items">
+            <div *ngFor="let item of order.items" class="order-item">
+              <span class="item-name">{{ item.menuItemName }}</span>
+              <span class="item-quantity">x{{ item.quantity }}</span>
+            </div>
+          </div>
+
+          <div class="order-footer">
+            <div class="order-amount">
+              <span class="label">Total:</span>
+              <span class="amount">₹{{ order.totalAmount }}</span>
+            </div>
+            <button 
+              *ngIf="order.orderStatus === 'PREPARING'" 
+              class="btn btn-sm btn-homemaker" 
+              (click)="markOrderReady(order.id)">
+              Mark Ready
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Analytics Overview -->
+    <section *ngIf="analytics" class="analytics-section animate-fade-in-up stagger-4">
+      <div class="section-header">
+        <h2>Business Analytics</h2>
+        <a routerLink="/homemaker/analytics" class="view-all-link">View Details →</a>
+      </div>
+
+      <div class="analytics-grid">
+        <div class="analytics-card card">
+          <h4>Total Revenue</h4>
+          <p class="analytics-value">₹{{ analytics.totalRevenue | number:'1.0-0' }}</p>
+        </div>
+
+        <div class="analytics-card card">
+          <h4>Total Orders</h4>
+          <p class="analytics-value">{{ analytics.totalOrders }}</p>
+        </div>
+
+        <div class="analytics-card card">
+          <h4>Average Order Value</h4>
+          <p class="analytics-value">₹{{ analytics.averageOrderValue | number:'1.0-0' }}</p>
+        </div>
+
+        <div class="analytics-card card">
+          <h4>Average Rating</h4>
+          <p class="analytics-value">⭐ {{ analytics.averageRating | number:'1.1-1' }}</p>
+        </div>
+
+        <div class="analytics-card card">
+          <h4>Completion Rate</h4>
+          <p class="analytics-value">{{ analytics.completionRate | number:'1.0-0' }}%</p>
+        </div>
+
+        <div class="analytics-card card">
+          <h4>Repeat Customers</h4>
+          <p class="analytics-value">{{ analytics.repeatCustomerRate | number:'1.0-0' }}%</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick Actions -->
+    <section class="quick-actions-section animate-fade-in-up stagger-5">
+      <h2>Quick Actions</h2>
+      <div class="quick-actions-grid">
+        <a routerLink="/homemaker/menus" class="action-card card">
+          <div class="action-icon">📋</div>
+          <h3>Manage Menus</h3>
+          <p>Create and edit your menus</p>
+        </a>
+
+        <a routerLink="/homemaker/orders" class="action-card card">
+          <div class="action-icon">📦</div>
+          <h3>All Orders</h3>
+          <p>View order history</p>
+        </a>
+
+        <a routerLink="/homemaker/analytics" class="action-card card">
+          <div class="action-icon">📊</div>
+          <h3>Analytics</h3>
+          <p>Business insights</p>
+        </a>
+
+        <a routerLink="/homemaker/profile" class="action-card card">
+          <div class="action-icon">👤</div>
+          <h3>Profile</h3>
+          <p>Update your details</p>
+        </a>
+      </div>
+    </section>
+  </div>
+</div>

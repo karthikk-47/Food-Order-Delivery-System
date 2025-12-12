@@ -1,0 +1,361 @@
+<app-navbar></app-navbar>
+
+<div class="admin-dashboard">
+  <!-- Header -->
+  <header class="dashboard-header">
+    <div class="container">
+      <div class="header-content">
+        <div class="welcome-section">
+          <h1 class="animate-fade-in-down">Admin Dashboard</h1>
+          <p class="text-muted">Platform management and oversight</p>
+        </div>
+        <div class="header-actions">
+          <button class="btn btn-admin" routerLink="/admin/analytics">
+            <span class="icon">📊</span>
+            View Analytics
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-container">
+    <div class="spinner-lg"></div>
+    <p>Loading dashboard...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error" class="error-container">
+    <p class="error-message">{{ error }}</p>
+    <button class="btn btn-admin" (click)="loadDashboardData()">Retry</button>
+  </div>
+
+  <!-- Dashboard Content -->
+  <div *ngIf="!loading && !error && stats" class="dashboard-content container">
+    <!-- Stats Cards -->
+    <div class="stats-grid animate-fade-in-up">
+      <div class="stat-card card">
+        <div class="stat-icon" style="background: var(--primary-gradient)">
+          <span>👥</span>
+        </div>
+        <div class="stat-info">
+          <h3>{{ stats.totalUsers | number }}</h3>
+          <p>Total Users</p>
+        </div>
+      </div>
+
+      <div class="stat-card card">
+        <div class="stat-icon" style="background: linear-gradient(135deg, #FF8A00 0%, #E67E00 100%)">
+          <span>👨‍🍳</span>
+        </div>
+        <div class="stat-info">
+          <h3>{{ stats.totalHomemakers | number }}</h3>
+          <p>Home Chefs</p>
+        </div>
+      </div>
+
+      <div class="stat-card card">
+        <div class="stat-icon" style="background: linear-gradient(135deg, #2ECC71 0%, #27AE60 100%)">
+          <span>🚚</span>
+        </div>
+        <div class="stat-info">
+          <h3>{{ stats.totalExecutives | number }}</h3>
+          <p>Delivery Partners</p>
+        </div>
+      </div>
+
+      <div class="stat-card card">
+        <div class="stat-icon" style="background: linear-gradient(135deg, #3498DB 0%, #2980B9 100%)">
+          <span>📦</span>
+        </div>
+        <div class="stat-info">
+          <h3>{{ stats.totalOrders | number }}</h3>
+          <p>Total Orders</p>
+        </div>
+      </div>
+
+      <div class="stat-card card">
+        <div class="stat-icon" style="background: linear-gradient(135deg, #9B59B6 0%, #8E44AD 100%)">
+          <span>💰</span>
+        </div>
+        <div class="stat-info">
+          <h3>₹{{ stats.totalRevenue | number:'1.0-0' }}</h3>
+          <p>Total Revenue</p>
+        </div>
+      </div>
+
+      <div class="stat-card card">
+        <div class="stat-icon" style="background: linear-gradient(135deg, #E74C3C 0%, #C0392B 100%)">
+          <span>🔥</span>
+        </div>
+        <div class="stat-info">
+          <h3>{{ stats.activeOrders | number }}</h3>
+          <p>Active Orders</p>
+        </div>
+      </div>
+
+      <div class="stat-card card">
+        <div class="stat-icon" style="background: linear-gradient(135deg, #F1C40F 0%, #F39C12 100%)">
+          <span>⏳</span>
+        </div>
+        <div class="stat-info">
+          <h3>{{ stats.pendingVerifications | number }}</h3>
+          <p>Pending Verifications</p>
+        </div>
+      </div>
+
+      <div class="stat-card card">
+        <div class="stat-icon" style="background: linear-gradient(135deg, #E67E22 0%, #D35400 100%)">
+          <span>⚠️</span>
+        </div>
+        <div class="stat-info">
+          <h3>{{ stats.openDisputes | number }}</h3>
+          <p>Open Disputes</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Alerts Section -->
+    <div class="alerts-section animate-fade-in-up stagger-1">
+      <div *ngIf="stats.pendingVerifications > 0" class="alert-banner verification-alert">
+        <div class="alert-icon">📋</div>
+        <div class="alert-content">
+          <h3>{{ stats.pendingVerifications }} Pending Verification{{ stats.pendingVerifications > 1 ? 's' : '' }}</h3>
+          <p>Review and approve/reject verification requests</p>
+        </div>
+        <button class="btn btn-sm btn-white" routerLink="/admin/verifications">
+          Review Now
+        </button>
+      </div>
+
+      <div *ngIf="stats.openDisputes > 0" class="alert-banner dispute-alert">
+        <div class="alert-icon">⚠️</div>
+        <div class="alert-content">
+          <h3>{{ stats.openDisputes }} Open Dispute{{ stats.openDisputes > 1 ? 's' : '' }}</h3>
+          <p>Resolve disputes to maintain platform quality</p>
+        </div>
+        <button class="btn btn-sm btn-white" routerLink="/admin/disputes">
+          View Disputes
+        </button>
+      </div>
+
+      <!-- Profile Approvals Alert -->
+      <div *ngIf="approvalStats && approvalStats.totalPending > 0" class="alert-banner approval-alert">
+        <div class="alert-icon">👤</div>
+        <div class="alert-content">
+          <h3>{{ approvalStats.totalPending }} Pending Profile Approval{{ approvalStats.totalPending > 1 ? 's' : '' }}</h3>
+          <p>{{ approvalStats.pendingHomemakers }} homemakers, {{ approvalStats.pendingExecutives }} delivery partners waiting</p>
+        </div>
+        <button class="btn btn-sm btn-white" routerLink="/admin/approvals">
+          Review Approvals
+        </button>
+      </div>
+    </div>
+
+    <!-- Profile Approvals Section -->
+    <section *ngIf="pendingHomemakers.length > 0 || pendingExecutives.length > 0" class="approvals-section animate-fade-in-up stagger-2">
+      <div class="section-header">
+        <h2>🔔 Pending Profile Approvals</h2>
+        <a routerLink="/admin/approvals" class="view-all-link">View All →</a>
+      </div>
+
+      <!-- Approval Stats -->
+      <div *ngIf="approvalStats" class="approval-stats-grid">
+        <div class="approval-stat-card pending">
+          <span class="stat-value">{{ approvalStats.totalPending }}</span>
+          <span class="stat-label">Pending</span>
+        </div>
+        <div class="approval-stat-card approved">
+          <span class="stat-value">{{ approvalStats.totalApproved }}</span>
+          <span class="stat-label">Approved</span>
+        </div>
+        <div class="approval-stat-card rejected">
+          <span class="stat-value">{{ approvalStats.totalRejected }}</span>
+          <span class="stat-label">Rejected</span>
+        </div>
+      </div>
+
+      <!-- Pending Homemakers -->
+      <div *ngIf="pendingHomemakers.length > 0" class="approval-category">
+        <h3 class="category-title">👨‍🍳 Home Chefs ({{ pendingHomemakers.length }})</h3>
+        <div class="approvals-list">
+          <div *ngFor="let profile of pendingHomemakers" class="approval-card card">
+            <div class="profile-avatar">
+              <span>{{ profile.name?.charAt(0)?.toUpperCase() || 'H' }}</span>
+            </div>
+            <div class="profile-info">
+              <h4>{{ profile.name || 'Unknown' }}</h4>
+              <p class="profile-mobile">📱 {{ profile.mobile }}</p>
+              <p class="profile-date">Registered: {{ profile.registeredAt | date:'shortDate' }}</p>
+              <span class="badge" [class]="getApprovalStatusClass(profile.approvalStatus)">
+                {{ profile.approvalStatus }}
+              </span>
+            </div>
+            <div class="approval-actions">
+              <button class="btn btn-sm btn-success" (click)="approveHomemaker(profile.id)" title="Approve">
+                ✓ Approve
+              </button>
+              <button class="btn btn-sm btn-danger" (click)="openRejectModal(profile.id, 'homemaker')" title="Reject">
+                ✗ Reject
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pending Executives -->
+      <div *ngIf="pendingExecutives.length > 0" class="approval-category">
+        <h3 class="category-title">🚚 Delivery Partners ({{ pendingExecutives.length }})</h3>
+        <div class="approvals-list">
+          <div *ngFor="let profile of pendingExecutives" class="approval-card card">
+            <div class="profile-avatar executive">
+              <span>{{ profile.name?.charAt(0)?.toUpperCase() || 'D' }}</span>
+            </div>
+            <div class="profile-info">
+              <h4>{{ profile.name || 'Unknown' }}</h4>
+              <p class="profile-mobile">📱 {{ profile.mobile }}</p>
+              <p class="profile-date">Registered: {{ profile.registeredAt | date:'shortDate' }}</p>
+              <span class="badge" [class]="getApprovalStatusClass(profile.approvalStatus)">
+                {{ profile.approvalStatus }}
+              </span>
+            </div>
+            <div class="approval-actions">
+              <button class="btn btn-sm btn-success" (click)="approveExecutive(profile.id)" title="Approve">
+                ✓ Approve
+              </button>
+              <button class="btn btn-sm btn-danger" (click)="openRejectModal(profile.id, 'executive')" title="Reject">
+                ✗ Reject
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Rejection Modal -->
+    <div *ngIf="selectedProfileId" class="modal-overlay" (click)="closeRejectModal()">
+      <div class="modal-content" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+          <h3>Reject Profile</h3>
+          <button class="close-btn" (click)="closeRejectModal()">×</button>
+        </div>
+        <div class="modal-body">
+          <p>Please provide a reason for rejection:</p>
+          <textarea 
+            [(ngModel)]="rejectionReason" 
+            placeholder="Enter rejection reason..."
+            rows="4"
+            class="form-control"
+          ></textarea>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-outline" (click)="closeRejectModal()">Cancel</button>
+          <button 
+            class="btn btn-danger" 
+            (click)="confirmReject()"
+            [disabled]="!rejectionReason.trim()"
+          >
+            Confirm Rejection
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pending Verifications Section -->
+    <section *ngIf="pendingVerifications.length > 0" class="verifications-section animate-fade-in-up stagger-2">
+      <div class="section-header">
+        <h2>Pending Verifications</h2>
+        <a routerLink="/admin/verifications" class="view-all-link">View All →</a>
+      </div>
+
+      <div class="verifications-list">
+        <div *ngFor="let verification of pendingVerifications" class="verification-card card">
+          <div class="verification-header">
+            <div class="verification-info">
+              <h3>{{ verification.actorName }}</h3>
+              <p class="verification-type">{{ getVerificationTypeLabel(verification.verificationType) }}</p>
+              <p class="verification-date">Submitted: {{ verification.submittedDate | date:'short' }}</p>
+            </div>
+            <span class="verification-status status-pending">
+              {{ verification.status }}
+            </span>
+          </div>
+
+          <div class="verification-details">
+            <span class="actor-type-badge">{{ verification.actorType }}</span>
+            <span class="verification-id">ID: {{ verification.id }}</span>
+          </div>
+
+          <div class="verification-actions">
+            <button class="btn btn-sm btn-outline" routerLink="/admin/verifications/{{ verification.id }}">
+              Review
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Open Disputes Section -->
+    <section *ngIf="openDisputes.length > 0" class="disputes-section animate-fade-in-up stagger-3">
+      <div class="section-header">
+        <h2>Open Disputes</h2>
+        <a routerLink="/admin/disputes" class="view-all-link">View All →</a>
+      </div>
+
+      <div class="disputes-list">
+        <div *ngFor="let dispute of openDisputes" class="dispute-card card">
+          <div class="dispute-header">
+            <div class="dispute-info">
+              <h3>{{ getDisputeTypeLabel(dispute.disputeType) }}</h3>
+              <p class="dispute-order">Order #{{ dispute.orderId }}</p>
+              <p class="dispute-date">Raised: {{ dispute.raisedDate | date:'short' }}</p>
+            </div>
+            <span class="dispute-status status-open">
+              {{ dispute.status }}
+            </span>
+          </div>
+
+          <div class="dispute-parties">
+            <div class="party">
+              <span class="party-label">Raised by:</span>
+              <span class="party-name">{{ dispute.raisedByName }} ({{ dispute.raisedByType }})</span>
+            </div>
+            <div class="party">
+              <span class="party-label">Against:</span>
+              <span class="party-name">{{ dispute.againstName }} ({{ dispute.againstType }})</span>
+            </div>
+          </div>
+
+          <div class="dispute-description">
+            <p>{{ dispute.description }}</p>
+          </div>
+
+          <div class="dispute-actions">
+            <button class="btn btn-sm btn-admin" routerLink="/admin/disputes/{{ dispute.id }}">
+              Resolve
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Simple Manage Actions -->
+    <section class="quick-actions-section animate-fade-in-up stagger-4">
+      <h2>Manage</h2>
+      <div class="quick-actions-grid simple-manage-actions">
+        <a routerLink="/admin/users" class="action-card card">
+          <h3>Manage Users</h3>
+        </a>
+
+        <a routerLink="/admin/homemakers" class="action-card card">
+          <h3>Manage Homemakers</h3>
+        </a>
+
+        <a routerLink="/admin/executives" class="action-card card">
+          <h3>Manage Executives</h3>
+        </a>
+      </div>
+    </section>
+  </div>
+</div>

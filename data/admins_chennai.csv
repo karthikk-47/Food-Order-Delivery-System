@@ -1,0 +1,4 @@
+id,name,email,mobile,role
+1,Admin 1,admin1@example.com,9444999966,ADMIN
+2,Admin 2,admin2@example.com,9843618637,SUPERADMIN
+3,Admin 3,admin3@example.com,9841597412,ADMIN

@@ -1,0 +1,210 @@
+<app-navbar></app-navbar>
+
+<div class="management-container">
+  <div class="header">
+    <h1>🚗 Delivery Executive Management</h1>
+    <p class="subtitle">Review and manage delivery executive applications</p>
+  </div>
+
+  <!-- Success Message -->
+  <div class="alert alert-success" *ngIf="success">
+    <span class="icon">✅</span>
+    <span>{{ success }}</span>
+  </div>
+
+  <!-- Error Message -->
+  <div class="alert alert-error" *ngIf="error">
+    <span class="icon">❌</span>
+    <span>{{ error }}</span>
+  </div>
+
+  <!-- Filters -->
+  <div class="filters-section">
+    <div class="filter-group">
+      <label>Status Filter:</label>
+      <select [(ngModel)]="statusFilter" (change)="onFilterChange()" class="filter-select">
+        <option value="">All Status</option>
+        <option value="PENDING">Pending</option>
+        <option value="APPROVED">Approved</option>
+        <option value="REJECTED">Rejected</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label>Search:</label>
+      <input 
+        type="text" 
+        [(ngModel)]="searchQuery" 
+        (ngModelChange)="onSearchChange()"
+        placeholder="Search by name or mobile..."
+        class="search-input">
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-container">
+    <div class="spinner"></div>
+    <p>Loading delivery executives...</p>
+  </div>
+
+  <!-- Executives Table -->
+  <div *ngIf="!loading && executives.length > 0" class="table-section">
+    <table class="executives-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Mobile</th>
+          <th>Status</th>
+          <th>Address</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let exec of executives" class="executive-row">
+          <td>{{ exec.id }}</td>
+          <td>{{ exec.name }}</td>
+          <td>{{ exec.mobile }}</td>
+          <td>
+            <span class="badge" [ngClass]="getStatusBadgeClass(exec.approvalStatus)">
+              {{ exec.approvalStatus }}
+            </span>
+          </td>
+          <td>{{ exec.address || 'N/A' }}</td>
+          <td class="actions">
+            <button (click)="viewDetails(exec)" class="btn-sm btn-info">View</button>
+            <button 
+              *ngIf="exec.approvalStatus === 'PENDING'"
+              (click)="approveExecutive(exec.id)" 
+              class="btn-sm btn-success"
+              [disabled]="loading">
+              Approve
+            </button>
+            <button 
+              *ngIf="exec.approvalStatus === 'PENDING'"
+              (click)="openRejectModal(exec.id)" 
+              class="btn-sm btn-warning"
+              [disabled]="loading">
+              Reject
+            </button>
+            <button (click)="openDeleteConfirm(exec.id)" class="btn-sm btn-danger">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Pagination -->
+    <div class="pagination">
+      <button (click)="previousPage()" [disabled]="currentPage === 0" class="btn-pagination">← Previous</button>
+      
+      <div class="page-numbers">
+        <button 
+          *ngFor="let page of getPageNumbers()" 
+          (click)="currentPage = page; loadExecutives()"
+          [class.active]="page === currentPage"
+          class="page-number">
+          {{ page + 1 }}
+        </button>
+      </div>
+      
+      <button (click)="nextPage()" [disabled]="currentPage === totalPages - 1" class="btn-pagination">Next →</button>
+    </div>
+
+    <p class="pagination-info">Showing {{ executives.length }} of {{ totalRecords }} executives</p>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!loading && executives.length === 0" class="empty-state">
+    <div class="empty-icon">🚗</div>
+    <h3>No Executives Found</h3>
+    <p>No executives match your filters</p>
+  </div>
+
+  <!-- Executive Details Modal -->
+  <div *ngIf="selectedExecutive" class="modal-overlay" (click)="closeDetails()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>Executive Details</h2>
+        <button (click)="closeDetails()" class="close-btn">✕</button>
+      </div>
+      
+      <div class="modal-body">
+        <div class="detail-row">
+          <span class="label">ID:</span>
+          <span class="value">{{ selectedExecutive.id }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="label">Name:</span>
+          <span class="value">{{ selectedExecutive.name }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="label">Mobile:</span>
+          <span class="value">{{ selectedExecutive.mobile }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="label">Status:</span>
+          <span class="value">
+            <span class="badge" [ngClass]="getStatusBadgeClass(selectedExecutive.approvalStatus)">
+              {{ selectedExecutive.approvalStatus }}
+            </span>
+          </span>
+        </div>
+        <div class="detail-row">
+          <span class="label">Address:</span>
+          <span class="value">{{ selectedExecutive.address || 'N/A' }}</span>
+        </div>
+        <div class="detail-row" *ngIf="selectedExecutive.rejectionReason">
+          <span class="label">Rejection Reason:</span>
+          <span class="value rejection">{{ selectedExecutive.rejectionReason }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reject Modal -->
+  <div *ngIf="rejectModal" class="modal-overlay" (click)="closeRejectModal()">
+    <div class="modal-content modal-form" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>Reject Application</h2>
+        <button (click)="closeRejectModal()" class="close-btn">✕</button>
+      </div>
+      
+      <div class="modal-body">
+        <label class="form-label">Rejection Reason:</label>
+        <textarea 
+          [(ngModel)]="rejectReason"
+          placeholder="Enter reason for rejection..."
+          class="form-textarea"
+          rows="4"></textarea>
+      </div>
+      
+      <div class="modal-footer">
+        <button (click)="closeRejectModal()" class="btn btn-secondary">Cancel</button>
+        <button 
+          (click)="confirmReject()" 
+          class="btn btn-danger"
+          [disabled]="loading || !rejectReason.trim()">
+          Reject
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Confirmation Modal -->
+  <div *ngIf="deleteConfirm" class="modal-overlay" (click)="closeDeleteConfirm()">
+    <div class="modal-content modal-confirm" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>Confirm Delete</h2>
+      </div>
+      
+      <div class="modal-body">
+        <p class="warning-text">⚠️ Are you sure you want to delete this executive? This action cannot be undone.</p>
+      </div>
+      
+      <div class="modal-footer">
+        <button (click)="closeDeleteConfirm()" class="btn btn-secondary">Cancel</button>
+        <button (click)="confirmDelete()" class="btn btn-danger" [disabled]="loading">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>

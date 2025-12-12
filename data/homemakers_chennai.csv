@@ -1,0 +1,101 @@
+id,owner_name,shop_name,email,mobile,rating,address,city,latitude,longitude
+1,Priya Natarajan,Natarajan Kitchen,priya.natarajan1@gmail.com,9790442493,3.48,"39, Velachery, Chennai",Chennai,13.005541,80.318818
+2,Naveen Reddy,Reddy Kitchen,naveen.reddy2@testmail.com,9003866032,3.27,"67, Old Mahabalipuram Road, Chennai",Chennai,13.131734,80.070394
+3,Karthik Reddy,Reddy Kitchen,karthik.reddy3@gmail.com,9840015941,4.79,"172, Ambattur, Chennai",Chennai,13.177144,80.158758
+4,Vikram Natarajan,Natarajan Kitchen,vikram.natarajan4@testmail.com,9841981898,3.99,"24, Velachery, Chennai",Chennai,13.119964,80.309276
+5,Divya Subramanian,Subramanian Kitchen,divya.subramanian5@mail.com,9790363212,4.94,"113, Mylapore, Chennai",Chennai,13.050861,80.235792
+6,Meena Nair,Nair Kitchen,meena.nair6@testmail.com,9444158673,4.76,"38, Guindy, Chennai",Chennai,13.095044,80.147096
+7,Naveen Kumar,Kumar Kitchen,naveen.kumar7@testmail.com,9840034864,4.81,"176, T. Nagar, Chennai",Chennai,13.106982,80.094553
+8,Senthil Krishnan,Krishnan Kitchen,senthil.krishnan8@mail.com,9840644134,4.72,"42, Thiruvanmiyur, Chennai",Chennai,13.126271,80.351787
+9,Vijay Kumar,Kumar Kitchen,vijay.kumar9@example.com,9844177656,4.65,"179, Old Mahabalipuram Road, Chennai",Chennai,13.101267,80.140743
+10,Bhavani Nair,Nair Kitchen,bhavani.nair10@example.com,9444700272,3.8,"161, Old Mahabalipuram Road, Chennai",Chennai,13.062744,80.032893
+11,Suresh Natarajan,Natarajan Kitchen,suresh.natarajan11@testmail.com,9842965772,3.35,"152, Guindy, Chennai",Chennai,13.159906,80.079465
+12,Vijay Subramanian,Subramanian Kitchen,vijay.subramanian12@mail.com,9842669300,4.81,"119, Velachery, Chennai",Chennai,13.052357,80.340732
+13,Karthik Krishnan,Krishnan Kitchen,karthik.krishnan13@example.com,9790942152,3.03,"135, Mylapore, Chennai",Chennai,13.154672,80.371314
+14,Meena Iyer,Iyer Kitchen,meena.iyer14@mail.com,9843334476,3.86,"53, Nungambakkam, Chennai",Chennai,13.043113,80.329636
+15,Deepa Krishnan,Krishnan Kitchen,deepa.krishnan15@gmail.com,9842620443,4.81,"95, Nungambakkam, Chennai",Chennai,13.136853,80.183266
+16,Arjun Reddy,Reddy Kitchen,arjun.reddy16@testmail.com,9842563669,3.15,"143, Anna Salai, Chennai",Chennai,13.010423,80.372426
+17,Meena Subramanian,Subramanian Kitchen,meena.subramanian17@gmail.com,9840048964,4.34,"34, Greams Road, Chennai",Chennai,13.008225,80.071749
+18,Suresh Nair,Nair Kitchen,suresh.nair18@gmail.com,9003572158,3.28,"30, Guindy, Chennai",Chennai,13.008832,80.051149
+19,Lakshmi Subramanian,Subramanian Kitchen,lakshmi.subramanian19@gmail.com,9790449485,4.79,"81, Purasaiwakkam, Chennai",Chennai,13.198913,80.30547
+20,Vikram Nair,Nair Kitchen,vikram.nair20@example.com,9003032032,3.94,"42, Purasaiwakkam, Chennai",Chennai,13.093427,80.04641
+21,Meena Kumar,Kumar Kitchen,meena.kumar21@mail.com,9003587771,3.25,"24, Velachery, Chennai",Chennai,13.173635,80.072262
+22,Suresh Nair,Nair Kitchen,suresh.nair22@mail.com,9844993908,3.83,"20, Velachery, Chennai",Chennai,13.153651,80.270763
+23,Divya Kumar,Kumar Kitchen,divya.kumar23@mail.com,9844165915,3.06,"118, Purasaiwakkam, Chennai",Chennai,13.131908,80.181622
+24,Lakshmi Das,Das Kitchen,lakshmi.das24@mail.com,9840509759,3.42,"13, Ambattur, Chennai",Chennai,13.056591,80.319259
+25,Priya Nair,Nair Kitchen,priya.nair25@example.com,9790164236,3.04,"54, Adyar, Chennai",Chennai,13.077701,80.160958
+26,Vikram Iyer,Iyer Kitchen,vikram.iyer26@example.com,9844764925,4.66,"132, Velachery, Chennai",Chennai,13.097925,80.354165
+27,Meena Rao,Rao Kitchen,meena.rao27@gmail.com,9790165926,3.19,"132, Guindy, Chennai",Chennai,13.194654,80.270576
+28,Vikram Reddy,Reddy Kitchen,vikram.reddy28@mail.com,9841476174,4.97,"176, Old Mahabalipuram Road, Chennai",Chennai,13.168308,80.209237
+29,Naveen Das,Das Kitchen,naveen.das29@gmail.com,9840810818,3.83,"119, Ambattur, Chennai",Chennai,13.144062,80.32513
+30,Mani Rao,Rao Kitchen,mani.rao30@gmail.com,9841801722,3.09,"107, Purasaiwakkam, Chennai",Chennai,13.05953,80.234883
+31,Senthil Reddy,Reddy Kitchen,senthil.reddy31@testmail.com,9844523219,4.74,"28, Mylapore, Chennai",Chennai,13.106875,80.002339
+32,Ananya Kumar,Kumar Kitchen,ananya.kumar32@testmail.com,9842776974,4.38,"177, Ambattur, Chennai",Chennai,13.078999,80.121063
+33,Vikram Sharma,Sharma Kitchen,vikram.sharma33@gmail.com,9840310303,4.3,"167, Velachery, Chennai",Chennai,13.087158,80.250424
+34,Ajith Natarajan,Natarajan Kitchen,ajith.natarajan34@example.com,9841472760,3.33,"40, Purasaiwakkam, Chennai",Chennai,13.14052,80.385547
+35,Meena Kumar,Kumar Kitchen,meena.kumar35@example.com,9003933496,3.67,"27, Ambattur, Chennai",Chennai,13.169526,80.172715
+36,Vijay Reddy,Reddy Kitchen,vijay.reddy36@gmail.com,9844076789,3.46,"16, Greams Road, Chennai",Chennai,13.003804,80.230561
+37,Ajith Iyer,Iyer Kitchen,ajith.iyer37@gmail.com,9844671795,4.4,"6, Adyar, Chennai",Chennai,13.057602,80.076881
+38,Mani Reddy,Reddy Kitchen,mani.reddy38@mail.com,9843839597,4.77,"186, Purasaiwakkam, Chennai",Chennai,13.078074,80.166744
+39,Mani Reddy,Reddy Kitchen,mani.reddy39@mail.com,9842934172,3.4,"156, Thiruvanmiyur, Chennai",Chennai,13.020181,80.166394
+40,Meena Rao,Rao Kitchen,meena.rao40@testmail.com,9843380054,4.35,"45, Greams Road, Chennai",Chennai,13.006394,80.025466
+41,Vijay Iyer,Iyer Kitchen,vijay.iyer41@testmail.com,9843183745,4.54,"198, Greams Road, Chennai",Chennai,13.053498,80.060471
+42,Raja Das,Das Kitchen,raja.das42@example.com,9841077119,4.65,"11, Greams Road, Chennai",Chennai,13.021082,80.25197
+43,Deepa Subramanian,Subramanian Kitchen,deepa.subramanian43@testmail.com,9842478712,3.67,"36, T. Nagar, Chennai",Chennai,13.169719,80.175643
+44,Vijay Kumar,Kumar Kitchen,vijay.kumar44@testmail.com,9843754821,3.74,"194, Mylapore, Chennai",Chennai,13.072129,80.265998
+45,Vikram Nair,Nair Kitchen,vikram.nair45@testmail.com,9790326667,4.89,"114, Adyar, Chennai",Chennai,13.15403,80.28705
+46,Raja Iyer,Iyer Kitchen,raja.iyer46@gmail.com,9841556260,4.52,"170, Ambattur, Chennai",Chennai,13.03019,80.229823
+47,Raja Rao,Rao Kitchen,raja.rao47@testmail.com,9790684550,4.8,"157, Adyar, Chennai",Chennai,13.140059,80.178476
+48,Deepa Nair,Nair Kitchen,deepa.nair48@testmail.com,9003563410,3.78,"185, Purasaiwakkam, Chennai",Chennai,13.175975,80.208188
+49,Ajith Rao,Rao Kitchen,ajith.rao49@mail.com,9843188485,3.05,"139, Nungambakkam, Chennai",Chennai,13.051738,80.332892
+50,Naveen Krishnan,Krishnan Kitchen,naveen.krishnan50@example.com,9841054851,4.51,"32, Thiruvanmiyur, Chennai",Chennai,13.059592,80.294743
+51,Senthil Subramanian,Subramanian Kitchen,senthil.subramanian51@testmail.com,9843998935,3.57,"184, Nungambakkam, Chennai",Chennai,13.134487,80.28574
+52,Raja Natarajan,Natarajan Kitchen,raja.natarajan52@example.com,9841589357,3.29,"109, Mylapore, Chennai",Chennai,13.016389,80.024877
+53,Vikram Reddy,Reddy Kitchen,vikram.reddy53@gmail.com,9843715869,4.74,"150, Thiruvanmiyur, Chennai",Chennai,13.127292,80.398605
+54,Meena Krishnan,Krishnan Kitchen,meena.krishnan54@example.com,9842282772,4.39,"117, Thiruvanmiyur, Chennai",Chennai,13.006521,80.062736
+55,Ajith Subramanian,Subramanian Kitchen,ajith.subramanian55@testmail.com,9841961159,3.08,"40, T. Nagar, Chennai",Chennai,13.074293,80.396408
+56,Naveen Rao,Rao Kitchen,naveen.rao56@testmail.com,9003022960,4.78,"56, Adyar, Chennai",Chennai,13.163825,80.195517
+57,Ananya Nair,Nair Kitchen,ananya.nair57@gmail.com,9444106794,4.8,"97, Thiruvanmiyur, Chennai",Chennai,13.166892,80.333473
+58,Vikram Sharma,Sharma Kitchen,vikram.sharma58@gmail.com,9003772519,3.77,"102, Guindy, Chennai",Chennai,13.108199,80.383232
+59,Senthil Rao,Rao Kitchen,senthil.rao59@example.com,9841209481,3.38,"159, Greams Road, Chennai",Chennai,13.115371,80.02115
+60,Sruthi Nair,Nair Kitchen,sruthi.nair60@example.com,9843780182,3.55,"53, Velachery, Chennai",Chennai,13.165938,80.335567
+61,Sruthi Reddy,Reddy Kitchen,sruthi.reddy61@gmail.com,9841895690,4.72,"6, Guindy, Chennai",Chennai,13.087403,80.165975
+62,Raja Subramanian,Subramanian Kitchen,raja.subramanian62@testmail.com,9790411182,3.29,"66, T. Nagar, Chennai",Chennai,13.030845,80.380866
+63,Suresh Kumar,Kumar Kitchen,suresh.kumar63@testmail.com,9444200461,3.28,"83, Old Mahabalipuram Road, Chennai",Chennai,13.075103,80.331097
+64,Ananya Kumar,Kumar Kitchen,ananya.kumar64@gmail.com,9843399378,4.9,"69, Anna Salai, Chennai",Chennai,13.063667,80.221248
+65,Priya Reddy,Reddy Kitchen,priya.reddy65@example.com,9840630489,3.49,"143, Ambattur, Chennai",Chennai,13.157043,80.121845
+66,Vijay Reddy,Reddy Kitchen,vijay.reddy66@mail.com,9841832582,4.08,"109, Greams Road, Chennai",Chennai,13.090348,80.0004
+67,Senthil Das,Das Kitchen,senthil.das67@testmail.com,9844200749,4.68,"98, Guindy, Chennai",Chennai,13.168488,80.085102
+68,Raja Rao,Rao Kitchen,raja.rao68@gmail.com,9840289141,4.4,"36, Purasaiwakkam, Chennai",Chennai,13.111296,80.111783
+69,Vijay Natarajan,Natarajan Kitchen,vijay.natarajan69@testmail.com,9444547435,3.42,"154, Guindy, Chennai",Chennai,13.003175,80.276738
+70,Arjun Das,Das Kitchen,arjun.das70@gmail.com,9003002687,4.08,"167, Ambattur, Chennai",Chennai,13.015505,80.012379
+71,Senthil Iyer,Iyer Kitchen,senthil.iyer71@example.com,9444695620,3.93,"50, Thiruvanmiyur, Chennai",Chennai,13.001873,80.297258
+72,Lakshmi Subramanian,Subramanian Kitchen,lakshmi.subramanian72@testmail.com,9843194337,3.07,"127, Purasaiwakkam, Chennai",Chennai,13.141394,80.083635
+73,Deepa Krishnan,Krishnan Kitchen,deepa.krishnan73@mail.com,9841498728,4.32,"145, Ambattur, Chennai",Chennai,13.136477,80.226056
+74,Priya Das,Das Kitchen,priya.das74@testmail.com,9842124938,3.38,"174, Anna Salai, Chennai",Chennai,13.19839,80.277194
+75,Ajith Das,Das Kitchen,ajith.das75@gmail.com,9844870605,4.69,"105, Old Mahabalipuram Road, Chennai",Chennai,13.024344,80.207318
+76,Meena Subramanian,Subramanian Kitchen,meena.subramanian76@testmail.com,9840304687,3.01,"50, Guindy, Chennai",Chennai,13.016362,80.228728
+77,Arjun Natarajan,Natarajan Kitchen,arjun.natarajan77@example.com,9790133254,4.25,"25, Anna Salai, Chennai",Chennai,13.095993,80.323224
+78,Sruthi Subramanian,Subramanian Kitchen,sruthi.subramanian78@testmail.com,9844317350,4.04,"61, T. Nagar, Chennai",Chennai,13.15515,80.247827
+79,Ananya Reddy,Reddy Kitchen,ananya.reddy79@mail.com,9841100651,3.12,"114, Anna Salai, Chennai",Chennai,13.060294,80.250474
+80,Priya Iyer,Iyer Kitchen,priya.iyer80@gmail.com,9840804661,3.47,"154, Ambattur, Chennai",Chennai,13.124802,80.181364
+81,Senthil Krishnan,Krishnan Kitchen,senthil.krishnan81@mail.com,9841507859,3.22,"4, Nungambakkam, Chennai",Chennai,13.14266,80.237155
+82,Deepa Das,Das Kitchen,deepa.das82@gmail.com,9842845679,3.37,"36, Anna Salai, Chennai",Chennai,13.012098,80.124667
+83,Vijay Nair,Nair Kitchen,vijay.nair83@testmail.com,9444498227,4.21,"75, Guindy, Chennai",Chennai,13.194054,80.207072
+84,Vikram Kumar,Kumar Kitchen,vikram.kumar84@mail.com,9843880653,4.28,"52, T. Nagar, Chennai",Chennai,13.06831,80.267144
+85,Senthil Das,Das Kitchen,senthil.das85@testmail.com,9444995946,3.32,"117, Anna Salai, Chennai",Chennai,13.099186,80.367981
+86,Ramesh Natarajan,Natarajan Kitchen,ramesh.natarajan86@mail.com,9003933756,3.8,"2, Guindy, Chennai",Chennai,13.001978,80.143155
+87,Ajith Iyer,Iyer Kitchen,ajith.iyer87@example.com,9842473950,3.4,"73, Adyar, Chennai",Chennai,13.043789,80.1048
+88,Suresh Subramanian,Subramanian Kitchen,suresh.subramanian88@example.com,9843230241,4.66,"36, Mylapore, Chennai",Chennai,13.130974,80.354005
+89,Divya Natarajan,Natarajan Kitchen,divya.natarajan89@gmail.com,9844735528,4.76,"17, T. Nagar, Chennai",Chennai,13.028886,80.369662
+90,Deepa Natarajan,Natarajan Kitchen,deepa.natarajan90@mail.com,9790559630,4.71,"76, Adyar, Chennai",Chennai,13.065536,80.021304
+91,Lakshmi Sharma,Sharma Kitchen,lakshmi.sharma91@gmail.com,9003317912,4.5,"166, Greams Road, Chennai",Chennai,13.074853,80.207557
+92,Suresh Subramanian,Subramanian Kitchen,suresh.subramanian92@gmail.com,9444877749,4.28,"150, Ambattur, Chennai",Chennai,13.007321,80.087811
+93,Deepa Reddy,Reddy Kitchen,deepa.reddy93@mail.com,9843634669,4.87,"96, Old Mahabalipuram Road, Chennai",Chennai,13.11011,80.053732
+94,Priya Rao,Rao Kitchen,priya.rao94@testmail.com,9003853907,3.85,"120, Mylapore, Chennai",Chennai,13.081791,80.321802
+95,Divya Rao,Rao Kitchen,divya.rao95@testmail.com,9790027341,4.8,"76, Greams Road, Chennai",Chennai,13.102558,80.257462
+96,Lakshmi Natarajan,Natarajan Kitchen,lakshmi.natarajan96@testmail.com,9841115083,3.39,"85, Old Mahabalipuram Road, Chennai",Chennai,13.060543,80.326226
+97,Lakshmi Natarajan,Natarajan Kitchen,lakshmi.natarajan97@gmail.com,9842840445,4.89,"149, Ambattur, Chennai",Chennai,13.002378,80.261636
+98,Vikram Krishnan,Krishnan Kitchen,vikram.krishnan98@gmail.com,9843337389,4.45,"119, Guindy, Chennai",Chennai,13.158383,80.12523
+99,Deepa Krishnan,Krishnan Kitchen,deepa.krishnan99@mail.com,9790377805,4.16,"33, Old Mahabalipuram Road, Chennai",Chennai,13.188671,80.003872
+100,Mani Subramanian,Subramanian Kitchen,mani.subramanian100@example.com,9843666845,4.14,"9, Adyar, Chennai",Chennai,13.030738,80.381055

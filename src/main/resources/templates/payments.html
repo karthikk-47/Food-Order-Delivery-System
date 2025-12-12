@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Management Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #ec4899;
+            --bg-dark: #0f172a;
+            --bg-card: #1e293b;
+            --text-light: #f8fafc;
+            --text-gray: #94a3b8;
+            --success: #10b981;
+            --error: #ef4444;
+            --glass-bg: rgba(30, 41, 59, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            min-height: 100vh;
+            background-image:
+                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(236, 72, 153, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(16, 185, 129, 0.15) 0px, transparent 50%);
+            background-attachment: fixed;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: var(--text-gray);
+            font-size: 1.1rem;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            color: var(--text-gray);
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .tab-btn:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-light);
+            transform: translateY(-2px);
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+        }
+
+        /* Forms */
+        .form-section {
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .form-section.active {
+            display: block;
+        }
+
+        .card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 2.5rem;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 0.8rem 1rem;
+            color: var(--text-light);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+            background: rgba(15, 23, 42, 0.8);
+        }
+
+        button.submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        button.submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.4);
+        }
+
+        button.submit-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Response Area */
+        .response-area {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--glass-border);
+            display: none;
+            font-family: monospace;
+            white-space: pre-wrap;
+            color: var(--success);
+        }
+
+        .response-area.error {
+            color: var(--error);
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Loading Spinner */
+        .loader {
+            display: none;
+            width: 24px;
+            height: 24px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .btn-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Payment Gateway</h1>
+            <p class="subtitle">Secure, fast, and reliable payment processing</p>
+        </header>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('contact')">Create Contact</button>
+            <button class="tab-btn" onclick="switchTab('fund')">Fund Account</button>
+            <button class="tab-btn" onclick="switchTab('payout')">Make Payout</button>
+        </div>
+
+        <!-- Create Contact Form -->
+        <div id="contact" class="form-section active">
+            <div class="card">
+                <form id="contactForm" onsubmit="handleContactSubmit(event)">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" name="name" required placeholder="John Doe">
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" name="email" required placeholder="john@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label>Contact Number</label>
+                            <input type="tel" name="contact" required placeholder="+91 9876543210">
+                        </div>
+                        <div class="form-group">
+                            <label>Type</label>
+                            <select name="type">
+                                <option value="customer">Customer</option>
+                                <option value="vendor">Vendor</option>
+                                <option value="employee">Employee</option>
+                                <option value="self">Self</option>
+                            </select>
+                        </div>
+                        <div class="form-group full-width">
+                            <label>Reference ID</label>
+                            <input type="text" name="reference_id" placeholder="REF123456">
+                        </div>
+                    </div>
+                    <button type="submit" class="submit-btn">
+                        <div class="btn-content">
+                            <span>Create Contact</span>
+                            <div class="loader"></div>
+                        </div>
+                    </button>
+                </form>
+                <div id="contactResponse" class="response-area"></div>
+            </div>
+        </div>
+
+        <!-- Create Fund Account Form -->
+        <div id="fund" class="form-section">
+            <div class="card">
+                <form id="fundForm" onsubmit="handleFundSubmit(event)">
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label>Contact ID</label>
+                            <input type="text" name="contact_id" required placeholder="cont_..." id="fundContactId">
+                        </div>
+                        <div class="form-group">
+                            <label>Account Type</label>
+                            <select name="account_type">
+                                <option value="bank_account">Bank Account</option>
+                                <option value="vpa">VPA (UPI)</option>
+                            </select>
+                        </div>
+
+                        <!-- Bank Details -->
+                        <div class="full-width" style="margin-top: 1rem;">
+                            <h3 style="margin-bottom: 1rem; color: var(--primary);">Bank Details</h3>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Account Holder Name</label>
+                            <input type="text" name="name" required placeholder="John Doe">
+                        </div>
+                        <div class="form-group">
+                            <label>Bank Name</label>
+                            <input type="text" name="bank_name" placeholder="HDFC Bank">
+                        </div>
+                        <div class="form-group">
+                            <label>IFSC Code</label>
+                            <input type="text" name="ifsc" required placeholder="HDFC0001234">
+                        </div>
+                        <div class="form-group">
+                            <label>Account Number</label>
+                            <input type="text" name="account_number" required placeholder="1234567890">
+                        </div>
+                    </div>
+                    <button type="submit" class="submit-btn">
+                        <div class="btn-content">
+                            <span>Create Fund Account</span>
+                            <div class="loader"></div>
+                        </div>
+                    </button>
+                </form>
+                <div id="fundResponse" class="response-area"></div>
+            </div>
+        </div>
+
+        <!-- Make Payout Form -->
+        <div id="payout" class="form-section">
+            <div class="card">
+                <form id="payoutForm" onsubmit="handlePayoutSubmit(event)">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Fund Account ID</label>
+                            <input type="text" name="fund_account_id" required placeholder="fa_..." id="payoutFundId">
+                        </div>
+                        <div class="form-group">
+                            <label>Admin Account Number</label>
+                            <input type="text" name="account_number" required placeholder="2323230009720336">
+                        </div>
+                        <div class="form-group">
+                            <label>Amount (in paise)</label>
+                            <input type="number" name="amount" required placeholder="1000">
+                        </div>
+                        <div class="form-group">
+                            <label>Currency</label>
+                            <input type="text" name="currency" value="INR" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Mode</label>
+                            <select name="mode">
+                                <option value="IMPS">IMPS</option>
+                                <option value="NEFT">NEFT</option>
+                                <option value="RTGS">RTGS</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Purpose</label>
+                            <select name="purpose">
+                                <option value="payout">Payout</option>
+                                <option value="refund">Refund</option>
+                                <option value="salary">Salary</option>
+                                <option value="vendor bill">Vendor Bill</option>
+                            </select>
+                        </div>
+                        <div class="form-group full-width">
+                            <label>Narration</label>
+                            <input type="text" name="narration" placeholder="Payment for services">
+                        </div>
+                    </div>
+                    <button type="submit" class="submit-btn">
+                        <div class="btn-content">
+                            <span>Initiate Payout</span>
+                            <div class="loader"></div>
+                        </div>
+                    </button>
+                </form>
+                <div id="payoutResponse" class="response-area"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(tabId) {
+            document.querySelectorAll('.form-section').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+
+            document.getElementById(tabId).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        async function postData(url, data, responseId, btn) {
+            const responseArea = document.getElementById(responseId);
+            const loader = btn.querySelector('.loader');
+            const btnText = btn.querySelector('span');
+
+            responseArea.style.display = 'none';
+            responseArea.className = 'response-area';
+            loader.style.display = 'block';
+            btnText.style.opacity = '0.5';
+            btn.disabled = true;
+
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                responseArea.style.display = 'block';
+                responseArea.textContent = JSON.stringify(result, null, 2);
+
+                if (response.ok) {
+                    // Auto-fill IDs for next steps
+                    if (result.id) {
+                        if (url.includes('createContact')) {
+                            document.getElementById('fundContactId').value = result.id;
+                        } else if (url.includes('createFundAccount')) {
+                            document.getElementById('payoutFundId').value = result.id;
+                        }
+                    }
+                } else {
+                    responseArea.classList.add('error');
+                }
+            } catch (error) {
+                responseArea.style.display = 'block';
+                responseArea.classList.add('error');
+                responseArea.textContent = 'Error: ' + error.message;
+            } finally {
+                loader.style.display = 'none';
+                btnText.style.opacity = '1';
+                btn.disabled = false;
+            }
+        }
+
+        function handleContactSubmit(e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData.entries());
+            postData('/payments/createContact', data, 'contactResponse', e.target.querySelector('button'));
+        }
+
+        function handleFundSubmit(e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const data = {
+                contact_id: formData.get('contact_id'),
+                account_type: formData.get('account_type'),
+                bank_account: {
+                    name: formData.get('name'),
+                    bank_name: formData.get('bank_name'),
+                    ifsc: formData.get('ifsc'),
+                    account_number: formData.get('account_number')
+                }
+            };
+            postData('/payments/createFundAccount', data, 'fundResponse', e.target.querySelector('button'));
+        }
+
+        function handlePayoutSubmit(e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData.entries());
+            postData('/payments/payout', data, 'payoutResponse', e.target.querySelector('button'));
+        }
+    </script>
+</body>
+
+</html>

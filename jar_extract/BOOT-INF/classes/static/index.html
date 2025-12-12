@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>HomeBites - Home</title>
+  <style>
+    body { font-family: Arial, Helvetica, sans-serif; background: linear-gradient(135deg,#0f1724,#0b2447); color:#fff; margin:0 }
+    .wrap { max-width:980px; margin:48px auto; padding:24px; text-align:center }
+    .brand { font-size:40px; font-weight:700; color:#ffe9e9; margin-bottom:8px }
+    .subtitle { color: #cbd5e1; margin-bottom:24px }
+    .cards { display:flex; gap:16px; justify-content:center; flex-wrap:wrap }
+    .card { background:rgba(255,255,255,0.04); padding:18px; border-radius:10px; width:220px }
+    .card h3{ margin:4px 0 8px 0 }
+    .btn { display:inline-block; margin:6px 4px; padding:10px 12px; background:#ff4d4f; color:#fff; border-radius:6px; text-decoration:none; cursor:pointer }
+    .muted { color:#9aa7c7; font-size:0.9rem }
+    .footer { margin-top:28px; color:#99a7c7 }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="brand">HomeBites</div>
+    <div class="subtitle">Local homemade food delivered with love — Developer quick-login</div>
+
+    <div class="cards">
+      <div class="card">
+        <h3>Customer</h3>
+        <div class="muted">Test user</div>
+        <div style="margin-top:10px">
+          <button class="btn" onclick="devLogin('9876543210')">Quick Login</button>
+          <a class="btn" href="#" onclick="goRegister('user')">Register</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Home Chef</h3>
+        <div class="muted">Test homemaker</div>
+        <div style="margin-top:10px">
+          <button class="btn" onclick="devLogin('9876543211')">Quick Login</button>
+          <a class="btn" href="#" onclick="goRegister('homemaker')">Register</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Delivery Partner</h3>
+        <div class="muted">Test delivery executive</div>
+        <div style="margin-top:10px">
+          <button class="btn" onclick="devLogin('9876543212')">Quick Login</button>
+          <a class="btn" href="#" onclick="goRegister('delivery')">Register</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Admin</h3>
+        <div class="muted">Admin user</div>
+        <div style="margin-top:10px">
+          <button class="btn" onclick="devLogin('admin')">Quick Login</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">After quick-login you will be redirected to the Angular app (if running at <code>http://localhost:4200</code>).</div>
+  </div>
+
+  <script>
+    async function devLogin(id) {
+      try {
+        const resp = await fetch('/api/auth/dev-login/' + encodeURIComponent(id), { method: 'GET' });
+        if (!resp.ok) {
+          alert('Dev login failed: ' + resp.statusText);
+          return;
+        }
+        const json = await resp.json();
+        const token = json.accessToken || json.token || json.access_token;
+        if (!token) {
+          alert('No token returned from server');
+          return;
+        }
+        // Store token and a minimal currentUser object so frontends can pick it up
+        localStorage.setItem('token', token);
+        localStorage.setItem('currentUser', JSON.stringify({ token: token, userId: json.userId || json.user_id || null, mobile: json.mobile || id, role: json.role || null }));
+        // Redirect to Angular app if available, else show success
+        const target = 'http://localhost:4200/';
+        try { window.location.href = target; } catch (e) { alert('Logged in (dev). Token saved to localStorage.'); }
+      } catch (e) {
+        alert('Error during dev-login: ' + e.message);
+      }
+    }
+
+    function goRegister(kind) {
+      // Try to send user to frontend register routes, fallback to alert
+      const base = 'http://localhost:4200/';
+      const map = { user: 'register', homemaker: 'homemaker/register', delivery: 'delivery/register' };
+      const path = map[kind] || 'register';
+      try { window.location.href = base + path; } catch (e) { alert('Open frontend and register via UI.'); }
+    }
+  </script>
+</body>
+</html>

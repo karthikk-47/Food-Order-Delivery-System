@@ -1,0 +1,114 @@
+<div class="tracking-container">
+  <div class="tracking-header">
+    <a routerLink="/user/orders" class="back-btn">← Back</a>
+    <h1>Track Order #{{ orderId }}</h1>
+    <button class="refresh-btn" (click)="refreshTracking()">🔄</button>
+  </div>
+
+  <div class="loading" *ngIf="loading">
+    <div class="spinner"></div>
+    <p>Loading tracking info...</p>
+  </div>
+
+  <div class="tracking-content" *ngIf="!loading && tracking">
+    <!-- Status Banner -->
+    <div class="status-banner" [style.background]="trackingService.getStatusColor(tracking.status)">
+      <span class="status-icon">{{ trackingService.getStatusIcon(tracking.status) }}</span>
+      <div class="status-info">
+        <h2>{{ tracking.statusMessage }}</h2>
+        <p *ngIf="tracking.remainingMinutes && tracking.status !== 'DELIVERED'">
+          Estimated arrival in {{ tracking.remainingMinutes }} mins
+        </p>
+      </div>
+    </div>
+
+    <!-- Progress Steps -->
+    <div class="progress-section">
+      <div class="progress-bar">
+        <div class="progress-fill" [style.width]="getProgressWidth()"></div>
+      </div>
+      <div class="steps">
+        <div class="step" *ngFor="let step of steps; let i = index"
+             [class.completed]="isStepCompleted(i)"
+             [class.active]="isStepActive(i)">
+          <div class="step-icon">{{ step.icon }}</div>
+          <span class="step-label">{{ step.label }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Executive Info -->
+    <div class="executive-card" *ngIf="tracking.executiveId">
+      <div class="executive-avatar">
+        <img [src]="tracking.executivePhoto || 'assets/avatar-placeholder.png'" alt="Delivery Partner">
+      </div>
+      <div class="executive-info">
+        <h3>{{ tracking.executiveName || 'Delivery Partner' }}</h3>
+        <p>Your delivery partner</p>
+      </div>
+      <button class="call-btn" (click)="callExecutive()" *ngIf="tracking.executivePhone">
+        📞 Call
+      </button>
+    </div>
+
+
+    <!-- Order Details -->
+    <div class="order-details">
+      <h3>Order Details</h3>
+      <div class="detail-row">
+        <span>Restaurant</span>
+        <span>{{ tracking.homemakerName || 'Home Chef' }}</span>
+      </div>
+      <div class="detail-row">
+        <span>Order Amount</span>
+        <span>₹{{ tracking.amount }}</span>
+      </div>
+      <div class="detail-row">
+        <span>Payment</span>
+        <span>{{ tracking.paymentMethod || 'Online' }}</span>
+      </div>
+      <div class="detail-row otp" *ngIf="tracking.customerOtp && tracking.status === 'OUTFORDELIVERY'">
+        <span>Delivery OTP</span>
+        <span class="otp-value">{{ tracking.customerOtp }}</span>
+      </div>
+    </div>
+
+    <!-- Timeline -->
+    <div class="timeline">
+      <h3>Order Timeline</h3>
+      <div class="timeline-item" *ngIf="tracking.createdAt">
+        <div class="timeline-dot completed"></div>
+        <div class="timeline-content">
+          <span class="time">{{ formatTime(tracking.createdAt) }}</span>
+          <span class="event">Order Placed</span>
+        </div>
+      </div>
+      <div class="timeline-item" *ngIf="tracking.acceptedAt">
+        <div class="timeline-dot completed"></div>
+        <div class="timeline-content">
+          <span class="time">{{ formatTime(tracking.acceptedAt) }}</span>
+          <span class="event">Order Accepted</span>
+        </div>
+      </div>
+      <div class="timeline-item" *ngIf="tracking.pickedUpAt">
+        <div class="timeline-dot completed"></div>
+        <div class="timeline-content">
+          <span class="time">{{ formatTime(tracking.pickedUpAt) }}</span>
+          <span class="event">Picked Up</span>
+        </div>
+      </div>
+      <div class="timeline-item" *ngIf="tracking.deliveredAt">
+        <div class="timeline-dot completed"></div>
+        <div class="timeline-content">
+          <span class="time">{{ formatTime(tracking.deliveredAt) }}</span>
+          <span class="event">Delivered</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="error" *ngIf="error">
+    <p>{{ error }}</p>
+    <button (click)="loadTracking()">Retry</button>
+  </div>
+</div>

@@ -1,0 +1,194 @@
+<app-navbar></app-navbar>
+
+<div class="analytics-container">
+  <div class="header">
+    <h1>📊 Analytics Dashboard</h1>
+    <p class="subtitle">Platform insights and statistics</p>
+  </div>
+
+  <!-- Error Message -->
+  <div class="alert alert-error" *ngIf="error">
+    <span class="icon">❌</span>
+    <span>{{ error }}</span>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-container">
+    <div class="spinner"></div>
+    <p>Loading analytics...</p>
+  </div>
+
+  <!-- Main Analytics Section -->
+  <div *ngIf="!loading && dashboardData" class="analytics-content">
+    <!-- Summary Cards -->
+    <div class="summary-cards">
+      <div class="card summary-card">
+        <div class="card-icon users-icon">👥</div>
+        <div class="card-content">
+          <h3>{{ dashboardData.users?.total || 0 }}</h3>
+          <p>Total Users</p>
+        </div>
+      </div>
+
+      <div class="card summary-card">
+        <div class="card-icon homemakers-icon">👨‍🍳</div>
+        <div class="card-content">
+          <h3>{{ dashboardData.homemakers?.total || 0 }}</h3>
+          <p>Total Homemakers</p>
+        </div>
+      </div>
+
+      <div class="card summary-card">
+        <div class="card-icon executives-icon">🚗</div>
+        <div class="card-content">
+          <h3>{{ dashboardData.executives?.total || 0 }}</h3>
+          <p>Total Executives</p>
+        </div>
+      </div>
+
+      <div class="card summary-card">
+        <div class="card-icon orders-icon">📦</div>
+        <div class="card-content">
+          <h3>{{ dashboardData.orders?.total || 0 }}</h3>
+          <p>Total Orders</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Approval Status Section -->
+    <div class="analytics-section">
+      <h2>Approval Status Overview</h2>
+      
+      <div class="stats-grid">
+        <!-- Homemakers -->
+        <div class="card stat-card">
+          <h3>👨‍🍳 Homemakers</h3>
+          <div class="stat-grid">
+            <div class="stat-item">
+              <span class="stat-label">Approved</span>
+              <span class="stat-value">{{ dashboardData.homemakers?.approved || 0 }}</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Pending</span>
+              <span class="stat-value pending">{{ dashboardData.homemakers?.pending || 0 }}</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Rejected</span>
+              <span class="stat-value rejected">{{ dashboardData.homemakers?.rejected || 0 }}</span>
+            </div>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" 
+              [style.width.%]="getApprovalPercentage(dashboardData.homemakers?.approved || 0, dashboardData.homemakers?.total || 1)">
+            </div>
+          </div>
+          <p class="progress-label">
+            {{ getApprovalPercentage(dashboardData.homemakers?.approved || 0, dashboardData.homemakers?.total || 1) }}% Approved
+          </p>
+        </div>
+
+        <!-- Executives -->
+        <div class="card stat-card">
+          <h3>🚗 Delivery Executives</h3>
+          <div class="stat-grid">
+            <div class="stat-item">
+              <span class="stat-label">Approved</span>
+              <span class="stat-value">{{ dashboardData.executives?.approved || 0 }}</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Pending</span>
+              <span class="stat-value pending">{{ dashboardData.executives?.pending || 0 }}</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Other</span>
+              <span class="stat-value">{{ (dashboardData.executives?.total || 0) - (dashboardData.executives?.approved || 0) - (dashboardData.executives?.pending || 0) }}</span>
+            </div>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" 
+              [style.width.%]="getApprovalPercentage(dashboardData.executives?.approved || 0, dashboardData.executives?.total || 1)">
+            </div>
+          </div>
+          <p class="progress-label">
+            {{ getApprovalPercentage(dashboardData.executives?.approved || 0, dashboardData.executives?.total || 1) }}% Approved
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pending Approvals Alert -->
+    <div *ngIf="dashboardData.summary?.pendingApprovals > 0" class="pending-alert">
+      <span class="alert-icon">⚠️</span>
+      <span class="alert-text">
+        You have <strong>{{ dashboardData.summary?.pendingApprovals }} pending approvals</strong> awaiting review
+      </span>
+    </div>
+
+    <!-- Detailed Analytics -->
+    <div class="analytics-grid">
+      <!-- User Analytics -->
+      <div class="card analytics-card" *ngIf="userAnalytics">
+        <h3>👥 User Analytics</h3>
+        <div class="analytics-item">
+          <span class="label">Total Users:</span>
+          <span class="value">{{ userAnalytics.totalUsers || 0 }}</span>
+        </div>
+      </div>
+
+      <!-- Homemaker Analytics -->
+      <div class="card analytics-card" *ngIf="homemakerAnalytics">
+        <h3>👨‍🍳 Homemaker Analytics</h3>
+        <div class="analytics-item">
+          <span class="label">Total:</span>
+          <span class="value">{{ homemakerAnalytics.totalHomemakers || 0 }}</span>
+        </div>
+        <div class="analytics-item">
+          <span class="label">Approved:</span>
+          <span class="value success">{{ homemakerAnalytics.approved || 0 }}</span>
+        </div>
+        <div class="analytics-item">
+          <span class="label">Pending:</span>
+          <span class="value warning">{{ homemakerAnalytics.pending || 0 }}</span>
+        </div>
+        <div class="analytics-item">
+          <span class="label">Rejected:</span>
+          <span class="value danger">{{ homemakerAnalytics.rejected || 0 }}</span>
+        </div>
+      </div>
+
+      <!-- Executive Analytics -->
+      <div class="card analytics-card" *ngIf="executiveAnalytics">
+        <h3>🚗 Executive Analytics</h3>
+        <div class="analytics-item">
+          <span class="label">Total:</span>
+          <span class="value">{{ executiveAnalytics.totalExecutives || 0 }}</span>
+        </div>
+        <div class="analytics-item">
+          <span class="label">Approved:</span>
+          <span class="value success">{{ executiveAnalytics.approved || 0 }}</span>
+        </div>
+        <div class="analytics-item">
+          <span class="label">Pending:</span>
+          <span class="value warning">{{ executiveAnalytics.pending || 0 }}</span>
+        </div>
+      </div>
+
+      <!-- Order Analytics -->
+      <div class="card analytics-card" *ngIf="orderAnalytics">
+        <h3>📦 Order Analytics</h3>
+        <div class="analytics-item">
+          <span class="label">Total Orders:</span>
+          <span class="value">{{ orderAnalytics.totalOrders || 0 }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+      <button routerLink="/admin/manage/users" class="btn btn-primary">👥 Manage Users</button>
+      <button routerLink="/admin/manage/homemakers" class="btn btn-primary">👨‍🍳 Manage Homemakers</button>
+      <button routerLink="/admin/manage/executives" class="btn btn-primary">🚗 Manage Executives</button>
+      <button (click)="loadAllAnalytics()" class="btn btn-secondary">🔄 Refresh</button>
+    </div>
+  </div>
+</div>

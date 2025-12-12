@@ -1,0 +1,121 @@
+<app-navbar></app-navbar>
+
+<div class="dashboard-container">
+  <!-- Header -->
+  <header class="dashboard-header">
+    <div class="header-content">
+      <h1>Delivery Dashboard</h1>
+      <div class="header-actions">
+        <button class="btn-icon" routerLink="/delivery-executive/profile" title="Profile">
+          <span>👤</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Navigation -->
+  <nav class="dashboard-nav">
+    <a routerLink="/delivery-executive/dashboard" routerLinkActive="active">Dashboard</a>
+    <a routerLink="/delivery-executive/orders" routerLinkActive="active">My Orders</a>
+    <a routerLink="/delivery-executive/wallet" routerLinkActive="active">Wallet</a>
+    <a routerLink="/delivery-executive/profile" routerLinkActive="active">Profile</a>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="dashboard-main">
+    <!-- Status Toggle -->
+    <div class="status-card">
+      <div class="status-info">
+        <h3>Status</h3>
+        <p>{{ isOnline ? 'You are online and receiving orders' : 'You are offline' }}</p>
+      </div>
+      <button 
+        class="btn-toggle" 
+        [class.active]="isOnline"
+        (click)="toggleOnlineStatus()"
+      >
+        {{ isOnline ? 'Go Offline' : 'Go Online' }}
+      </button>
+    </div>
+
+    <!-- Sort Options -->
+    <div class="sort-section" *ngIf="isOnline">
+      <label for="sortBy">Sort Orders By:</label>
+      <select id="sortBy" [(ngModel)]="sortBy" (change)="onSortChange()" class="sort-select">
+        <option *ngFor="let option of sortOptions" [value]="option.value">
+          {{ option.label }}
+        </option>
+      </select>
+      <button class="btn-refresh" (click)="loadNearbyOrders()" [disabled]="loading">
+        🔄 Refresh
+      </button>
+    </div>
+
+    <!-- Error Message -->
+    <div class="error-message" *ngIf="error">
+      {{ error }}
+    </div>
+
+    <!-- Loading -->
+    <div class="loading" *ngIf="loading">
+      <div class="spinner"></div>
+      <p>Loading nearby orders...</p>
+    </div>
+
+    <!-- Orders List -->
+    <div class="orders-grid" *ngIf="!loading && isOnline">
+      <div class="order-card" *ngFor="let order of orders" [class]="getPriorityClass(order.priority)">
+        <div class="order-header">
+          <span class="order-id">Order #{{ order.orderId }}</span>
+          <span class="order-priority" [class]="getPriorityClass(order.priority)">
+            {{ order.priority }}
+          </span>
+        </div>
+
+        <div class="order-details">
+          <div class="detail-row">
+            <span class="label">Distance:</span>
+            <span class="value">{{ getDistanceInKm(order.distance) }} km</span>
+          </div>
+          <div class="detail-row">
+            <span class="label">Delivery Fee:</span>
+            <span class="value">₹{{ order.deliveryFee }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="label">Your Earning:</span>
+            <span class="value earning">₹{{ order.executiveEarning.toFixed(2) }}</span>
+          </div>
+          <div class="detail-row" *ngIf="order.isSurgePricing">
+            <span class="label">Surge:</span>
+            <span class="value surge">{{ order.surgeMultiplier }}x 🔥</span>
+          </div>
+          <div class="detail-row">
+            <span class="label">Est. Time:</span>
+            <span class="value">{{ order.estimatedDeliveryTime }} min</span>
+          </div>
+          <div class="detail-row" *ngIf="sortBy === 'optimal'">
+            <span class="label">Score:</span>
+            <span class="value">{{ order.optimalScore.toFixed(1) }}/100</span>
+          </div>
+        </div>
+
+        <div class="order-footer">
+          <button class="btn-accept" (click)="acceptOrder(order.orderId)">
+            Accept Order
+          </button>
+        </div>
+      </div>
+
+      <div class="no-orders" *ngIf="orders.length === 0">
+        <p>No orders available nearby</p>
+        <p class="hint">Try changing the sort option or wait for new orders</p>
+      </div>
+    </div>
+
+    <!-- Offline Message -->
+    <div class="offline-message" *ngIf="!isOnline && !loading">
+      <h3>You are currently offline</h3>
+      <p>Go online to start receiving delivery orders</p>
+    </div>
+  </main>
+</div>

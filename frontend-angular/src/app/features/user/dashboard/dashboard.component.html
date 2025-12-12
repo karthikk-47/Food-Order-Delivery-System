@@ -1,0 +1,195 @@
+<app-navbar></app-navbar>
+
+<div class="user-dashboard">
+  <!-- Header -->
+  <header class="dashboard-header">
+    <div class="container">
+      <div class="header-content">
+        <div class="welcome-section">
+          <h1 class="animate-fade-in-down">Welcome back, {{ profile?.name || 'Customer' }}!</h1>
+          <p class="text-muted">Order delicious homemade food from local chefs</p>
+        </div>
+        <div class="header-actions">
+          <button class="btn btn-primary" routerLink="/user/browse">
+            <span class="icon">🍽️</span>
+            Browse Menus
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-container">
+    <div class="spinner-lg"></div>
+    <p>Loading your dashboard...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error" class="error-container">
+    <p class="error-message">{{ error }}</p>
+    <button class="btn btn-primary" (click)="loadDashboardData()">Retry</button>
+  </div>
+
+  <!-- Dashboard Content -->
+  <div *ngIf="!loading && !error" class="dashboard-content container">
+    <!-- Stats Cards -->
+    <div class="stats-grid animate-fade-in-up">
+      <div class="stat-card card">
+        <div class="stat-icon" style="background: var(--primary-gradient)">
+          <span>📦</span>
+        </div>
+        <div class="stat-info">
+          <h3>{{ stats.totalOrders }}</h3>
+          <p>Total Orders</p>
+        </div>
+      </div>
+
+      <div class="stat-card card">
+        <div class="stat-icon" style="background: linear-gradient(135deg, #FF8A00 0%, #E67E00 100%)">
+          <span>🔥</span>
+        </div>
+        <div class="stat-info">
+          <h3>{{ stats.activeOrders }}</h3>
+          <p>Active Orders</p>
+        </div>
+      </div>
+
+      <div class="stat-card card">
+        <div class="stat-icon" style="background: linear-gradient(135deg, #2ECC71 0%, #27AE60 100%)">
+          <span>✅</span>
+        </div>
+        <div class="stat-info">
+          <h3>{{ stats.completedOrders }}</h3>
+          <p>Completed</p>
+        </div>
+      </div>
+
+      <div class="stat-card card">
+        <div class="stat-icon" style="background: linear-gradient(135deg, #9B59B6 0%, #8E44AD 100%)">
+          <span>💰</span>
+        </div>
+        <div class="stat-info">
+          <h3>₹{{ stats.totalSpent | number:'1.0-0' }}</h3>
+          <p>Total Spent</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Active Orders Section -->
+    <section *ngIf="activeOrders.length > 0" class="active-orders-section animate-fade-in-up stagger-1">
+      <div class="section-header">
+        <h2>Active Orders</h2>
+        <a routerLink="/user/orders" class="view-all-link">View All →</a>
+      </div>
+
+      <div class="orders-grid">
+        <div *ngFor="let order of activeOrders" class="order-card card">
+          <div class="order-header">
+            <div class="order-info">
+              <h3>{{ order.homemakerName }}</h3>
+              <p class="order-id">Order #{{ order.id }}</p>
+            </div>
+            <span class="order-status" [ngClass]="getStatusClass(order.orderStatus)">
+              {{ getStatusLabel(order.orderStatus) }}
+            </span>
+          </div>
+
+          <div class="order-items">
+            <div *ngFor="let item of order.items" class="order-item">
+              <span class="item-name">{{ item.menuItemName }}</span>
+              <span class="item-quantity">x{{ item.quantity }}</span>
+            </div>
+          </div>
+
+          <div class="order-footer">
+            <div class="order-amount">
+              <span class="label">Total:</span>
+              <span class="amount">₹{{ order.totalAmount }}</span>
+            </div>
+            <button class="btn btn-sm btn-primary" (click)="trackOrder(order.id)">
+              Track Order
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Recent Orders Section -->
+    <section class="recent-orders-section animate-fade-in-up stagger-2">
+      <div class="section-header">
+        <h2>Recent Orders</h2>
+        <a routerLink="/user/orders" class="view-all-link">View All →</a>
+      </div>
+
+      <div *ngIf="recentOrders.length === 0" class="empty-state">
+        <div class="empty-icon">🍽️</div>
+        <h3>No orders yet</h3>
+        <p>Start ordering delicious homemade food!</p>
+        <button class="btn btn-primary" routerLink="/user/browse">Browse Menus</button>
+      </div>
+
+      <div *ngIf="recentOrders.length > 0" class="orders-list">
+        <div *ngFor="let order of recentOrders" class="order-list-item card">
+          <div class="order-list-header">
+            <div class="order-list-info">
+              <h4>{{ order.homemakerName }}</h4>
+              <p class="order-date">{{ order.orderDate | date:'medium' }}</p>
+            </div>
+            <span class="order-status" [ngClass]="getStatusClass(order.orderStatus)">
+              {{ getStatusLabel(order.orderStatus) }}
+            </span>
+          </div>
+
+          <div class="order-list-details">
+            <div class="order-items-summary">
+              <span *ngFor="let item of order.items; let last = last">
+                {{ item.menuItemName }}<span *ngIf="!last">, </span>
+              </span>
+            </div>
+            <div class="order-amount">₹{{ order.totalAmount }}</div>
+          </div>
+
+          <div class="order-list-actions">
+            <button class="btn btn-sm btn-outline" (click)="reorder(order.id)">
+              Reorder
+            </button>
+            <button class="btn btn-sm btn-primary" routerLink="/user/orders/{{ order.id }}">
+              View Details
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick Actions -->
+    <section class="quick-actions-section animate-fade-in-up stagger-3">
+      <h2>Quick Actions</h2>
+      <div class="quick-actions-grid">
+        <a routerLink="/user/browse" class="action-card card">
+          <div class="action-icon">🔍</div>
+          <h3>Browse Menus</h3>
+          <p>Discover local home chefs</p>
+        </a>
+
+        <a routerLink="/user/favourites" class="action-card card">
+          <div class="action-icon">❤️</div>
+          <h3>Favourites</h3>
+          <p>Your favorite chefs</p>
+        </a>
+
+        <a routerLink="/user/addresses" class="action-card card">
+          <div class="action-icon">📍</div>
+          <h3>Addresses</h3>
+          <p>Manage delivery addresses</p>
+        </a>
+
+        <a routerLink="/user/profile" class="action-card card">
+          <div class="action-icon">👤</div>
+          <h3>Profile</h3>
+          <p>Update your details</p>
+        </a>
+      </div>
+    </section>
+  </div>
+</div>

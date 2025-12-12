@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Delivery Route - OlaMaps</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .header {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 1rem 2rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .header h1 {
+      color: #333;
+      font-size: 1.8rem;
+      font-weight: 600;
+    }
+
+    .container {
+      flex: 1;
+      display: flex;
+      padding: 2rem;
+      gap: 1.5rem;
+      max-width: 1400px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .map-container {
+      flex: 1;
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      position: relative;
+    }
+
+    #map {
+      width: 100%;
+      height: 100%;
+      min-height: 600px;
+    }
+
+    .info-panel {
+      width: 350px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .info-card {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    }
+
+    .info-card h3 {
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+      opacity: 0.9;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .info-card p {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    .route-details {
+      background: #f8f9fa;
+      padding: 1rem;
+      border-radius: 8px;
+      border-left: 4px solid #667eea;
+    }
+
+    .route-details h3 {
+      color: #333;
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
+    }
+
+    .detail-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .detail-item:last-child {
+      border-bottom: none;
+    }
+
+    .detail-label {
+      color: #666;
+      font-size: 0.9rem;
+    }
+
+    .detail-value {
+      color: #333;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .loading {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      z-index: 1000;
+    }
+
+    .spinner {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #667eea;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 1rem;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    .error {
+      background: #ff4444;
+      color: white;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-top: 1rem;
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+
+      .info-panel {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+<script src="https://www.unpkg.com/olamaps-web-sdk@latest/dist/olamaps-web-sdk.umd.js"></script>
+<div class="header">
+    <h1>🚚 Delivery Route Tracker</h1>
+  </div>
+
+  <div class="container">
+    <div class="map-container">
+      <div id="loading" class="loading">
+        <div class="spinner"></div>
+        <p>Loading route...</p>
+      </div>
+      <div id="map"></div>
+    </div>
+
+    <div class="info-panel">
+      <div class="info-card">
+        <h3>Distance</h3>
+        <p id="distance">-- km</p>
+      </div>
+
+      <div class="info-card">
+        <h3>Duration</h3>
+        <p id="duration">-- min</p>
+      </div>
+
+      <div class="route-details">
+        <h3>Route Information</h3>
+        <div class="detail-item">
+          <span class="detail-label">Status:</span>
+          <span class="detail-value" id="status">Loading...</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Origin:</span>
+          <span class="detail-value" id="origin">--</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Destination:</span>
+          <span class="detail-value" id="destination">--</span>
+        </div>
+      </div>
+
+      <div id="error" class="error"></div>
+    </div>
+  </div>
+
+  <script src="https://maps.olacabs.com/map-sdk/map.js"></script>
+  <script>
+    let map;
+    let routePolyline;
+
+    // Initialize the map
+    function initMap() {
+      map = new OlaMaps.Map({
+        apiKey: 'SDefJtPtF5sOIUKYoHUUsJlmV1R67JFZq43BiRQf', // Replace with your actual API key
+        container: 'map',
+        center: [76.0, 13.0], // Default center (will be updated)
+        zoom: 7,
+        style: 'https://api.olamaps.io/tiles/vector/v1/styles/default-light-standard/style.json'
+      });
+
+      map.on('load', function () {
+        fetchAndDisplayRoute();
+      });
+    }
+
+    // Fetch route data from backend
+    async function fetchAndDisplayRoute() {
+      try {
+        const response = await fetch('/m');
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log('Route data:', data);
+
+        displayRoute(data);
+        hideLoading();
+      } catch (error) {
+        console.error('Error fetching route:', error);
+        showError('Failed to load route: ' + error.message);
+        hideLoading();
+      }
+    }
+
+    // Display route on map
+    function displayRoute(data) {
+      if (!data.routes || data.routes.length === 0) {
+        showError('No routes found in response');
+        return;
+      }
+
+      const route = data.routes[0];
+
+      // Update status
+      document.getElementById('status').textContent = data.status || 'OK';
+
+      // Update distance and duration
+      if (route.legs && route.legs.length > 0) {
+        const leg = route.legs[0];
+
+        // Distance in km
+        const distanceKm = (leg.distance / 1000).toFixed(2);
+        document.getElementById('distance').textContent = distanceKm + ' km';
+
+        // Duration in minutes
+        const durationMin = Math.round(leg.duration / 60);
+        document.getElementById('duration').textContent = durationMin + ' min';
+
+        // Update origin and destination
+        if (leg.start_location) {
+          document.getElementById('origin').textContent =
+            `${leg.start_location.lat.toFixed(4)}, ${leg.start_location.lng.toFixed(4)}`;
+        }
+        if (leg.end_location) {
+          document.getElementById('destination').textContent =
+            `${leg.end_location.lat.toFixed(4)}, ${leg.end_location.lng.toFixed(4)}`;
+        }
+      }
+
+      // Decode and display polyline
+      if (route.overview_polyline && route.overview_polyline.points) {
+        const coordinates = decodePolyline(route.overview_polyline.points);
+        drawRoute(coordinates);
+
+        // Add markers for start and end
+        if (coordinates.length > 0) {
+          addMarker(coordinates[0], 'Start', '#00ff00');
+          addMarker(coordinates[coordinates.length - 1], 'End', '#ff0000');
+
+          // Fit map to route bounds
+          fitMapToBounds(coordinates);
+        }
+      }
+    }
+
+    // Decode Google polyline format
+    function decodePolyline(encoded) {
+      const coordinates = [];
+      let index = 0;
+      let lat = 0;
+      let lng = 0;
+
+      while (index < encoded.length) {
+        let shift = 0;
+        let result = 0;
+        let byte;
+
+        do {
+          byte = encoded.charCodeAt(index++) - 63;
+          result |= (byte & 0x1f) << shift;
+          shift += 5;
+        } while (byte >= 0x20);
+
+        const deltaLat = ((result & 1) ? ~(result >> 1) : (result >> 1));
+        lat += deltaLat;
+
+        shift = 0;
+        result = 0;
+
+        do {
+          byte = encoded.charCodeAt(index++) - 63;
+          result |= (byte & 0x1f) << shift;
+          shift += 5;
+        } while (byte >= 0x20);
+
+        const deltaLng = ((result & 1) ? ~(result >> 1) : (result >> 1));
+        lng += deltaLng;
+
+        coordinates.push([lng / 1e5, lat / 1e5]);
+      }
+
+      return coordinates;
+    }
+
+    // Draw route on map
+    function drawRoute(coordinates) {
+      if (map.getSource('route')) {
+        map.removeLayer('route-line');
+        map.removeSource('route');
+      }
+
+      map.addSource('route', {
+        type: 'geojson',
+        data: {
+          type: 'Feature',
+          geometry: {
+            type: 'LineString',
+            coordinates: coordinates
+          }
+        }
+      });
+
+      map.addLayer({
+        id: 'route-line',
+        type: 'line',
+        source: 'route',
+        layout: {
+          'line-join': 'round',
+          'line-cap': 'round'
+        },
+        paint: {
+          'line-color': '#667eea',
+          'line-width': 5,
+          'line-opacity': 0.8
+        }
+      });
+    }
+
+    // Add marker to map
+    function addMarker(coordinates, title, color) {
+      const el = document.createElement('div');
+      el.style.width = '20px';
+      el.style.height = '20px';
+      el.style.borderRadius = '50%';
+      el.style.backgroundColor = color;
+      el.style.border = '3px solid white';
+      el.style.boxShadow = '0 2px 4px rgba(0,0,0,0.3)';
+
+      new OlaMaps.Marker({ element: el })
+        .setLngLat(coordinates)
+        .addTo(map);
+    }
+
+    // Fit map to bounds
+    function fitMapToBounds(coordinates) {
+      const bounds = coordinates.reduce((bounds, coord) => {
+        return bounds.extend(coord);
+      }, new OlaMaps.LngLatBounds(coordinates[0], coordinates[0]));
+
+      map.fitBounds(bounds, {
+        padding: 50
+      });
+    }
+
+    // Show error message
+    function showError(message) {
+      const errorDiv = document.getElementById('error');
+      errorDiv.textContent = message;
+      errorDiv.style.display = 'block';
+    }
+
+    // Hide loading indicator
+    function hideLoading() {
+      document.getElementById('loading').style.display = 'none';
+    }
+
+    // Initialize map when page loads
+    window.onload = initMap;
+  </script>
+</body>
+
+</html>

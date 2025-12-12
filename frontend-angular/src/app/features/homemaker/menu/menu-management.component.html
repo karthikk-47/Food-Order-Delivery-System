@@ -1,0 +1,188 @@
+<app-navbar></app-navbar>
+
+<div class="menu-container">
+  <!-- Alert Messages -->
+  <div class="alert alert-error" *ngIf="errorMessage">
+    <span class="icon">❌</span>
+    <span>{{ errorMessage }}</span>
+  </div>
+  <div class="alert alert-success" *ngIf="successMessage">
+    <span class="icon">✅</span>
+    <span>{{ successMessage }}</span>
+  </div>
+
+  <div class="header">
+    <h1>Menu Management</h1>
+    <button class="btn-add" (click)="showAddForm = !showAddForm; resetForm()">
+      {{ showAddForm ? 'Cancel' : '+ Add Item' }}
+    </button>
+  </div>
+
+  <div class="add-form" *ngIf="showAddForm">
+    <h2>Add New Menu Item</h2>
+    <form (ngSubmit)="addMenuItem()">
+      <!-- Photo Upload -->
+      <div class="form-group photo-upload">
+        <label>Item Photo</label>
+        <div class="photo-preview" *ngIf="newItem.itemImage">
+          <img [src]="newItem.itemImage" [alt]="newItem.itemName || 'Preview'">
+        </div>
+        <div class="photo-input-wrapper">
+          <input 
+            type="file" 
+            #photoInput
+            accept="image/*" 
+            (change)="onPhotoSelected($event)"
+            hidden>
+          <button 
+            type="button" 
+            class="btn-upload" 
+            (click)="photoInput.click()">
+            📷 Choose Photo
+          </button>
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Item Name <span class="required">*</span></label>
+          <input type="text" [(ngModel)]="newItem.itemName" name="itemName" required>
+        </div>
+        <div class="form-group">
+          <label>Category <span class="required">*</span></label>
+          <select [(ngModel)]="newItem.category" name="category" required>
+            <option value="">Select Category</option>
+            <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Price (₹) <span class="required">*</span></label>
+          <input type="number" [(ngModel)]="newItem.price" name="price" required min="1">
+        </div>
+        <div class="form-group">
+          <label>Preparation Time (min)</label>
+          <input type="number" [(ngModel)]="newItem.estimatedPrepTime" name="prepTime" min="1">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <textarea [(ngModel)]="newItem.description" name="description" rows="3"></textarea>
+      </div>
+      <div class="form-group checkbox">
+        <label>
+          <input type="checkbox" [(ngModel)]="newItem.isAvailable" name="available">
+          Available for Order
+        </label>
+      </div>
+      <div class="form-actions">
+        <button type="button" class="btn-cancel" (click)="showAddForm = false; resetForm()">Cancel</button>
+        <button type="submit" class="btn-submit" [disabled]="isSubmitting">
+          {{ isSubmitting ? 'Adding...' : 'Add Item' }}
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div class="menu-list">
+    <div class="menu-item" *ngFor="let item of menuItems">
+      <div class="item-image">
+        <img [src]="item.itemImage || item.primaryPhotoUrl || 'assets/default-food.png'" [alt]="item.itemName">
+      </div>
+      <div class="item-details">
+        <h3>{{ item.itemName }}</h3>
+        <p class="category">{{ item.category }}</p>
+        <p class="description">{{ item.description }}</p>
+        <div class="meta">
+          <span class="price">₹{{ item.price }}</span>
+          <span class="prep-time">⏱️ {{ item.estimatedPrepTime }} min</span>
+          <span class="status" [class.available]="item.isAvailable" [class.unavailable]="!item.isAvailable">
+            {{ item.isAvailable ? 'Available' : 'Unavailable' }}
+          </span>
+        </div>
+      </div>
+      <div class="item-actions">
+        <button class="btn-toggle" (click)="toggleAvailability(item)">
+          {{ item.isAvailable ? '⊘ Unavailable' : '✓ Available' }}
+        </button>
+        <button class="btn-edit" (click)="editItem(item)">✏️ Edit</button>
+        <button class="btn-delete" (click)="deleteMenuItem(item.id)">🗑️ Delete</button>
+      </div>
+    </div>
+    
+    <div class="empty-state" *ngIf="menuItems.length === 0 && !showAddForm">
+      <p>📭 No menu items yet</p>
+      <p class="subtitle">Create your first menu item by clicking the "Add Item" button</p>
+    </div>
+  </div>
+
+  <!-- Edit Modal -->
+  <div class="modal-overlay" *ngIf="editingItem" (click)="cancelEdit()">
+    <div class="edit-modal" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>Edit Menu Item</h2>
+        <button class="btn-close" (click)="cancelEdit()">✕</button>
+      </div>
+      
+      <form (ngSubmit)="updateMenuItem()">
+        <!-- Photo Upload -->
+        <div class="form-group photo-upload">
+          <label>Item Photo</label>
+          <div class="photo-preview" *ngIf="editingItem.itemImage">
+            <img [src]="editingItem.itemImage" [alt]="editingItem.itemName">
+          </div>
+          <div class="photo-input-wrapper">
+            <input 
+              type="file" 
+              #editPhotoInput
+              accept="image/*" 
+              (change)="onPhotoSelected($event, true)"
+              hidden>
+            <button 
+              type="button" 
+              class="btn-upload" 
+              (click)="editPhotoInput.click()">
+              📷 Update Photo
+            </button>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Item Name <span class="required">*</span></label>
+            <input type="text" [(ngModel)]="editingItem.itemName" name="itemName" required>
+          </div>
+          <div class="form-group">
+            <label>Category <span class="required">*</span></label>
+            <select [(ngModel)]="editingItem.category" name="category" required>
+              <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Price (₹) <span class="required">*</span></label>
+            <input type="number" [(ngModel)]="editingItem.price" name="price" required min="1">
+          </div>
+          <div class="form-group">
+            <label>Preparation Time (min)</label>
+            <input type="number" [(ngModel)]="editingItem.estimatedPrepTime" name="prepTime" min="1">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <textarea [(ngModel)]="editingItem.description" name="description" rows="3"></textarea>
+        </div>
+        <div class="form-group checkbox">
+          <label>
+            <input type="checkbox" [(ngModel)]="editingItem.isAvailable" name="available">
+            Available for Order
+          </label>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn-cancel" (click)="cancelEdit()">Cancel</button>
+          <button type="submit" class="btn-submit" [disabled]="isSubmitting">
+            {{ isSubmitting ? 'Updating...' : 'Update Item' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

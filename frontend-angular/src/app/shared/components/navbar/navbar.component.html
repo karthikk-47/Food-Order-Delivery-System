@@ -1,0 +1,133 @@
+<nav class="navbar">
+  <div class="navbar-container">
+    <!-- Logo -->
+    <div class="navbar-brand">
+      <a routerLink="/" class="logo">
+        <span class="logo-icon">🍽️</span>
+        <span class="logo-text">HomeBites</span>
+      </a>
+    </div>
+
+    <!-- Menu Toggle Button (Mobile) -->
+    <button class="navbar-toggle" (click)="toggleMenu()" [class.active]="menuOpen">
+      <span class="hamburger"></span>
+      <span class="hamburger"></span>
+      <span class="hamburger"></span>
+    </button>
+
+    <!-- Navbar Menu -->
+    <div class="navbar-menu" [class.active]="menuOpen">
+      <div class="navbar-nav">
+        <!-- Nav Items -->
+        <div class="nav-group">
+          <a 
+            routerLink="/{{ currentUser?.role?.toLowerCase() }}/dashboard" 
+            routerLinkActive="active"
+            (click)="closeMenu()"
+            class="nav-link"
+            *ngIf="currentUser">
+            <span class="nav-icon">📊</span>
+            <span>Dashboard</span>
+          </a>
+
+          <a 
+            [routerLink]="getProfileLink()"
+            routerLinkActive="active"
+            (click)="closeMenu()"
+            class="nav-link"
+            *ngIf="currentUser">
+            <span class="nav-icon">👤</span>
+            <span>Profile</span>
+          </a>
+
+          <!-- Role-specific links -->
+          <a 
+            routerLink="/user/browse"
+            routerLinkActive="active"
+            (click)="closeMenu()"
+            class="nav-link"
+            *ngIf="currentUser?.role === 'USER'">
+            <span class="nav-icon">🍽️</span>
+            <span>Browse Menus</span>
+          </a>
+
+          <a 
+            routerLink="/user/cart"
+            routerLinkActive="active"
+            (click)="closeMenu()"
+            class="nav-link"
+            *ngIf="currentUser?.role === 'USER'">
+            <span class="nav-icon">🛒</span>
+            <span>Cart</span>
+          </a>
+
+          <a 
+            routerLink="/homemaker/menu"
+            routerLinkActive="active"
+            (click)="closeMenu()"
+            class="nav-link"
+            *ngIf="currentUser?.role === 'HOMEMAKER'">
+            <span class="nav-icon">📋</span>
+            <span>Menu</span>
+          </a>
+
+          <a 
+            routerLink="/homemaker/wallet"
+            routerLinkActive="active"
+            (click)="closeMenu()"
+            class="nav-link"
+            *ngIf="currentUser?.role === 'HOMEMAKER'">
+            <span class="nav-icon">💳</span>
+            <span>Wallet</span>
+          </a>
+
+          <a 
+            routerLink="/delivery-executive/orders"
+            routerLinkActive="active"
+            (click)="closeMenu()"
+            class="nav-link"
+            *ngIf="currentUser?.role === 'DELIVERYEXECUTIVE'">
+            <span class="nav-icon">📦</span>
+            <span>Orders</span>
+          </a>
+
+          <a 
+            routerLink="/delivery-executive/wallet"
+            routerLinkActive="active"
+            (click)="closeMenu()"
+            class="nav-link"
+            *ngIf="currentUser?.role === 'DELIVERYEXECUTIVE'">
+            <span class="nav-icon">💳</span>
+            <span>Wallet</span>
+          </a>
+        </div>
+
+      </div>
+
+      <!-- User Info (Mobile) -->
+      <div class="navbar-user-info" *ngIf="currentUser">
+        <div class="user-profile-card">
+          <div class="user-avatar">{{ currentUser.mobile?.charAt(0)?.toUpperCase() }}</div>
+          <div class="user-details">
+            <p class="user-mobile">{{ currentUser.mobile }}</p>
+            <p class="user-role">{{ getRoleLabel() }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- User Info (Desktop) -->
+    <div class="navbar-user" *ngIf="currentUser">
+      <div class="user-info">
+        <span class="user-avatar">{{ currentUser.mobile?.charAt(0)?.toUpperCase() }}</span>
+        <span class="user-role">{{ getRoleLabel() }}</span>
+      </div>
+      <button 
+        (click)="logout()"
+        class="btn btn-logout">
+        <span>🚪</span>
+        <span>Logout</span>
+      </button>
+    </div>
+  </div>
+</nav>

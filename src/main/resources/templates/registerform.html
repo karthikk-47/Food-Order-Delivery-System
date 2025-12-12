@@ -1,0 +1,43 @@
+<html><h2>Register</h2>
+<div id="registerForm">
+  <label>Name:</label><br />
+  <input type="text" id="regName" placeholder="Full name" /><br />
+
+  <label>Mobile:</label><br />
+  <input type="text" id="regMobile" placeholder="Mobile number" /><br />
+
+  <label>Password:</label><br />
+  <input type="password" id="regPassword" placeholder="Create password" /><br />
+
+  <label>Aadhaar:</label><br />
+  <input type="text" id="regAadhaar" placeholder="Aadhaar number" /><br />
+
+  <label>License:</label><br />
+  <input type="text" id="regLicense" placeholder="License number" /><br />
+
+  <button onclick="submitRegister()">Submit</button>
+</div>
+<script>
+
+
+  function submitRegister() {
+    const payload = {
+      name: document.getElementById('regName').value,
+      mobile: document.getElementById('regMobile').value,
+      password: document.getElementById('regPassword').value,
+      aadhar: document.getElementById('regAadhaar').value,
+      license: document.getElementById('regLicense').value
+    };
+
+
+
+    fetch('/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+    .then(res => res.json())
+    .then(data => alert(data.message))
+    .catch(err => console.error('Register error:', err));
+  }
+</script></html>

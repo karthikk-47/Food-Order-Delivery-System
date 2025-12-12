@@ -1,0 +1,162 @@
+<app-navbar></app-navbar>
+
+<div class="admin-container">
+  <div class="header">
+    <h1>🎛️ Admin Dashboard</h1>
+    <p>Manage your food delivery platform</p>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="quick-actions">
+    <a routerLink="/admin/manage/users" class="action-btn users-btn">
+      <span class="icon">👥</span>
+      <span class="label">Manage Users</span>
+    </a>
+    <a routerLink="/admin/manage/homemakers" class="action-btn homemakers-btn">
+      <span class="icon">👨‍🍳</span>
+      <span class="label">Manage Homemakers</span>
+    </a>
+    <a routerLink="/admin/manage/executives" class="action-btn executives-btn">
+      <span class="icon">🚗</span>
+      <span class="label">Manage Executives</span>
+    </a>
+    <a routerLink="/admin/analytics" class="action-btn analytics-btn">
+      <span class="icon">📊</span>
+      <span class="label">View Analytics</span>
+    </a>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card users">
+      <div class="stat-icon">👥</div>
+      <div class="stat-info">
+        <h3>{{ stats.totalUsers }}</h3>
+        <p>Total Users</p>
+      </div>
+    </div>
+    <div class="stat-card homemakers">
+      <div class="stat-icon">👨‍🍳</div>
+      <div class="stat-info">
+        <h3>{{ stats.totalHomemakers }}</h3>
+        <p>Homemakers</p>
+      </div>
+    </div>
+    <div class="stat-card executives">
+      <div class="stat-icon">🚴</div>
+      <div class="stat-info">
+        <h3>{{ stats.totalExecutives }}</h3>
+        <p>Delivery Executives</p>
+      </div>
+    </div>
+    <div class="stat-card orders">
+      <div class="stat-icon">📦</div>
+      <div class="stat-info">
+        <h3>{{ stats.totalOrders }}</h3>
+        <p>Total Orders</p>
+      </div>
+    </div>
+    <div class="stat-card revenue">
+      <div class="stat-icon">💰</div>
+      <div class="stat-info">
+        <h3>₹{{ stats.totalRevenue }}</h3>
+        <p>Total Revenue</p>
+      </div>
+    </div>
+    <div class="stat-card active">
+      <div class="stat-icon">🚀</div>
+      <div class="stat-info">
+        <h3>{{ stats.activeOrders }}</h3>
+        <p>Active Orders</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-grid">
+    <!-- Pending Homemaker Approvals -->
+    <div class="section">
+      <div class="section-header">
+        <h2>🍳 Pending Home Chef Approvals ({{ pendingHomemakers.length }})</h2>
+      </div>
+      <div class="approval-list" *ngIf="pendingHomemakers.length > 0; else noHomemakers">
+        <div class="approval-item" *ngFor="let homemaker of pendingHomemakers">
+          <div class="item-info">
+            <h4>{{ homemaker.name }}</h4>
+            <p>📱 {{ homemaker.mobile }}</p>
+            <p>📍 {{ homemaker.address }}</p>
+          </div>
+          <div class="item-actions">
+            <button class="btn-approve" (click)="approveHomemaker(homemaker.id)">✓ Approve</button>
+            <button class="btn-reject" (click)="rejectHomemaker(homemaker.id, '')">✗ Reject</button>
+          </div>
+        </div>
+      </div>
+      <ng-template #noHomemakers>
+        <p class="no-items">No pending home chef approvals</p>
+      </ng-template>
+    </div>
+
+    <!-- Pending Delivery Executive Approvals -->
+    <div class="section">
+      <div class="section-header">
+        <h2>🚴 Pending Delivery Partner Approvals ({{ pendingExecutives.length }})</h2>
+      </div>
+      <div class="approval-list" *ngIf="pendingExecutives.length > 0; else noExecutives">
+        <div class="approval-item" *ngFor="let executive of pendingExecutives">
+          <div class="item-info">
+            <h4>{{ executive.name }}</h4>
+            <p>📱 {{ executive.mobile }}</p>
+            <p>🪪 Aadhar: {{ executive.aadharNo }}</p>
+            <p>🚗 License: {{ executive.licenseNo }}</p>
+          </div>
+          <div class="item-actions">
+            <button class="btn-approve" (click)="approveExecutive(executive.id)">✓ Approve</button>
+            <button class="btn-reject" (click)="rejectExecutive(executive.id, '')">✗ Reject</button>
+          </div>
+        </div>
+      </div>
+      <ng-template #noExecutives>
+        <p class="no-items">No pending delivery partner approvals</p>
+      </ng-template>
+    </div>
+
+    <!-- Recent Disputes -->
+    <div class="section">
+      <div class="section-header">
+        <h2>Recent Disputes</h2>
+        <a routerLink="/admin/disputes" class="view-all">View All</a>
+      </div>
+      <div class="dispute-list" *ngIf="recentDisputes.length > 0; else noDisputes">
+        <div class="dispute-item" *ngFor="let dispute of recentDisputes">
+          <div class="dispute-info">
+            <h4>Order #{{ dispute.orderId }}</h4>
+            <p>{{ dispute.reason }}</p>
+            <span class="status">{{ dispute.status }}</span>
+          </div>
+          <button class="btn-resolve" (click)="resolveDispute(dispute)">Resolve</button>
+        </div>
+      </div>
+      <ng-template #noDisputes>
+        <p class="no-items">No open disputes</p>
+      </ng-template>
+    </div>
+  </div>
+
+  <div class="quick-actions">
+    <a routerLink="/admin/users" class="action-btn">
+      <span class="icon">👥</span>
+      <span>Manage Users</span>
+    </a>
+    <a routerLink="/admin/homemakers" class="action-btn">
+      <span class="icon">👨‍🍳</span>
+      <span>Manage Homemakers</span>
+    </a>
+    <a routerLink="/admin/executives" class="action-btn">
+      <span class="icon">🚴</span>
+      <span>Manage Executives</span>
+    </a>
+    <a routerLink="/admin/analytics" class="action-btn">
+      <span class="icon">📊</span>
+      <span>Analytics</span>
+    </a>
+  </div>
+</div>

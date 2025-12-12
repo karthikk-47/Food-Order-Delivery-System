@@ -1,0 +1,197 @@
+<div class="add-menu-container">
+  <div class="header">
+    <h1>Create New Menu</h1>
+    <p class="subtitle">Add a new menu for your homemaking business</p>
+  </div>
+
+  <div class="form-wrapper">
+    <form [formGroup]="menuForm" (ngSubmit)="addMenu()">
+      
+      <!-- Error Message -->
+      <div class="alert alert-error" *ngIf="errorMessage">
+        <span class="icon">❌</span>
+        <span>{{ errorMessage }}</span>
+      </div>
+
+      <!-- Success Message -->
+      <div class="alert alert-success" *ngIf="successMessage">
+        <span class="icon">✅</span>
+        <span>{{ successMessage }}</span>
+      </div>
+
+      <!-- Menu Type Selection -->
+      <div class="form-section">
+        <h2>Menu Details</h2>
+        
+        <div class="form-group">
+          <label for="menuType">Menu Type <span class="required">*</span></label>
+          <select id="menuType" formControlName="menuType" class="form-control">
+            <option value="">Select Menu Type</option>
+            <option *ngFor="let type of menuTypes" [value]="type">
+              {{ type | titlecase | replace:'_':' ' }}
+            </option>
+          </select>
+          <small class="form-text" *ngIf="menuForm.get('menuType')?.hasError('required') && menuForm.get('menuType')?.touched">
+            Menu type is required
+          </small>
+        </div>
+
+        <!-- Description -->
+        <div class="form-group">
+          <label for="description">Menu Description <span class="required">*</span></label>
+          <textarea 
+            id="description" 
+            formControlName="description" 
+            class="form-control" 
+            rows="4" 
+            placeholder="Describe your menu, specialties, and what makes it unique...">
+          </textarea>
+          <small class="form-text">{{ menuForm.get('description')?.value?.length || 0 }} / 500 characters</small>
+          <small class="form-text error" *ngIf="menuForm.get('description')?.hasError('required') && menuForm.get('description')?.touched">
+            Description is required
+          </small>
+          <small class="form-text error" *ngIf="menuForm.get('description')?.hasError('minlength') && menuForm.get('description')?.touched">
+            Description must be at least 10 characters
+          </small>
+        </div>
+      </div>
+
+      <!-- Cuisine Types -->
+      <div class="form-section">
+        <h2>Cuisine Types</h2>
+        <p class="section-subtitle">Select all cuisines your menu includes</p>
+        
+        <div class="cuisine-grid">
+          <div class="cuisine-checkbox" *ngFor="let cuisine of cuisineTypes">
+            <input 
+              type="checkbox" 
+              [id]="'cuisine-' + cuisine"
+              (change)="toggleCuisineType(cuisine)"
+              [checked]="isCuisineSelected(cuisine)">
+            <label [for]="'cuisine-' + cuisine">{{ cuisine }}</label>
+          </div>
+        </div>
+
+        <small class="form-text error" *ngIf="menuForm.get('cuisineTypes')?.hasError('required') && menuForm.get('cuisineTypes')?.touched">
+          Please select at least one cuisine type
+        </small>
+      </div>
+
+      <!-- Timing & Quantity -->
+      <div class="form-section">
+        <h2>Timing & Order Limits</h2>
+        
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="estimatedPrepTime">Estimated Prep Time (minutes) <span class="required">*</span></label>
+            <input 
+              type="number" 
+              id="estimatedPrepTime" 
+              formControlName="estimatedPrepTime" 
+              class="form-control" 
+              min="1" 
+              placeholder="30">
+            <small class="form-text error" *ngIf="menuForm.get('estimatedPrepTime')?.hasError('required') && menuForm.get('estimatedPrepTime')?.touched">
+              Prep time is required
+            </small>
+          </div>
+
+          <div class="form-group">
+            <label for="minOrderQuantity">Minimum Order Quantity <span class="required">*</span></label>
+            <input 
+              type="number" 
+              id="minOrderQuantity" 
+              formControlName="minOrderQuantity" 
+              class="form-control" 
+              min="1" 
+              placeholder="1">
+            <small class="form-text error" *ngIf="menuForm.get('minOrderQuantity')?.hasError('required') && menuForm.get('minOrderQuantity')?.touched">
+              Minimum quantity is required
+            </small>
+          </div>
+
+          <div class="form-group">
+            <label for="maxOrderQuantity">Maximum Order Quantity <span class="required">*</span></label>
+            <input 
+              type="number" 
+              id="maxOrderQuantity" 
+              formControlName="maxOrderQuantity" 
+              class="form-control" 
+              min="1" 
+              placeholder="100">
+            <small class="form-text error" *ngIf="menuForm.get('maxOrderQuantity')?.hasError('required') && menuForm.get('maxOrderQuantity')?.touched">
+              Maximum quantity is required
+            </small>
+          </div>
+        </div>
+      </div>
+
+      <!-- Validity Period -->
+      <div class="form-section">
+        <h2>Validity Period</h2>
+        
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="validFrom">Valid From <span class="required">*</span></label>
+            <input 
+              type="datetime-local" 
+              id="validFrom" 
+              formControlName="validFrom" 
+              class="form-control">
+            <small class="form-text error" *ngIf="menuForm.get('validFrom')?.hasError('required') && menuForm.get('validFrom')?.touched">
+              Start date is required
+            </small>
+          </div>
+
+          <div class="form-group">
+            <label for="validUntil">Valid Until</label>
+            <input 
+              type="datetime-local" 
+              id="validUntil" 
+              formControlName="validUntil" 
+              class="form-control">
+            <small class="form-text">Leave empty for indefinite validity</small>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recurrence -->
+      <div class="form-section">
+        <h2>Recurrence Pattern</h2>
+        
+        <div class="form-group checkbox">
+          <input 
+            type="checkbox" 
+            id="isRecurring" 
+            formControlName="isRecurring"
+            (change)="onRecurringChange($event)">
+          <label for="isRecurring">This menu repeats regularly</label>
+        </div>
+
+        <div class="form-group" *ngIf="menuForm.get('isRecurring')?.value">
+          <label for="recurrencePattern">Recurrence Pattern <span class="required">*</span></label>
+          <select id="recurrencePattern" formControlName="recurrencePattern" class="form-control">
+            <option value="">Select Pattern</option>
+            <option value="DAILY">Daily</option>
+            <option value="WEEKLY">Weekly</option>
+            <option value="MONTHLY">Monthly</option>
+          </select>
+          <small class="form-text error" *ngIf="menuForm.get('recurrencePattern')?.hasError('required') && menuForm.get('recurrencePattern')?.touched">
+            Recurrence pattern is required
+          </small>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" (click)="cancel()" [disabled]="isSubmitting">
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-primary" [disabled]="!menuForm.valid || isSubmitting">
+          <span *ngIf="!isSubmitting">Create Menu</span>
+          <span *ngIf="isSubmitting">Creating...</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
