@@ -1,0 +1,16 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package com.foodapp.deliveryexecutive.wallet.dto;
+
+public class WalletDTO {
+    private double balance;
+
+    public double getBalance() {
+        return this.balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+}
