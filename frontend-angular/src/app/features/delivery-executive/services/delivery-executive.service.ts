@@ -121,10 +121,27 @@ export class DeliveryExecutiveService {
   }
 
   getProfile(executiveId: number): Observable<ExecutiveProfile> {
-    return this.http.get<ExecutiveProfile>(`${environment.apiUrl}/profile/${executiveId}`);
+    return this.http.get<ExecutiveProfile>(`${this.apiUrl}/${executiveId}/profile`);
   }
 
   updateProfile(executiveId: number, profile: Partial<ExecutiveProfile>): Observable<ExecutiveProfile> {
-    return this.http.put<ExecutiveProfile>(`${environment.apiUrl}/profile/${executiveId}`, profile);
+    return this.http.put<ExecutiveProfile>(`${this.apiUrl}/${executiveId}/profile`, profile);
+  }
+
+  // Bank Account methods
+  getBankAccounts(): Observable<any[]> {
+    return this.http.get<any[]>(`${environment.apiUrl}/bank-accounts`);
+  }
+
+  addBankAccount(bankData: any): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/bank-accounts`, bankData);
+  }
+
+  deleteBankAccount(accountId: number): Observable<any> {
+    return this.http.delete(`${environment.apiUrl}/bank-accounts/${accountId}`);
+  }
+
+  setPrimaryBankAccount(accountId: number): Observable<any> {
+    return this.http.put(`${environment.apiUrl}/bank-accounts/${accountId}/primary`, {});
   }
 }

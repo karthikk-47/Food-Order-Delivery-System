@@ -106,11 +106,13 @@ export class UserService {
     return this.http.delete(`${this.apiUrl}/addresses/${addressId}`);
   }
 
-  // Map / Reverse Geocode
+  // Map / Reverse Geocode - uses OpenStreetMap Nominatim for global coverage
   reverseGeocode(lat: number, lng: number): Observable<any> {
-    const location = `${lat},${lng}`;
-    // send as JSON object so backend can parse robustly
-    return this.http.post(`${this.apiUrl}/getAddress`, { location });
+    // Use OpenStreetMap Nominatim API (free, global coverage)
+    const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&addressdetails=1`;
+    return this.http.get(url, {
+      headers: { 'Accept': 'application/json' }
+    });
   }
 
   // Profile APIs
@@ -124,10 +126,17 @@ export class UserService {
 
   // Rating APIs
   rateOrder(ratingData: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/ratings`, ratingData);
+    const params = new URLSearchParams();
+    params.set('customerId', ratingData.customerId);
+    params.set('role', ratingData.role || 'DELIVERYEXECUTIVE');
+    params.set('stars', ratingData.stars);
+    if (ratingData.comment) {
+      params.set('comment', ratingData.comment);
+    }
+    return this.http.post(`${this.apiUrl}/ratings?${params.toString()}`, {});
   }
 
   getUserRatings(userId: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/ratings/user/${userId}`);
+    return this.http.get(`${this.apiUrl}/ratings/${userId}?role=USER`);
   }
 }

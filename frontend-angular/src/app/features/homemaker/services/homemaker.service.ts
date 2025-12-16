@@ -137,10 +137,24 @@ export class HomemakerService {
     return this.http.post(`${this.apiUrl}/homemaker/wallet/admin/withdrawal/${withdrawalId}/reject?reason=${reason}`, {});
   }
 
-  // Map / Reverse Geocode
+  // Map / Reverse Geocode - uses OpenStreetMap Nominatim for global coverage
   reverseGeocode(lat: number, lng: number): Observable<any> {
-    const location = `${lat},${lng}`;
-    // send as JSON object so backend can parse robustly
-    return this.http.post(`${this.apiUrl}/getAddress`, { location });
+    const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&addressdetails=1`;
+    return this.http.get(url, {
+      headers: { 'Accept': 'application/json' }
+    });
+  }
+
+  // Bank Account methods
+  getBankAccounts(homemakerId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/homemaker/wallet/${homemakerId}/bank-accounts`);
+  }
+
+  addBankAccount(homemakerId: number, bankData: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/homemaker/wallet/${homemakerId}/bank-accounts`, bankData);
+  }
+
+  deleteBankAccount(homemakerId: number, accountId: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/homemaker/wallet/${homemakerId}/bank-accounts/${accountId}`);
   }
 }

@@ -7,14 +7,16 @@
  */
 package com.foodapp.deliveryexecutive.map.dto;
 
-import com.foodapp.deliveryexecutive.map.dto.AddressComponent;
-import com.foodapp.deliveryexecutive.map.dto.Geometry;
-import com.foodapp.deliveryexecutive.map.dto.PlusCode;
 import java.util.List;
-import lombok.Generated;
+
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import lombok.Generated;
+
 @Component
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Result {
     private String formatted_address;
     private List<String> types;

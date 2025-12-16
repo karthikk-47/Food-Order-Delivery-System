@@ -43,7 +43,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value={"/api/webhooks/order-payment"})
-@CrossOrigin(origins={"*"})
 public class OrderPaymentWebhookController {
     private static final Logger logger = LoggerFactory.getLogger(OrderPaymentWebhookController.class);
     @Autowired

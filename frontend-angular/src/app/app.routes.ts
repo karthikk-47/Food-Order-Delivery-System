@@ -151,7 +151,7 @@ export const routes: Routes = [
       },
       {
         path: 'wallet',
-        loadComponent: () => import('./features/homemaker/wallet/wallet.component').then(m => m.WalletComponent)
+        loadComponent: () => import('./features/homemaker/wallet/homemaker-wallet.component').then(m => m.HomemakerWalletComponent)
       },
       {
         path: 'orders',

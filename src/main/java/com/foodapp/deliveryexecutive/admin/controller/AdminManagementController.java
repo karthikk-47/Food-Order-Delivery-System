@@ -53,7 +53,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value={"/api/admin/manage"})
-@CrossOrigin(origins={"*"}, maxAge=3600L)
 public class AdminManagementController {
     @Generated
     private static final Logger log = LoggerFactory.getLogger(AdminManagementController.class);

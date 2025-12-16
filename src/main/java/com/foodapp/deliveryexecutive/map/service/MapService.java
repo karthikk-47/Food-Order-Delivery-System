@@ -36,11 +36,16 @@ import org.springframework.stereotype.Service;
 public class MapService {
     private static final Logger logger = LoggerFactory.getLogger(MapService.class);
     private static final int MAX_DISTANCE_METERS = 5000;
-    private static final int REQUEST_TIMEOUT_SECONDS = 10;
+    private static final int REQUEST_TIMEOUT_SECONDS = 30;
     @Value(value="${olamap.api.key}")
     private String apiKey;
-    private final HttpClient httpClient = HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(10L)).build();
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final HttpClient httpClient = HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(30L)).build();
+    private final ObjectMapper objectMapper;
+    
+    public MapService() {
+        this.objectMapper = new ObjectMapper();
+        this.objectMapper.configure(com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    }
 
     public ReverseGeocodeResponseDTO getAddress(Point location) {
         String latlng = location.getX() + "," + location.getY();
@@ -56,7 +61,7 @@ public class MapService {
             String url = String.format("https://api.olamaps.io/places/v1/reverse-geocode?api_key=%s&latlng=%s", this.apiKey, latlng);
             String maskedKey = this.apiKey.length() > 6 ? this.apiKey.substring(0, 4) + "..." + this.apiKey.substring(this.apiKey.length() - 2) : "***";
             logger.info("Calling reverse-geocode: url={} (api_key={})", url, maskedKey);
-            HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).GET().timeout(Duration.ofSeconds(10L)).build();
+            HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).GET().timeout(Duration.ofSeconds(30L)).build();
             HttpResponse<String> response = this.httpClient.send(request, HttpResponse.BodyHandlers.ofString());
             int status = response.statusCode();
             String body = response.body();

@@ -116,8 +116,49 @@
       </div>
     </div>
 
-    <!-- User Info (Desktop) -->
-    <div class="navbar-user" *ngIf="currentUser">
+    <!-- Notification Bell & User Info (Desktop) -->
+    <div class="navbar-actions" *ngIf="currentUser">
+      <!-- Notification Bell -->
+      <div class="notification-wrapper">
+        <button class="notification-btn" (click)="toggleNotifications()">
+          <span class="bell-icon">🔔</span>
+          <span class="notification-badge" *ngIf="unreadCount > 0">
+            {{ unreadCount > 99 ? '99+' : unreadCount }}
+          </span>
+        </button>
+
+        <!-- Notification Dropdown -->
+        <div class="notification-dropdown" [class.active]="notificationOpen">
+          <div class="notification-header">
+            <h4>Notifications</h4>
+            <button class="mark-all-btn" (click)="markAllAsRead()" *ngIf="unreadCount > 0">
+              Mark all read
+            </button>
+          </div>
+          <div class="notification-list" *ngIf="notifications.length > 0; else noNotifications">
+            <div 
+              class="notification-item" 
+              *ngFor="let notification of notifications.slice(0, 5)"
+              [class.unread]="!notification.read"
+              (click)="markAsRead(notification)">
+              <span class="notification-icon">{{ getNotificationIcon(notification.type) }}</span>
+              <div class="notification-content">
+                <p class="notification-title">{{ notification.title }}</p>
+                <p class="notification-message">{{ notification.message }}</p>
+                <span class="notification-time">{{ getTimeAgo(notification.createdAt) }}</span>
+              </div>
+            </div>
+          </div>
+          <ng-template #noNotifications>
+            <div class="no-notifications">
+              <span>🔕</span>
+              <p>No notifications</p>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+
+      <!-- User Info -->
       <div class="user-info">
         <span class="user-avatar">{{ currentUser.mobile?.charAt(0)?.toUpperCase() }}</span>
         <span class="user-role">{{ getRoleLabel() }}</span>

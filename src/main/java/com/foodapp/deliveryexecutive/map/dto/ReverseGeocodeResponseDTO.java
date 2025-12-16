@@ -6,11 +6,13 @@
  */
 package com.foodapp.deliveryexecutive.map.dto;
 
-import com.foodapp.deliveryexecutive.map.dto.PlusCode;
-import com.foodapp.deliveryexecutive.map.dto.Result;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import lombok.Generated;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ReverseGeocodeResponseDTO {
     private String error_message;
     private List<String> info_messages;

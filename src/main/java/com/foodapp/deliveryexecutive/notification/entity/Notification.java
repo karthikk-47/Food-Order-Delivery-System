@@ -41,7 +41,7 @@ public class Notification {
     @Column
     private Long referenceId; // orderId, etc.
 
-    @Column
+    @Column(name = "is_read")
     private boolean read = false;
 
     @Column

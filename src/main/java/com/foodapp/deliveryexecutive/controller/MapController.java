@@ -38,7 +38,7 @@ public class MapController {
     private MapService mapService;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    @PostMapping(value={"/getAddress"})
+    @PostMapping(value={"/api/getAddress"})
     public ResponseEntity<?> getAddress(@RequestBody String body) {
         Object location;
         block6: {

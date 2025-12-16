@@ -5,11 +5,12 @@ import { FormsModule } from '@angular/forms';
 import { HomemakerService } from '../services/homemaker.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { NavbarComponent } from '../../../shared/components/navbar/navbar.component';
+import { MapPickerComponent, LocationData } from '../../../shared/components/map-picker/map-picker.component';
 
 @Component({
   selector: 'app-homemaker-profile',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule, NavbarComponent],
+  imports: [CommonModule, RouterModule, FormsModule, NavbarComponent, MapPickerComponent],
   template: `
     <app-navbar></app-navbar>
     <div class="profile-container">
@@ -77,9 +78,12 @@ import { NavbarComponent } from '../../../shared/components/navbar/navbar.compon
             <label>Address</label>
             <textarea [(ngModel)]="editForm.address" placeholder="Enter your kitchen address" rows="3"></textarea>
           </div>
-          <div class="form-group">
-            <button class="btn-save" type="button" (click)="fillAddressFromLocation()" [disabled]="locationLoading">
-              {{ locationLoading ? 'Detecting location...' : 'Use Current Location' }}
+          <div class="form-group location-buttons">
+            <button class="btn-location" type="button" (click)="fillAddressFromLocation()" [disabled]="locationLoading">
+              {{ locationLoading ? '⏳ Detecting...' : '📍 Use Current Location' }}
+            </button>
+            <button class="btn-location btn-map" type="button" (click)="showMapPicker = true">
+              🗺️ Pick on Map
             </button>
           </div>
           <div class="form-group">
@@ -112,6 +116,17 @@ import { NavbarComponent } from '../../../shared/components/navbar/navbar.compon
       </div>
       <div class="loading" *ngIf="loading">Loading profile...</div>
     </div>
+
+    <!-- Map Picker Modal -->
+    <div class="map-overlay" *ngIf="showMapPicker" (click)="showMapPicker = false"></div>
+    <app-map-picker 
+      *ngIf="showMapPicker"
+      [initialLat]="selectedLat"
+      [initialLng]="selectedLng"
+      [initialAddress]="editForm.address"
+      (locationSelected)="onLocationSelected($event)"
+      (close)="showMapPicker = false">
+    </app-map-picker>
   `,
   styles: [`
     .profile-container { padding: 24px; max-width: 800px; margin: 0 auto; }
@@ -155,6 +170,13 @@ import { NavbarComponent } from '../../../shared/components/navbar/navbar.compon
     .action-btn .icon { font-size: 24px; }
     .action-btn.logout { background: #ffebee; color: #c62828; }
     .loading { text-align: center; padding: 48px; color: #666; }
+    .location-buttons { display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn-location { padding: 10px 16px; border: 1px solid #ddd; border-radius: 6px; cursor: pointer; background: #f5f5f5; font-size: 14px; }
+    .btn-location:hover { background: #e8e8e8; }
+    .btn-location:disabled { opacity: 0.6; cursor: not-allowed; }
+    .btn-map { background: #fff3e0; border-color: #FF8A00; color: #e65100; }
+    .btn-map:hover { background: #ffe0b2; }
+    .map-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 999; }
   `]
 })
 export class HomemakerProfileComponent implements OnInit {
@@ -166,6 +188,9 @@ export class HomemakerProfileComponent implements OnInit {
   successMessage = '';
   errorMessage = '';
   locationLoading = false;
+  showMapPicker = false;
+  selectedLat = 20.5937; // Default: India center
+  selectedLng = 78.9629;
 
   constructor(
     private homemakerService: HomemakerService,
@@ -243,9 +268,11 @@ export class HomemakerProfileComponent implements OnInit {
       (position) => {
         const lat = position.coords.latitude;
         const lng = position.coords.longitude;
+        this.selectedLat = lat;
+        this.selectedLng = lng;
         this.homemakerService.reverseGeocode(lat, lng).subscribe({
           next: (response) => {
-            const formatted = response?.results?.[0]?.formatted_address || response?.plus_code?.compound_code;
+            const formatted = response?.display_name;
             if (formatted) {
               this.editForm.address = formatted;
               this.successMessage = 'Address fetched from your current location.';
@@ -269,5 +296,14 @@ export class HomemakerProfileComponent implements OnInit {
 
   logout() {
     this.authService.logout();
+  }
+
+  onLocationSelected(location: LocationData) {
+    this.editForm.address = location.address;
+    this.selectedLat = location.lat;
+    this.selectedLng = location.lng;
+    this.showMapPicker = false;
+    this.successMessage = 'Location selected from map.';
+    setTimeout(() => this.successMessage = '', 3000);
   }
 }

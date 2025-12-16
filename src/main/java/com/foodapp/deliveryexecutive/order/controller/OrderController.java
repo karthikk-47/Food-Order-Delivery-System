@@ -42,6 +42,30 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
+    @GetMapping(value={"/stats"})
+    public ResponseEntity<?> getOrderStats(@RequestParam(required = false) Long userId) {
+        java.util.Map<String, Object> stats = new java.util.HashMap<>();
+        if (userId != null) {
+            stats.put("totalOrders", orderService.getOrderCountByUserId(userId));
+            stats.put("totalSpent", orderService.getTotalSpentByUserId(userId));
+            stats.put("activeOrders", orderService.getActiveOrderCountByUserId(userId));
+        } else {
+            stats.put("totalOrders", 0L);
+            stats.put("totalSpent", 0.0);
+            stats.put("activeOrders", 0L);
+        }
+        return ResponseEntity.ok(stats);
+    }
+
+    @GetMapping(value={"/active"})
+    public ResponseEntity<List<OrderDetailsDTO>> getActiveOrdersForUser(@RequestParam(required = false) Long userId) {
+        if (userId != null) {
+            List<OrderDetailsDTO> orders = orderService.getActiveOrdersByUserId(userId);
+            return ResponseEntity.ok(orders);
+        }
+        return ResponseEntity.ok(java.util.Collections.emptyList());
+    }
+
     @GetMapping(value={"/{orderId}"})
     public ResponseEntity<OrderDetailsDTO> getOrderDetails(@PathVariable Long orderId) {
         OrderDetailsDTO order = this.orderService.getOrderDetails(orderId);

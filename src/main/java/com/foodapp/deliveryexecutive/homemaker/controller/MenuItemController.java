@@ -1,36 +1,12 @@
-/*
- * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  lombok.Generated
- *  org.slf4j.Logger
- *  org.slf4j.LoggerFactory
- *  org.springframework.beans.factory.annotation.Autowired
- *  org.springframework.http.HttpStatus
- *  org.springframework.http.HttpStatusCode
- *  org.springframework.http.ResponseEntity
- *  org.springframework.web.bind.annotation.DeleteMapping
- *  org.springframework.web.bind.annotation.GetMapping
- *  org.springframework.web.bind.annotation.PathVariable
- *  org.springframework.web.bind.annotation.PostMapping
- *  org.springframework.web.bind.annotation.PutMapping
- *  org.springframework.web.bind.annotation.RequestBody
- *  org.springframework.web.bind.annotation.RequestMapping
- *  org.springframework.web.bind.annotation.RequestParam
- *  org.springframework.web.bind.annotation.RestController
- *  org.springframework.web.multipart.MultipartFile
- */
 package com.foodapp.deliveryexecutive.homemaker.controller;
 
-import com.foodapp.deliveryexecutive.homemaker.dto.MenuItemDTO;
-import com.foodapp.deliveryexecutive.homemaker.service.MenuItemService;
 import java.util.List;
-import lombok.Generated;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,130 +17,132 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
+
+import com.foodapp.deliveryexecutive.homemaker.entity.MenuItem;
+import com.foodapp.deliveryexecutive.homemaker.repository.MenuItemRepository;
+import com.foodapp.deliveryexecutive.homemaker.repository.MenuRepository;
 
 @RestController
-@RequestMapping(value={"/api"})
+@RequestMapping("/api")
 public class MenuItemController {
-    @Generated
     private static final Logger log = LoggerFactory.getLogger(MenuItemController.class);
+
     @Autowired
-    private MenuItemService menuItemService;
+    private MenuItemRepository menuItemRepository;
+    @Autowired
+    private MenuRepository menuRepository;
 
-    @PostMapping(value={"/menu-item/create", "/menu-items"}, consumes={"application/json"})
-    public ResponseEntity<MenuItemDTO> createMenuItem(@RequestBody MenuItemDTO menuItemDTO) {
-        log.info("Creating menu item: {}", menuItemDTO.getItemName());
-        try {
-            MenuItemDTO createdItem = this.menuItemService.createMenuItem(menuItemDTO);
-            return ResponseEntity.status(HttpStatus.CREATED).body(createdItem);
-        }
-        catch (Exception e) {
-            log.error("Error creating menu item", e);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        }
-    }
-
-    @PostMapping(value={"/menu-item/create", "/menu-items"}, consumes={"multipart/form-data"})
-    public ResponseEntity<MenuItemDTO> createMenuItemWithPhoto(@RequestParam String itemName, @RequestParam String description, @RequestParam Double price, @RequestParam Double estimatedPrepTime, @RequestParam Boolean isAvailable, @RequestParam(required=false) MultipartFile photo) {
-        log.info("Creating menu item with photo: {}", itemName);
-        try {
-            MenuItemDTO createdItem = this.menuItemService.createMenuItemWithPhoto(itemName, description, price, estimatedPrepTime, isAvailable, photo);
-            return ResponseEntity.status(HttpStatus.CREATED).body(createdItem);
-        }
-        catch (Exception e) {
-            log.error("Error creating menu item with photo", e);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        }
-    }
-
-    @GetMapping(value={"/menu-items"})
-    public ResponseEntity<List<MenuItemDTO>> getMenuItems() {
+    // GET /api/menu-items - Get all menu items
+    @GetMapping("/menu-items")
+    public ResponseEntity<?> getAllMenuItems() {
         log.info("Fetching all menu items");
         try {
-            List<MenuItemDTO> items = this.menuItemService.getAllMenuItems();
+            List<MenuItem> items = menuItemRepository.findAll();
             return ResponseEntity.ok(items);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             log.error("Error fetching menu items", e);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            return ResponseEntity.ok(List.of());
         }
     }
 
-    @GetMapping(value={"/menu-item/{id}", "/menu-items/{id}"})
-    public ResponseEntity<MenuItemDTO> getMenuItem(@PathVariable Long id) {
-        log.info("Fetching menu item with ID: {}", id);
+    // GET /api/menu-items/top - Get top selling menu items
+    @GetMapping("/menu-items/top")
+    public ResponseEntity<?> getTopMenuItems(@RequestParam(defaultValue = "10") int limit) {
+        log.info("Fetching top {} menu items", limit);
         try {
-            MenuItemDTO item = this.menuItemService.getMenuItemById(id);
-            return ResponseEntity.ok(item);
-        }
-        catch (Exception e) {
-            log.error("Error fetching menu item", e);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-    }
-
-    @PutMapping(value={"/menu-item/{id}", "/menu-items/{id}"}, consumes={"application/json"})
-    public ResponseEntity<MenuItemDTO> updateMenuItem(@PathVariable Long id, @RequestBody MenuItemDTO menuItemDTO) {
-        log.info("Updating menu item with ID: {}", id);
-        try {
-            MenuItemDTO updatedItem = this.menuItemService.updateMenuItem(id, menuItemDTO);
-            return ResponseEntity.ok(updatedItem);
-        }
-        catch (Exception e) {
-            log.error("Error updating menu item", e);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            List<MenuItem> items = menuItemRepository.findAll();
+            // Sort by soldCount descending and limit
+            List<MenuItem> topItems = items.stream()
+                .filter(item -> item.getIsAvailable() != null && item.getIsAvailable())
+                .sorted((a, b) -> {
+                    int soldA = a.getSoldCount() != null ? a.getSoldCount() : 0;
+                    int soldB = b.getSoldCount() != null ? b.getSoldCount() : 0;
+                    return Integer.compare(soldB, soldA);
+                })
+                .limit(limit)
+                .collect(Collectors.toList());
+            return ResponseEntity.ok(topItems);
+        } catch (Exception e) {
+            log.error("Error fetching top menu items", e);
+            return ResponseEntity.ok(List.of());
         }
     }
 
-    @PutMapping(value={"/menu-item/{id}", "/menu-items/{id}"}, consumes={"multipart/form-data"})
-    public ResponseEntity<MenuItemDTO> updateMenuItemWithPhoto(@PathVariable Long id, @RequestParam String itemName, @RequestParam String description, @RequestParam Double price, @RequestParam Double estimatedPrepTime, @RequestParam Boolean isAvailable, @RequestParam(required=false) MultipartFile photo) {
-        log.info("Updating menu item with photo: {}", id);
-        try {
-            MenuItemDTO updatedItem = this.menuItemService.updateMenuItemWithPhoto(id, itemName, description, price, estimatedPrepTime, isAvailable, photo);
-            return ResponseEntity.ok(updatedItem);
-        }
-        catch (Exception e) {
-            log.error("Error updating menu item with photo", e);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
-    }
-
-    @PostMapping(value={"/menu-item/{id}/toggle-availability", "/menu-items/{id}/toggle-availability"})
-    public ResponseEntity<MenuItemDTO> toggleAvailability(@PathVariable Long id) {
-        log.info("Toggling availability for menu item: {}", id);
-        try {
-            MenuItemDTO item = this.menuItemService.toggleAvailability(id);
-            return ResponseEntity.ok(item);
-        }
-        catch (Exception e) {
-            log.error("Error toggling availability", e);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
-    }
-
-    @GetMapping(value={"/menu/{menuId}/items"})
-    public ResponseEntity<List<MenuItemDTO>> getMenuItems(@PathVariable Long menuId) {
+    // GET /api/menus/{menuId}/items - Get items for a specific menu
+    @GetMapping("/menus/{menuId}/items")
+    public ResponseEntity<?> getMenuItems(@PathVariable Long menuId) {
         log.info("Fetching items for menu: {}", menuId);
         try {
-            List<MenuItemDTO> items = this.menuItemService.getMenuItems(menuId);
+            List<MenuItem> items = menuItemRepository.findByMenuId(menuId);
             return ResponseEntity.ok(items);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             log.error("Error fetching menu items", e);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            return ResponseEntity.ok(List.of());
         }
     }
 
-    @DeleteMapping(value={"/menu-item/{id}", "/menu-items/{id}"})
-    public ResponseEntity<Void> deleteMenuItem(@PathVariable Long id) {
-        log.info("Deleting menu item with ID: {}", id);
+    // POST /api/menu-items - Create a new menu item
+    @PostMapping("/menu-items")
+    public ResponseEntity<?> createMenuItem(@RequestBody MenuItem item) {
+        log.info("Creating menu item: {}", item.getItemName());
         try {
-            this.menuItemService.deleteMenuItem(id);
-            return ResponseEntity.noContent().build();
+            item.setIsAvailable(true);
+            item.setSoldCount(0);
+            MenuItem saved = menuItemRepository.save(item);
+            return ResponseEntity.ok(saved);
+        } catch (Exception e) {
+            log.error("Error creating menu item", e);
+            return ResponseEntity.badRequest().body(Map.of("error", "Failed to create menu item"));
         }
-        catch (Exception e) {
+    }
+
+    // PUT /api/menu-items/{itemId} - Update a menu item
+    @PutMapping("/menu-items/{itemId}")
+    public ResponseEntity<?> updateMenuItem(@PathVariable Long itemId, @RequestBody Map<String, Object> updates) {
+        log.info("Updating menu item: {}", itemId);
+        try {
+            MenuItem item = menuItemRepository.findById(itemId).orElse(null);
+            if (item == null) {
+                return ResponseEntity.notFound().build();
+            }
+            
+            if (updates.containsKey("itemName")) {
+                item.setItemName((String) updates.get("itemName"));
+            }
+            if (updates.containsKey("description")) {
+                item.setDescription((String) updates.get("description"));
+            }
+            if (updates.containsKey("price")) {
+                item.setPrice(((Number) updates.get("price")).doubleValue());
+            }
+            if (updates.containsKey("isAvailable")) {
+                item.setIsAvailable((Boolean) updates.get("isAvailable"));
+            }
+            if (updates.containsKey("isVegetarian")) {
+                item.setIsVegetarian((Boolean) updates.get("isVegetarian"));
+            }
+            
+            MenuItem saved = menuItemRepository.save(item);
+            return ResponseEntity.ok(saved);
+        } catch (Exception e) {
+            log.error("Error updating menu item", e);
+            return ResponseEntity.badRequest().body(Map.of("error", "Failed to update menu item"));
+        }
+    }
+
+    // DELETE /api/menu-items/{itemId} - Delete a menu item
+    @DeleteMapping("/menu-items/{itemId}")
+    public ResponseEntity<?> deleteMenuItem(@PathVariable Long itemId) {
+        log.info("Deleting menu item: {}", itemId);
+        try {
+            if (!menuItemRepository.existsById(itemId)) {
+                return ResponseEntity.notFound().build();
+            }
+            menuItemRepository.deleteById(itemId);
+            return ResponseEntity.ok(Map.of("success", true, "message", "Menu item deleted"));
+        } catch (Exception e) {
             log.error("Error deleting menu item", e);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            return ResponseEntity.badRequest().body(Map.of("error", "Failed to delete menu item"));
         }
     }
 }

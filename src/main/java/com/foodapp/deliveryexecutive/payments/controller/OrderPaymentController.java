@@ -44,7 +44,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value={"/api/order-payments"})
-@CrossOrigin(origins={"*"})
 public class OrderPaymentController {
     private static final Logger logger = LoggerFactory.getLogger(OrderPaymentController.class);
     @Autowired

@@ -55,4 +55,27 @@ extends JpaRepository<Order, Long> {
     public List<Order> findActiveOrdersByExecutiveId(@Param(value="executiveId") Long var1);
 
     public boolean existsByIdAndExecutiveId(Long var1, Long var2);
+
+    // User stats queries
+    @Query(value="SELECT COUNT(o) FROM Order o WHERE o.user.id = :userId")
+    public Long countByUserId(@Param(value="userId") Long userId);
+
+    @Query(value="SELECT SUM(o.amount) FROM Order o WHERE o.user.id = :userId AND o.orderStatus = 'DELIVERED'")
+    public Double getTotalSpentByUserId(@Param(value="userId") Long userId);
+
+    @Query(value="SELECT COUNT(o) FROM Order o WHERE o.user.id = :userId AND o.orderStatus NOT IN ('DELIVERED', 'CANCELLED')")
+    public Long countActiveOrdersByUserId(@Param(value="userId") Long userId);
+
+    @Query(value="SELECT o FROM Order o WHERE o.user.id = :userId AND o.orderStatus NOT IN ('DELIVERED', 'CANCELLED') ORDER BY o.id DESC")
+    public List<Order> findActiveOrdersByUserId(@Param(value="userId") Long userId);
+
+    // Homemaker stats queries
+    @Query(value="SELECT COUNT(o) FROM Order o WHERE o.homeMaker.id = :homeMakerId")
+    public Long countByHomeMakerId(@Param(value="homeMakerId") Long homeMakerId);
+
+    @Query(value="SELECT COUNT(o) FROM Order o WHERE o.homeMaker.id = :homeMakerId AND o.orderStatus = :status")
+    public Long countByHomeMakerIdAndOrderStatus(@Param(value="homeMakerId") Long homeMakerId, @Param(value="status") String status);
+
+    @Query(value="SELECT COALESCE(SUM(o.amount), 0) FROM Order o WHERE o.homeMaker.id = :homeMakerId AND o.orderStatus = :status")
+    public Double sumAmountByHomeMakerIdAndOrderStatus(@Param(value="homeMakerId") Long homeMakerId, @Param(value="status") String status);
 }

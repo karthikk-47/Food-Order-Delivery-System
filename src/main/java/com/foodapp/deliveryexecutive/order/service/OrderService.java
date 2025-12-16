@@ -223,4 +223,81 @@ public class OrderService {
         dto.setDistance((int)order.getDistance());
         return dto;
     }
+
+    // User stats methods
+    public Long getOrderCountByUserId(Long userId) {
+        return orderRepository.countByUserId(userId);
+    }
+
+    public Double getTotalSpentByUserId(Long userId) {
+        Double total = orderRepository.getTotalSpentByUserId(userId);
+        return total != null ? total : 0.0;
+    }
+
+    public Long getActiveOrderCountByUserId(Long userId) {
+        return orderRepository.countActiveOrdersByUserId(userId);
+    }
+
+    public List<OrderDetailsDTO> getActiveOrdersByUserId(Long userId) {
+        return orderRepository.findActiveOrdersByUserId(userId).stream()
+            .map(this::mapToOrderDetailsDTO)
+            .collect(Collectors.toList());
+    }
+
+    // Homemaker order methods
+    public List<OrderDetailsDTO> getOrdersByHomemakerId(Long homemakerId) {
+        return orderRepository.findByHomeMakerId(homemakerId).stream()
+            .map(this::mapToOrderDetailsDTO)
+            .collect(Collectors.toList());
+    }
+
+    public List<OrderDetailsDTO> getRecentOrders(int limit) {
+        return orderRepository.findAll().stream()
+            .sorted((a, b) -> b.getCreatedAt().compareTo(a.getCreatedAt()))
+            .limit(limit)
+            .map(this::mapToOrderDetailsDTO)
+            .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void homemakerAcceptOrder(Long orderId) {
+        Order order = getOrderById(orderId);
+        if (order.getOrderStatus() != Order.OrderStatus.PENDING) {
+            throw new IllegalStateException("Order is not in PENDING status");
+        }
+        order.setOrderStatus(Order.OrderStatus.PREPARING);
+        orderRepository.save(order);
+        logger.info("Order {} accepted by homemaker", orderId);
+        
+        // Send notifications
+        if (orderNotificationService != null) {
+            orderNotificationService.notifyUserOrderConfirmed(order);
+            orderNotificationService.notifyUserOrderPreparing(order);
+        }
+    }
+
+    @Transactional
+    public void markOrderReady(Long orderId) {
+        Order order = getOrderById(orderId);
+        if (order.getOrderStatus() != Order.OrderStatus.PREPARING) {
+            throw new IllegalStateException("Order is not in PREPARING status");
+        }
+        order.setOrderStatus(Order.OrderStatus.PREPARED);
+        orderRepository.save(order);
+        logger.info("Order {} marked as ready", orderId);
+        
+        // Send notifications
+        if (orderNotificationService != null) {
+            orderNotificationService.notifyUserOrderReady(order);
+            // Notify nearby executives about new order ready for pickup
+            if (order.getPickupLocation() != null) {
+                orderNotificationService.notifyNearbyExecutivesNewOrder(
+                    order, 
+                    order.getPickupLocation().getX(), 
+                    order.getPickupLocation().getY(), 
+                    5.0 // 5km radius
+                );
+            }
+        }
+    }
 }

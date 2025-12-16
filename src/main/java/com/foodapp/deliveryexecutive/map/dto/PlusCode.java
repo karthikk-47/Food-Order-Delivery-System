@@ -6,8 +6,11 @@
  */
 package com.foodapp.deliveryexecutive.map.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import lombok.Generated;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PlusCode {
     private String compound_code;
     private String global_code;
