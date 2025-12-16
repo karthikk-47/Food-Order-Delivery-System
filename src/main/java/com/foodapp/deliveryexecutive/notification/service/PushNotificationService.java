@@ -14,9 +14,11 @@ public class PushNotificationService {
 
     private final FirebaseMessaging firebaseMessaging;
 
-    @Autowired(required = false)
-    public PushNotificationService(FirebaseMessaging firebaseMessaging) {
+    public PushNotificationService(@Autowired(required = false) FirebaseMessaging firebaseMessaging) {
         this.firebaseMessaging = firebaseMessaging;
+        if (firebaseMessaging == null) {
+            log.warn("FirebaseMessaging not available - push notifications will be disabled");
+        }
     }
 
     public boolean sendToToken(String token, PushNotificationRequest request) {
