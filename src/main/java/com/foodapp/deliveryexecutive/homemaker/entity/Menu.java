@@ -1,24 +1,3 @@
-/*
- * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  jakarta.persistence.CascadeType
- *  jakarta.persistence.ElementCollection
- *  jakarta.persistence.Entity
- *  jakarta.persistence.EnumType
- *  jakarta.persistence.Enumerated
- *  jakarta.persistence.GeneratedValue
- *  jakarta.persistence.GenerationType
- *  jakarta.persistence.Id
- *  jakarta.persistence.OneToMany
- *  jakarta.persistence.PrePersist
- *  jakarta.persistence.PreUpdate
- *  jakarta.persistence.Table
- *  jakarta.persistence.Transient
- *  lombok.Generated
- *  org.hibernate.annotations.Fetch
- *  org.hibernate.annotations.FetchMode
- */
 package com.foodapp.deliveryexecutive.homemaker.entity;
 
 import com.foodapp.deliveryexecutive.filestorage.model.FileInfo;

@@ -1,15 +1,3 @@
-/*
- * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  jakarta.persistence.AttributeOverride
- *  jakarta.persistence.AttributeOverrides
- *  jakarta.persistence.Column
- *  jakarta.persistence.Embedded
- *  jakarta.persistence.Entity
- *  jakarta.persistence.Id
- *  lombok.Generated
- */
 package com.foodapp.deliveryexecutive.payments.entity;
 
 import com.foodapp.deliveryexecutive.payments.entity.FundAccount;

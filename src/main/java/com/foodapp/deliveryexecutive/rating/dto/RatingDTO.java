@@ -1,6 +1,3 @@
-/*
- * Decompiled with CFR 0.152.
- */
 package com.foodapp.deliveryexecutive.rating.dto;
 
 public class RatingDTO {

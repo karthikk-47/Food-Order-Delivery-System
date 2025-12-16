@@ -1,9 +1,3 @@
-/*
- * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  org.springframework.data.geo.Point
- */
 package com.foodapp.deliveryexecutive.order.dto;
 
 import com.foodapp.deliveryexecutive.order.entity.Order;

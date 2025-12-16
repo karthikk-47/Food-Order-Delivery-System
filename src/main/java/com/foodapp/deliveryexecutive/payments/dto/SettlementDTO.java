@@ -1,6 +1,3 @@
-/*
- * Decompiled with CFR 0.152.
- */
 package com.foodapp.deliveryexecutive.payments.dto;
 
 import java.time.LocalDate;

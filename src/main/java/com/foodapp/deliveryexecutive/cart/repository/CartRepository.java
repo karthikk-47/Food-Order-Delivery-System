@@ -1,10 +1,3 @@
-/*
- * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  org.springframework.data.jpa.repository.JpaRepository
- *  org.springframework.stereotype.Repository
- */
 package com.foodapp.deliveryexecutive.cart.repository;
 
 import com.foodapp.deliveryexecutive.cart.entity.Cart;

@@ -1,6 +1,3 @@
-/*
- * Decompiled with CFR 0.152.
- */
 package com.foodapp.deliveryexecutive.map.dto;
 
 public class Step {

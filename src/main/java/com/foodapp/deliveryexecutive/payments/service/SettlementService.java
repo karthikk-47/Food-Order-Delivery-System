@@ -1,9 +1,3 @@
-/*
- * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  org.springframework.stereotype.Service
- */
 package com.foodapp.deliveryexecutive.payments.service;
 
 import com.foodapp.deliveryexecutive.payments.dto.SettlementDTO;

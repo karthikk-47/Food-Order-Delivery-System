@@ -1,11 +1,3 @@
-/*
- * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  lombok.Generated
- *  org.springframework.boot.context.properties.ConfigurationProperties
- *  org.springframework.context.annotation.Configuration
- */
 package com.foodapp.deliveryexecutive.filestorage.config;
 
 import lombok.Generated;

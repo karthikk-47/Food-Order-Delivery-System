@@ -1,18 +1,3 @@
-/*
- * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  org.springframework.beans.factory.annotation.Autowired
- *  org.springframework.context.annotation.Profile
- *  org.springframework.http.ResponseEntity
- *  org.springframework.security.authentication.UsernamePasswordAuthenticationToken
- *  org.springframework.security.core.Authentication
- *  org.springframework.security.core.userdetails.UserDetails
- *  org.springframework.web.bind.annotation.GetMapping
- *  org.springframework.web.bind.annotation.PathVariable
- *  org.springframework.web.bind.annotation.RequestMapping
- *  org.springframework.web.bind.annotation.RestController
- */
 package com.foodapp.deliveryexecutive.security;
 
 import com.foodapp.deliveryexecutive.common.entity.Actor;

@@ -20,10 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.foodapp.deliveryexecutive.user.dto.UserAddressDTO;
 import com.foodapp.deliveryexecutive.user.service.UserAddressService;
 
-/**
- * Bridge controller to handle frontend routes for user addresses.
- * Frontend calls /api/users/{id}/addresses but backend has /api/user-address/...
- */
+
 @RestController
 @RequestMapping("/api")
 public class UserAddressBridgeController {

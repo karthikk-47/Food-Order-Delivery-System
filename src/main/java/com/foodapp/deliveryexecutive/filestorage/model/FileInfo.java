@@ -1,12 +1,3 @@
-/*
- * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  jakarta.persistence.Entity
- *  jakarta.persistence.Id
- *  jakarta.persistence.Table
- *  lombok.Generated
- */
 package com.foodapp.deliveryexecutive.filestorage.model;
 
 import jakarta.persistence.Entity;

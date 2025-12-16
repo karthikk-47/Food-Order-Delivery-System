@@ -1,14 +1,3 @@
-/*
- * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  jakarta.servlet.ServletException
- *  jakarta.servlet.http.HttpServletRequest
- *  jakarta.servlet.http.HttpServletResponse
- *  org.springframework.security.core.AuthenticationException
- *  org.springframework.security.web.AuthenticationEntryPoint
- *  org.springframework.stereotype.Component
- */
 package com.foodapp.deliveryexecutive.security;
 
 import jakarta.servlet.ServletException;

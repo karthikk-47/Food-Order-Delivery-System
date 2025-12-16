@@ -1,19 +1,3 @@
-/*
- * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  jakarta.persistence.Column
- *  jakarta.persistence.ElementCollection
- *  jakarta.persistence.Entity
- *  jakarta.persistence.GeneratedValue
- *  jakarta.persistence.GenerationType
- *  jakarta.persistence.Id
- *  jakarta.persistence.JoinColumn
- *  jakarta.persistence.ManyToOne
- *  jakarta.persistence.Table
- *  jakarta.persistence.Transient
- *  lombok.Generated
- */
 package com.foodapp.deliveryexecutive.homemaker.entity;
 
 import com.foodapp.deliveryexecutive.filestorage.model.FileInfo;

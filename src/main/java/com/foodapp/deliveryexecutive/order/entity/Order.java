@@ -1,22 +1,3 @@
-/*
- * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  jakarta.persistence.Column
- *  jakarta.persistence.Entity
- *  jakarta.persistence.EnumType
- *  jakarta.persistence.Enumerated
- *  jakarta.persistence.GeneratedValue
- *  jakarta.persistence.GenerationType
- *  jakarta.persistence.Id
- *  jakarta.persistence.JoinColumn
- *  jakarta.persistence.ManyToOne
- *  jakarta.persistence.PrePersist
- *  jakarta.persistence.PreUpdate
- *  jakarta.persistence.Table
- *  jakarta.validation.constraints.NotNull
- *  org.springframework.data.geo.Point
- */
 package com.foodapp.deliveryexecutive.order.entity;
 
 import com.foodapp.deliveryexecutive.executive.entity.DeliveryExecutive;

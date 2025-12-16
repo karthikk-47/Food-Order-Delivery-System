@@ -1,11 +1,3 @@
-/*
- * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  org.springframework.security.core.GrantedAuthority
- *  org.springframework.security.core.authority.SimpleGrantedAuthority
- *  org.springframework.security.core.userdetails.UserDetails
- */
 package com.foodapp.deliveryexecutive.security;
 
 import com.foodapp.deliveryexecutive.admin.entity.Admin;

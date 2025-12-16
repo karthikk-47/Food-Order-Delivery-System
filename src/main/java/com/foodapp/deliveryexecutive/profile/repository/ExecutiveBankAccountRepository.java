@@ -1,13 +1,3 @@
-/*
- * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  org.springframework.data.jpa.repository.JpaRepository
- *  org.springframework.data.jpa.repository.Modifying
- *  org.springframework.data.jpa.repository.Query
- *  org.springframework.data.repository.query.Param
- *  org.springframework.stereotype.Repository
- */
 package com.foodapp.deliveryexecutive.profile.repository;
 
 import com.foodapp.deliveryexecutive.profile.entity.ExecutiveBankAccount;

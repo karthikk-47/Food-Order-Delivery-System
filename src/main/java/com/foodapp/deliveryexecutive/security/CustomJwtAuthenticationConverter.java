@@ -1,15 +1,3 @@
-/*
- * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  org.springframework.core.convert.converter.Converter
- *  org.springframework.security.authentication.AbstractAuthenticationToken
- *  org.springframework.security.core.GrantedAuthority
- *  org.springframework.security.core.authority.SimpleGrantedAuthority
- *  org.springframework.security.oauth2.jwt.Jwt
- *  org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken
- *  org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter
- */
 package com.foodapp.deliveryexecutive.security;
 
 import java.util.Collection;

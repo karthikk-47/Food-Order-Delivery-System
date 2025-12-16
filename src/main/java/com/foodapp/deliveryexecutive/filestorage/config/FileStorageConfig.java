@@ -1,13 +1,3 @@
-/*
- * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  org.apache.commons.net.ftp.FTPClient
- *  org.springframework.boot.context.properties.EnableConfigurationProperties
- *  org.springframework.context.annotation.Bean
- *  org.springframework.context.annotation.Configuration
- *  org.springframework.scheduling.annotation.EnableAsync
- */
 package com.foodapp.deliveryexecutive.filestorage.config;
 
 import com.foodapp.deliveryexecutive.filestorage.config.FtpConfigProperties;

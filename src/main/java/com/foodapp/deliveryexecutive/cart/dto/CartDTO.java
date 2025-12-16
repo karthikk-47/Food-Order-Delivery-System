@@ -1,9 +1,3 @@
-/*
- * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  lombok.Generated
- */
 package com.foodapp.deliveryexecutive.cart.dto;
 
 import com.foodapp.deliveryexecutive.cart.dto.CartItemDTO;

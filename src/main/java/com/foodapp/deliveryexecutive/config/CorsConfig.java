@@ -1,11 +1,3 @@
-/*
- * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  org.springframework.context.annotation.Configuration
- *  org.springframework.web.servlet.config.annotation.CorsRegistry
- *  org.springframework.web.servlet.config.annotation.WebMvcConfigurer
- */
 package com.foodapp.deliveryexecutive.config;
 
 import org.springframework.context.annotation.Configuration;

@@ -1,15 +1,3 @@
-/*
- * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  lombok.Generated
- *  org.apache.commons.net.ftp.FTPClient
- *  org.slf4j.Logger
- *  org.slf4j.LoggerFactory
- *  org.springframework.scheduling.annotation.Async
- *  org.springframework.stereotype.Service
- *  org.springframework.web.multipart.MultipartFile
- */
 package com.foodapp.deliveryexecutive.filestorage.service.impl;
 
 import com.foodapp.deliveryexecutive.filestorage.config.FtpConfigProperties;
@@ -48,9 +36,7 @@ implements FileStorageService {
         }
     }
 
-    /*
-     * WARNING - Removed try catching itself - possible behaviour change.
-     */
+    
     @Override
     public FileInfo storeFile(InputStream inputStream, String fileName, String contentType, long size, String entityType, String entityId, boolean isPrimary) throws IOException {
         FTPClient ftpClient = this.connectFtp();
@@ -95,9 +81,7 @@ implements FileStorageService {
         return this.fileStorageRepository.findById(fileId).orElse(null);
     }
 
-    /*
-     * WARNING - Removed try catching itself - possible behaviour change.
-     */
+    
     @Override
     public InputStream getFileAsStream(String fileId) throws IOException {
         FileInfo fileInfo = this.getFile(fileId);
@@ -130,9 +114,7 @@ implements FileStorageService {
         return primaryFiles.isEmpty() ? null : primaryFiles.get(0);
     }
 
-    /*
-     * WARNING - Removed try catching itself - possible behaviour change.
-     */
+    
     @Override
     @Async
     public void deleteFile(String fileId) {

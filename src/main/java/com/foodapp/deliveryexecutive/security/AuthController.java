@@ -1,24 +1,3 @@
-/*
- * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  jakarta.validation.Valid
- *  org.slf4j.Logger
- *  org.slf4j.LoggerFactory
- *  org.springframework.beans.factory.annotation.Autowired
- *  org.springframework.http.ResponseEntity
- *  org.springframework.security.authentication.AuthenticationManager
- *  org.springframework.security.authentication.UsernamePasswordAuthenticationToken
- *  org.springframework.security.core.Authentication
- *  org.springframework.security.core.context.SecurityContextHolder
- *  org.springframework.security.crypto.password.PasswordEncoder
- *  org.springframework.web.bind.annotation.GetMapping
- *  org.springframework.web.bind.annotation.PostMapping
- *  org.springframework.web.bind.annotation.RequestBody
- *  org.springframework.web.bind.annotation.RequestHeader
- *  org.springframework.web.bind.annotation.RequestMapping
- *  org.springframework.web.bind.annotation.RestController
- */
 package com.foodapp.deliveryexecutive.security;
 
 import com.foodapp.deliveryexecutive.common.entity.Actor;

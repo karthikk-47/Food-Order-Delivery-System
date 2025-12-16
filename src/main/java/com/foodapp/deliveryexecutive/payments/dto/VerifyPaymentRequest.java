@@ -1,10 +1,3 @@
-/*
- * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  jakarta.validation.constraints.NotBlank
- *  lombok.Generated
- */
 package com.foodapp.deliveryexecutive.payments.dto;
 
 import jakarta.validation.constraints.NotBlank;

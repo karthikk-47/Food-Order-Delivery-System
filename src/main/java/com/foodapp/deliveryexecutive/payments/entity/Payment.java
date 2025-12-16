@@ -1,20 +1,3 @@
-/*
- * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  jakarta.persistence.Entity
- *  jakarta.persistence.EnumType
- *  jakarta.persistence.Enumerated
- *  jakarta.persistence.GeneratedValue
- *  jakarta.persistence.GenerationType
- *  jakarta.persistence.Id
- *  jakarta.persistence.JoinColumn
- *  jakarta.persistence.ManyToOne
- *  jakarta.persistence.Table
- *  lombok.Generated
- *  org.hibernate.annotations.CreationTimestamp
- *  org.hibernate.annotations.UpdateTimestamp
- */
 package com.foodapp.deliveryexecutive.payments.entity;
 
 import com.foodapp.deliveryexecutive.order.entity.Order;

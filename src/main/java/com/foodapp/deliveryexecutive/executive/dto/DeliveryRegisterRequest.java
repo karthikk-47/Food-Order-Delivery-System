@@ -1,12 +1,3 @@
-/*
- * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  jakarta.validation.constraints.Email
- *  jakarta.validation.constraints.NotBlank
- *  jakarta.validation.constraints.Pattern
- *  jakarta.validation.constraints.Size
- */
 package com.foodapp.deliveryexecutive.executive.dto;
 
 import jakarta.validation.constraints.Email;

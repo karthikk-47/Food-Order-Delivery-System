@@ -1,16 +1,3 @@
-/*
- * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  org.slf4j.Logger
- *  org.slf4j.LoggerFactory
- *  org.springframework.http.HttpStatus
- *  org.springframework.http.HttpStatusCode
- *  org.springframework.http.ResponseEntity
- *  org.springframework.web.bind.annotation.ControllerAdvice
- *  org.springframework.web.bind.annotation.ExceptionHandler
- *  org.springframework.web.context.request.WebRequest
- */
 package com.foodapp.deliveryexecutive.common.exception;
 
 import com.foodapp.deliveryexecutive.common.exception.ErrorResponse;

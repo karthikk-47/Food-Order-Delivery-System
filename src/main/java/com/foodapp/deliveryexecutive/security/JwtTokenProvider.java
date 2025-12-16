@@ -1,20 +1,3 @@
-/*
- * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  io.jsonwebtoken.Claims
- *  io.jsonwebtoken.JwtException
- *  io.jsonwebtoken.Jwts
- *  io.jsonwebtoken.SignatureAlgorithm
- *  io.jsonwebtoken.security.Keys
- *  org.springframework.beans.factory.annotation.Value
- *  org.springframework.security.authentication.UsernamePasswordAuthenticationToken
- *  org.springframework.security.core.Authentication
- *  org.springframework.security.core.GrantedAuthority
- *  org.springframework.security.core.authority.SimpleGrantedAuthority
- *  org.springframework.security.core.userdetails.User
- *  org.springframework.stereotype.Component
- */
 package com.foodapp.deliveryexecutive.security;
 
 import io.jsonwebtoken.Claims;

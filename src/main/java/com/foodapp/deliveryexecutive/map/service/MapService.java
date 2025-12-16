@@ -1,14 +1,3 @@
-/*
- * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  com.fasterxml.jackson.databind.ObjectMapper
- *  org.slf4j.Logger
- *  org.slf4j.LoggerFactory
- *  org.springframework.beans.factory.annotation.Value
- *  org.springframework.data.geo.Point
- *  org.springframework.stereotype.Service
- */
 package com.foodapp.deliveryexecutive.map.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;

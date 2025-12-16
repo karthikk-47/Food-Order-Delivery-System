@@ -1,6 +1,3 @@
-/*
- * Decompiled with CFR 0.152.
- */
 package com.foodapp.deliveryexecutive.map.dto;
 
 import com.foodapp.deliveryexecutive.map.dto.Leg;

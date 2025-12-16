@@ -1,6 +1,3 @@
-/*
- * Decompiled with CFR 0.152.
- */
 package com.foodapp.deliveryexecutive.order.service;
 
 import com.foodapp.deliveryexecutive.order.entity.Order;

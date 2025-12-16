@@ -1,26 +1,3 @@
-/*
- * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  jakarta.servlet.Filter
- *  org.springframework.context.annotation.Bean
- *  org.springframework.context.annotation.Configuration
- *  org.springframework.security.authentication.AuthenticationManager
- *  org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration
- *  org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
- *  org.springframework.security.config.annotation.web.builders.HttpSecurity
- *  org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
- *  org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer$AuthorizedUrl
- *  org.springframework.security.config.http.SessionCreationPolicy
- *  org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
- *  org.springframework.security.crypto.password.PasswordEncoder
- *  org.springframework.security.web.AuthenticationEntryPoint
- *  org.springframework.security.web.SecurityFilterChain
- *  org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
- *  org.springframework.web.cors.CorsConfiguration
- *  org.springframework.web.cors.CorsConfigurationSource
- *  org.springframework.web.cors.UrlBasedCorsConfigurationSource
- */
 package com.foodapp.deliveryexecutive.security;
 
 import org.springframework.context.annotation.Bean;

@@ -1,10 +1,3 @@
-/*
- * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  jakarta.persistence.Embeddable
- *  lombok.Generated
- */
 package com.foodapp.deliveryexecutive.payments.entity;
 
 import jakarta.persistence.Embeddable;

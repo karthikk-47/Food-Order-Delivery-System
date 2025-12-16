@@ -5,10 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
-/**
- * Embeddable class for Razorpay bank account details.
- * Used in FundAccount and CreateFundAccountRequest for Razorpay API integration.
- */
+
 @Embeddable
 @Data
 @NoArgsConstructor

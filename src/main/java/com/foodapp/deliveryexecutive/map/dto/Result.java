@@ -1,10 +1,3 @@
-/*
- * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  lombok.Generated
- *  org.springframework.stereotype.Component
- */
 package com.foodapp.deliveryexecutive.map.dto;
 
 import java.util.List;

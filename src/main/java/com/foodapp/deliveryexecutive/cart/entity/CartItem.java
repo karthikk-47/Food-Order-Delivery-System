@@ -1,18 +1,3 @@
-/*
- * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  jakarta.persistence.Column
- *  jakarta.persistence.Entity
- *  jakarta.persistence.GeneratedValue
- *  jakarta.persistence.GenerationType
- *  jakarta.persistence.Id
- *  jakarta.persistence.JoinColumn
- *  jakarta.persistence.ManyToOne
- *  jakarta.persistence.PrePersist
- *  jakarta.persistence.Table
- *  lombok.Generated
- */
 package com.foodapp.deliveryexecutive.cart.entity;
 
 import com.foodapp.deliveryexecutive.cart.entity.Cart;

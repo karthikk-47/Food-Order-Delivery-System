@@ -1,9 +1,3 @@
-/*
- * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  org.springframework.web.multipart.MultipartFile
- */
 package com.foodapp.deliveryexecutive.filestorage.service;
 
 import com.foodapp.deliveryexecutive.filestorage.model.FileInfo;

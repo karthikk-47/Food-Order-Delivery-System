@@ -1,6 +1,3 @@
-/*
- * Decompiled with CFR 0.152.
- */
 package com.foodapp.deliveryexecutive.payments.dto;
 
 public static class RazorpayWebhookEvent.PayoutPayload.StatusDetails {

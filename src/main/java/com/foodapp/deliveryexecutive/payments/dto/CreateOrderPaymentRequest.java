@@ -1,13 +1,3 @@
-/*
- * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  jakarta.validation.constraints.DecimalMin
- *  jakarta.validation.constraints.Email
- *  jakarta.validation.constraints.NotNull
- *  jakarta.validation.constraints.Pattern
- *  lombok.Generated
- */
 package com.foodapp.deliveryexecutive.payments.dto;
 
 import jakarta.validation.constraints.DecimalMin;

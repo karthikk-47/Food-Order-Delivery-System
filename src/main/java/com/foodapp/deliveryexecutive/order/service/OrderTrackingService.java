@@ -1,11 +1,3 @@
-/*
- * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  org.springframework.beans.factory.annotation.Autowired
- *  org.springframework.messaging.simp.SimpMessagingTemplate
- *  org.springframework.stereotype.Service
- */
 package com.foodapp.deliveryexecutive.order.service;
 
 import com.foodapp.deliveryexecutive.order.dto.LocationUpdateDTO;
