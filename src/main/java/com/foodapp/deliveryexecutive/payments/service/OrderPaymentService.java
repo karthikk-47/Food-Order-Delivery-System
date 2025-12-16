@@ -14,6 +14,7 @@ package com.foodapp.deliveryexecutive.payments.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.foodapp.deliveryexecutive.notification.service.OrderNotificationService;
 import com.foodapp.deliveryexecutive.order.entity.Order;
 import com.foodapp.deliveryexecutive.order.repository.OrderRepository;
 import com.foodapp.deliveryexecutive.payments.dto.CreateOrderPaymentRequest;
@@ -44,6 +45,8 @@ public class OrderPaymentService {
     private OrderRepository orderRepository;
     @Autowired
     private PaymentsApi paymentsApi;
+    @Autowired(required = false)
+    private OrderNotificationService orderNotificationService;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Transactional
@@ -167,10 +170,22 @@ public class OrderPaymentService {
             if (success) {
                 order.setPaymentMethod("ONLINE");
                 order.setOrderStatus(Order.OrderStatus.PREPARING);
+                this.orderRepository.save(order);
+                
+                // Send notifications for successful payment
+                if (orderNotificationService != null) {
+                    orderNotificationService.notifyUserOrderPlaced(order);
+                    orderNotificationService.notifyHomemakerNewOrder(order);
+                }
             } else {
                 order.setOrderStatus(Order.OrderStatus.CANCELLED);
+                this.orderRepository.save(order);
+                
+                // Send cancellation notification
+                if (orderNotificationService != null) {
+                    orderNotificationService.notifyUserOrderCancelled(order, "Payment failed");
+                }
             }
-            this.orderRepository.save(order);
         }
     }
 

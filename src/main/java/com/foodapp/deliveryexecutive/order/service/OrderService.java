@@ -13,6 +13,7 @@ package com.foodapp.deliveryexecutive.order.service;
 import com.foodapp.deliveryexecutive.common.exception.ResourceNotFoundException;
 import com.foodapp.deliveryexecutive.executive.entity.DeliveryExecutive;
 import com.foodapp.deliveryexecutive.executive.repository.DeliveryExecutiveRepository;
+import com.foodapp.deliveryexecutive.notification.service.OrderNotificationService;
 import com.foodapp.deliveryexecutive.order.dto.OrderDetailsDTO;
 import com.foodapp.deliveryexecutive.order.dto.OrderSummaryDTO;
 import com.foodapp.deliveryexecutive.order.entity.Order;
@@ -32,6 +33,8 @@ public class OrderService {
     private OrderRepository orderRepository;
     @Autowired
     private DeliveryExecutiveRepository deliveryExecutiveRepository;
+    @Autowired(required = false)
+    private OrderNotificationService orderNotificationService;
 
     public Order getOrderById(Long orderId) {
         return (Order)this.orderRepository.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Order not found with ID: " + orderId));
@@ -80,6 +83,11 @@ public class OrderService {
         order.setOrderStatus(Order.OrderStatus.ACCEPTED);
         this.orderRepository.save(order);
         logger.info("Order {} accepted by executive {}", orderId, executiveId);
+        
+        // Send notifications
+        if (orderNotificationService != null) {
+            orderNotificationService.notifyExecutiveOrderAssigned(order);
+        }
         return order;
     }
 
@@ -95,6 +103,12 @@ public class OrderService {
         order.setOrderStatus(Order.OrderStatus.OUTFORDELIVERY);
         this.orderRepository.save(order);
         logger.info("Order {} picked up by executive {}", orderId, executiveId);
+        
+        // Send notifications
+        if (orderNotificationService != null) {
+            orderNotificationService.notifyUserOrderPickedUp(order);
+            orderNotificationService.notifyUserOrderOutForDelivery(order);
+        }
         return order;
     }
 
@@ -113,16 +127,57 @@ public class OrderService {
         order.setOrderStatus(Order.OrderStatus.DELIVERED);
         this.orderRepository.save(order);
         logger.info("Order {} delivered by executive {}", orderId, executiveId);
+        
+        // Send notifications
+        if (orderNotificationService != null) {
+            orderNotificationService.notifyUserOrderDelivered(order);
+        }
         return order;
     }
 
     @Transactional
     public Order updateOrderStatus(Long orderId, Order.OrderStatus status) {
         Order order = this.getOrderById(orderId);
+        Order.OrderStatus previousStatus = order.getOrderStatus();
         order.setOrderStatus(status);
         this.orderRepository.save(order);
         logger.info("Order {} status updated to {}", orderId, status);
+        
+        // Send notifications based on status change
+        if (orderNotificationService != null) {
+            sendStatusChangeNotifications(order, previousStatus, status);
+        }
         return order;
+    }
+    
+    private void sendStatusChangeNotifications(Order order, Order.OrderStatus previousStatus, Order.OrderStatus newStatus) {
+        switch (newStatus) {
+            case PREPARING:
+                orderNotificationService.notifyUserOrderConfirmed(order);
+                orderNotificationService.notifyUserOrderPreparing(order);
+                break;
+            case PREPARED:
+                orderNotificationService.notifyUserOrderReady(order);
+                if (order.getExecutive() != null) {
+                    orderNotificationService.notifyExecutiveOrderReady(order);
+                }
+                // Notify nearby executives about new order ready for pickup
+                if (order.getPickupLocation() != null) {
+                    orderNotificationService.notifyNearbyExecutivesNewOrder(
+                        order, 
+                        order.getPickupLocation().getX(), 
+                        order.getPickupLocation().getY(), 
+                        5.0 // 5km radius
+                    );
+                }
+                break;
+            case CANCELLED:
+                orderNotificationService.notifyUserOrderCancelled(order, null);
+                orderNotificationService.notifyHomemakerOrderCancelled(order, null);
+                break;
+            default:
+                break;
+        }
     }
 
     public Long getDeliveredOrderCount(Long executiveId) {

@@ -47,7 +47,7 @@ export class AdminService {
 
   // Analytics
   getDashboardStats(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/analytics/dashboard`);
+    return this.http.get<any>(`${this.apiUrl}/analytics/overview`);
   }
 
   getRevenueStats(period: string): Observable<any> {
@@ -247,6 +247,42 @@ export class AdminService {
 
   getOrderAnalytics(): Observable<any> {
     return this.http.get<any>(`${this.analyticsUrl}/orders`);
+  }
+
+  // ============ ACTIVITY LOGS ============
+
+  getLogs(page: number = 0, size: number = 50, level?: string, category?: string, search?: string): Observable<any> {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+    
+    if (level) {
+      params = params.set('level', level);
+    }
+    if (category) {
+      params = params.set('category', category);
+    }
+    if (search) {
+      params = params.set('search', search);
+    }
+    
+    return this.http.get<any>(`${this.apiUrl}/logs`, { params });
+  }
+
+  getLogStatistics(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/logs/statistics`);
+  }
+
+  getLogLevels(): Observable<string[]> {
+    return this.http.get<string[]>(`${this.apiUrl}/logs/levels`);
+  }
+
+  getLogCategories(): Observable<string[]> {
+    return this.http.get<string[]>(`${this.apiUrl}/logs/categories`);
+  }
+
+  cleanupLogs(daysToKeep: number = 30): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/logs/cleanup?daysToKeep=${daysToKeep}`);
   }
 }
 

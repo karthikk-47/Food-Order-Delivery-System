@@ -67,6 +67,38 @@ export const routes: Routes = [
     ]
   },
 
+  // Forgot Password Routes
+  {
+    path: 'forgot-password',
+    children: [
+      {
+        path: '',
+        redirectTo: '/forgot-password/user',
+        pathMatch: 'full'
+      },
+      {
+        path: 'user',
+        loadComponent: () => import('./features/auth/forgot-password/forgot-password.component').then(m => m.ForgotPasswordComponent),
+        data: { role: 'USER', title: 'Reset Password', color: '#071627' }
+      },
+      {
+        path: 'homemaker',
+        loadComponent: () => import('./features/auth/forgot-password/forgot-password.component').then(m => m.ForgotPasswordComponent),
+        data: { role: 'HOMEMAKER', title: 'Reset Password', color: '#FF8A00' }
+      },
+      {
+        path: 'executive',
+        loadComponent: () => import('./features/auth/forgot-password/forgot-password.component').then(m => m.ForgotPasswordComponent),
+        data: { role: 'DELIVERYEXECUTIVE', title: 'Reset Password', color: '#00c853' }
+      },
+      {
+        path: 'admin',
+        loadComponent: () => import('./features/auth/forgot-password/forgot-password.component').then(m => m.ForgotPasswordComponent),
+        data: { role: 'ADMIN', title: 'Reset Password', color: '#9B59B6' }
+      }
+    ]
+  },
+
   // Dev Login (for testing dashboards without authentication)
   {
     path: 'dev-login',
@@ -222,6 +254,14 @@ export const routes: Routes = [
             pathMatch: 'full'
           }
         ]
+      },
+      {
+        path: 'analytics',
+        loadComponent: () => import('./features/admin/dashboard/analytics-dashboard.component').then(m => m.AnalyticsDashboardComponent)
+      },
+      {
+        path: 'logs',
+        loadComponent: () => import('./features/admin/dashboard/logs-dashboard.component').then(m => m.LogsDashboardComponent)
       },
       {
         path: '',

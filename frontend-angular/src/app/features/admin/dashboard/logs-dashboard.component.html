@@ -1,0 +1,151 @@
+<app-navbar></app-navbar>
+
+<div class="logs-container">
+  <div class="header">
+    <div class="header-content">
+      <h1>📋 Activity Logs</h1>
+      <p class="subtitle">Monitor system activity and events</p>
+    </div>
+    <button class="btn-refresh" (click)="refreshLogs()">
+      🔄 Refresh
+    </button>
+  </div>
+
+  <!-- Statistics Cards -->
+  <div class="stats-cards">
+    <div class="stat-card">
+      <div class="stat-icon">📊</div>
+      <div class="stat-content">
+        <h3>{{ statistics.totalLogs || 0 }}</h3>
+        <p>Total Logs</p>
+      </div>
+    </div>
+    <div class="stat-card error">
+      <div class="stat-icon">❌</div>
+      <div class="stat-content">
+        <h3>{{ statistics.errorsLast24h || 0 }}</h3>
+        <p>Errors (24h)</p>
+      </div>
+    </div>
+    <div class="stat-card warning">
+      <div class="stat-icon">⚠️</div>
+      <div class="stat-content">
+        <h3>{{ statistics.warningsLast24h || 0 }}</h3>
+        <p>Warnings (24h)</p>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">📅</div>
+      <div class="stat-content">
+        <h3>{{ statistics.errorsLastWeek || 0 }}</h3>
+        <p>Errors (Week)</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="filters-section">
+    <div class="filter-group">
+      <label>Level</label>
+      <select [(ngModel)]="selectedLevel" (change)="applyFilters()">
+        <option value="">All Levels</option>
+        <option *ngFor="let level of levels" [value]="level">{{ level }}</option>
+      </select>
+    </div>
+    
+    <div class="filter-group">
+      <label>Category</label>
+      <select [(ngModel)]="selectedCategory" (change)="applyFilters()">
+        <option value="">All Categories</option>
+        <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+      </select>
+    </div>
+    
+    <div class="filter-group search">
+      <label>Search</label>
+      <input 
+        type="text" 
+        [(ngModel)]="searchQuery" 
+        placeholder="Search logs..."
+        (keyup.enter)="applyFilters()">
+    </div>
+    
+    <button class="btn-filter" (click)="applyFilters()">Apply</button>
+    <button class="btn-clear" (click)="clearFilters()">Clear</button>
+  </div>
+
+  <!-- Error Message -->
+  <div class="alert alert-error" *ngIf="error">
+    <span>❌</span> {{ error }}
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="loading-container">
+    <div class="spinner"></div>
+    <p>Loading logs...</p>
+  </div>
+
+  <!-- Logs Table -->
+  <div *ngIf="!loading" class="logs-table-container">
+    <table class="logs-table">
+      <thead>
+        <tr>
+          <th>Timestamp</th>
+          <th>Level</th>
+          <th>Category</th>
+          <th>Action</th>
+          <th>Message</th>
+          <th>User</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let log of logs" [class]="getLevelClass(log.level)">
+          <td class="timestamp">{{ formatTimestamp(log.timestamp) }}</td>
+          <td>
+            <span class="level-badge" [class]="getLevelClass(log.level)">
+              {{ log.level }}
+            </span>
+          </td>
+          <td>
+            <span class="category-badge">
+              {{ getCategoryIcon(log.category) }} {{ log.category }}
+            </span>
+          </td>
+          <td class="action">{{ log.action }}</td>
+          <td class="message">{{ log.message }}</td>
+          <td class="user">
+            <span *ngIf="log.userMobile">{{ log.userMobile }}</span>
+            <span *ngIf="log.userRole" class="role-badge">{{ log.userRole }}</span>
+          </td>
+        </tr>
+        <tr *ngIf="logs.length === 0">
+          <td colspan="6" class="no-data">No logs found</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pagination -->
+  <div class="pagination" *ngIf="totalPages > 1">
+    <button (click)="prevPage()" [disabled]="currentPage === 0">
+      ← Previous
+    </button>
+    
+    <div class="page-numbers">
+      <button 
+        *ngFor="let page of getPageNumbers()" 
+        (click)="goToPage(page)"
+        [class.active]="page === currentPage">
+        {{ page + 1 }}
+      </button>
+    </div>
+    
+    <button (click)="nextPage()" [disabled]="currentPage >= totalPages - 1">
+      Next →
+    </button>
+    
+    <span class="page-info">
+      Page {{ currentPage + 1 }} of {{ totalPages }} ({{ totalElements }} total)
+    </span>
+  </div>
+</div>

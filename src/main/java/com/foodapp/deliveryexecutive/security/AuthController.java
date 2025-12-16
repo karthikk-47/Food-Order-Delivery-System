@@ -26,8 +26,10 @@ import com.foodapp.deliveryexecutive.executive.entity.DeliveryExecutive;
 import com.foodapp.deliveryexecutive.executive.repository.DeliveryExecutiveRepository;
 import com.foodapp.deliveryexecutive.homemaker.entity.HomeMaker;
 import com.foodapp.deliveryexecutive.homemaker.repository.HomeMakerRepository;
-import com.foodapp.deliveryexecutive.security.JwtTokenProvider;
-import com.foodapp.deliveryexecutive.security.UserPrincipal;
+import com.foodapp.deliveryexecutive.security.dto.ForgotPasswordRequest;
+import com.foodapp.deliveryexecutive.security.dto.ResetPasswordRequest;
+import com.foodapp.deliveryexecutive.security.dto.VerifyOTPRequest;
+import com.foodapp.deliveryexecutive.security.service.PasswordResetService;
 import com.foodapp.deliveryexecutive.user.entity.User;
 import com.foodapp.deliveryexecutive.user.repository.UserRepository;
 import jakarta.validation.Valid;
@@ -63,6 +65,8 @@ public class AuthController {
     private HomeMakerRepository homeMakerRepository;
     @Autowired
     private DeliveryExecutiveRepository deliveryExecutiveRepository;
+    @Autowired
+    private PasswordResetService passwordResetService;
 
     @PostMapping(value={"/login"})
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
@@ -151,6 +155,60 @@ public class AuthController {
         catch (Exception e) {
             return ResponseEntity.badRequest().body(new ApiResponse(false, "Token validation failed"));
         }
+    }
+
+    @PostMapping(value={"/forgot-password"})
+    public ResponseEntity<?> forgotPassword(@Valid @RequestBody ForgotPasswordRequest request) {
+        logger.info("Forgot password request for mobile: {}", request.getMobile());
+        PasswordResetService.PasswordResetResult result = passwordResetService.requestPasswordReset(request.getMobile());
+        
+        if (result.success()) {
+            // In development, return OTP for testing. In production, remove this.
+            return ResponseEntity.ok(new ForgotPasswordResponse(true, result.message(), result.token()));
+        }
+        return ResponseEntity.badRequest().body(new ApiResponse(false, result.message()));
+    }
+
+    @PostMapping(value={"/verify-otp"})
+    public ResponseEntity<?> verifyOTP(@Valid @RequestBody VerifyOTPRequest request) {
+        logger.info("Verify OTP request for mobile: {}", request.getMobile());
+        PasswordResetService.PasswordResetResult result = passwordResetService.verifyOTP(request.getMobile(), request.getOtp());
+        
+        if (result.success()) {
+            return ResponseEntity.ok(new ApiResponse(true, result.message()));
+        }
+        return ResponseEntity.badRequest().body(new ApiResponse(false, result.message()));
+    }
+
+    @PostMapping(value={"/reset-password"})
+    public ResponseEntity<?> resetPassword(@Valid @RequestBody ResetPasswordRequest request) {
+        logger.info("Reset password request for mobile: {}", request.getMobile());
+        PasswordResetService.PasswordResetResult result = passwordResetService.verifyOTPAndResetPassword(
+                request.getMobile(), request.getOtp(), request.getNewPassword());
+        
+        if (result.success()) {
+            return ResponseEntity.ok(new ApiResponse(true, result.message()));
+        }
+        return ResponseEntity.badRequest().body(new ApiResponse(false, result.message()));
+    }
+
+    public static class ForgotPasswordResponse {
+        private Boolean success;
+        private String message;
+        private String otp; // Only for development/testing
+
+        public ForgotPasswordResponse(Boolean success, String message, String otp) {
+            this.success = success;
+            this.message = message;
+            this.otp = otp;
+        }
+
+        public Boolean getSuccess() { return success; }
+        public void setSuccess(Boolean success) { this.success = success; }
+        public String getMessage() { return message; }
+        public void setMessage(String message) { this.message = message; }
+        public String getOtp() { return otp; }
+        public void setOtp(String otp) { this.otp = otp; }
     }
 
     public static class LoginRequest {

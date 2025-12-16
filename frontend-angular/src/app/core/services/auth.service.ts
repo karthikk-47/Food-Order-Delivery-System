@@ -197,4 +197,17 @@ export class AuthService {
       'Authorization': token ? `Bearer ${token}` : ''
     });
   }
+
+  // Forgot Password Methods
+  forgotPassword(mobile: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/auth/forgot-password`, { mobile });
+  }
+
+  verifyOTP(mobile: string, otp: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/auth/verify-otp`, { mobile, otp });
+  }
+
+  resetPassword(mobile: string, otp: string, newPassword: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/auth/reset-password`, { mobile, otp, newPassword });
+  }
 }

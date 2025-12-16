@@ -169,4 +169,14 @@ export class LoginComponent implements OnInit {
     };
     return routes[this.roleConfig.role] || '/signup/user';
   }
+
+  getForgotPasswordRoute(): string {
+    const routes: { [key: string]: string } = {
+      'USER': '/forgot-password/user',
+      'HOMEMAKER': '/forgot-password/homemaker',
+      'DELIVERYEXECUTIVE': '/forgot-password/executive',
+      'ADMIN': '/forgot-password/admin'
+    };
+    return routes[this.roleConfig.role] || '/forgot-password/user';
+  }
 }

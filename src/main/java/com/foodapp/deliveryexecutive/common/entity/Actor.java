@@ -1,105 +1,34 @@
-/*
- * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  jakarta.persistence.Entity
- *  jakarta.persistence.GeneratedValue
- *  jakarta.persistence.GenerationType
- *  jakarta.persistence.Id
- *  jakarta.persistence.Inheritance
- *  jakarta.persistence.InheritanceType
- *  lombok.Generated
- */
 package com.foodapp.deliveryexecutive.common.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
-import lombok.Generated;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
 @Entity
-@Inheritance(strategy=InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.JOINED)
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Actor {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
+    @Enumerated(EnumType.STRING)
     private Role role;
 
-    @Generated
-    public Actor() {
-    }
-
-    @Generated
-    public boolean equals(Object o) {
-        if (o == this) {
-            return true;
-        }
-        if (!(o instanceof Actor)) {
-            return false;
-        }
-        Actor other = (Actor)o;
-        if (!other.canEqual(this)) {
-            return false;
-        }
-        Long this$id = this.getId();
-        Long other$id = other.getId();
-        if (this$id == null ? other$id != null : !(this$id).equals(other$id)) {
-            return false;
-        }
-        Role this$role = this.getRole();
-        Role other$role = other.getRole();
-        return !(this$role == null ? other$role != null : !((Object)(this$role)).equals(other$role));
-    }
-
-    @Generated
-    protected boolean canEqual(Object other) {
-        return other instanceof Actor;
-    }
-
-    @Generated
-    public int hashCode() {
-        int PRIME = 59;
-        int result = 1;
-        Long $id = this.getId();
-        result = result * 59 + ($id == null ? 43 : ((Object)$id).hashCode());
-        Role $role = this.getRole();
-        result = result * 59 + ($role == null ? 43 : ((Object)((Object)$role)).hashCode());
-        return result;
-    }
-
-    @Generated
-    public String toString() {
-        return "Actor(id=" + this.getId() + ", role=" + String.valueOf(this.getRole()) + ")";
-    }
-
-    @Generated
-    public Long getId() {
-        return this.id;
-    }
-
-    @Generated
-    public Role getRole() {
-        return this.role;
-    }
-
-    @Generated
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    @Generated
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
-    public static enum Role {
+    public enum Role {
         HOMEMAKER,
         DELIVERYEXECUTIVE,
         ADMIN,
-        USER;
-
+        USER
     }
 }
