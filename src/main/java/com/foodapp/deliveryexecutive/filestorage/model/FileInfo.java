@@ -214,7 +214,7 @@ public class FileInfo {
         }
         LocalDateTime this$uploadedAt = this.getUploadedAt();
         LocalDateTime other$uploadedAt = other.getUploadedAt();
-        if (this$uploadedAt == null ? other$uploadedAt != null : !((Object)this$uploadedAt).equals(other$uploadedAt)) {
+        if (this$uploadedAt == null ? other$uploadedAt != null : !(this$uploadedAt).equals(other$uploadedAt)) {
             return false;
         }
         String this$uploadedBy = this.getUploadedBy();

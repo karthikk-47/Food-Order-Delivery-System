@@ -67,15 +67,15 @@ public class AuthController {
     @PostMapping(value={"/login"})
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
         try {
-            Authentication authentication = this.authenticationManager.authenticate((Authentication)new UsernamePasswordAuthenticationToken((Object)loginRequest.getMobile(), (Object)loginRequest.getPassword()));
+            Authentication authentication = this.authenticationManager.authenticate((Authentication)new UsernamePasswordAuthenticationToken(loginRequest.getMobile(), loginRequest.getPassword()));
             SecurityContextHolder.getContext().setAuthentication(authentication);
             String jwt = this.tokenProvider.createToken(authentication);
             UserPrincipal userPrincipal = (UserPrincipal)authentication.getPrincipal();
-            return ResponseEntity.ok((Object)new JwtAuthenticationResponse(jwt, userPrincipal.getId(), userPrincipal.getMobile(), userPrincipal.getRole()));
+            return ResponseEntity.ok(new JwtAuthenticationResponse(jwt, userPrincipal.getId(), userPrincipal.getMobile(), userPrincipal.getRole()));
         }
         catch (Exception e) {
-            logger.error("Authentication failed for mobile: {}", (Object)loginRequest.getMobile(), (Object)e);
-            return ResponseEntity.badRequest().body((Object)new ApiResponse(false, "Invalid mobile or password"));
+            logger.error("Authentication failed for mobile: {}", loginRequest.getMobile(), e);
+            return ResponseEntity.badRequest().body(new ApiResponse(false, "Invalid mobile or password"));
         }
     }
 
@@ -85,7 +85,7 @@ public class AuthController {
             String role = registerRequest.getRole();
             String mobile = registerRequest.getMobile();
             if (this.userRepository.findByMobile(mobile).isPresent() || this.homeMakerRepository.findByMobile(mobile).isPresent() || this.deliveryExecutiveRepository.findByMobile(mobile).isPresent()) {
-                return ResponseEntity.badRequest().body((Object)new ApiResponse(false, "Mobile number already registered"));
+                return ResponseEntity.badRequest().body(new ApiResponse(false, "Mobile number already registered"));
             }
             String encodedPassword = this.passwordEncoder.encode((CharSequence)registerRequest.getPassword());
             if ("USER".equals(role)) {
@@ -108,7 +108,7 @@ public class AuthController {
                 homeMaker.setRole(Actor.Role.HOMEMAKER);
                 homeMaker.setApprovalStatus(HomeMaker.ApprovalStatus.PENDING);
                 this.homeMakerRepository.save(homeMaker);
-                return ResponseEntity.ok((Object)new ApiResponse(true, "Registration successful! Your account is pending admin approval. You will be able to login once approved."));
+                return ResponseEntity.ok(new ApiResponse(true, "Registration successful! Your account is pending admin approval. You will be able to login once approved."));
             }
             if ("DELIVERYEXECUTIVE".equals(role)) {
                 DeliveryExecutive executive = new DeliveryExecutive();
@@ -120,22 +120,22 @@ public class AuthController {
                 executive.setRole(Actor.Role.DELIVERYEXECUTIVE);
                 executive.setApprovalStatus(DeliveryExecutive.ApprovalStatus.PENDING);
                 this.deliveryExecutiveRepository.save(executive);
-                return ResponseEntity.ok((Object)new ApiResponse(true, "Registration successful! Your account is pending admin approval. You will be able to login once approved."));
+                return ResponseEntity.ok(new ApiResponse(true, "Registration successful! Your account is pending admin approval. You will be able to login once approved."));
             }
-            return ResponseEntity.badRequest().body((Object)new ApiResponse(false, "Invalid role specified"));
+            return ResponseEntity.badRequest().body(new ApiResponse(false, "Invalid role specified"));
         }
         catch (Exception e) {
-            logger.error("Registration failed for mobile: {}", (Object)registerRequest.getMobile(), (Object)e);
-            return ResponseEntity.badRequest().body((Object)new ApiResponse(false, "Registration failed: " + e.getMessage()));
+            logger.error("Registration failed for mobile: {}", registerRequest.getMobile(), e);
+            return ResponseEntity.badRequest().body(new ApiResponse(false, "Registration failed: " + e.getMessage()));
         }
     }
 
     private ResponseEntity<?> authenticateAndRespond(String mobile, String password) {
-        Authentication authentication = this.authenticationManager.authenticate((Authentication)new UsernamePasswordAuthenticationToken((Object)mobile, (Object)password));
+        Authentication authentication = this.authenticationManager.authenticate((Authentication)new UsernamePasswordAuthenticationToken(mobile, password));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = this.tokenProvider.createToken(authentication);
         UserPrincipal userPrincipal = (UserPrincipal)authentication.getPrincipal();
-        return ResponseEntity.ok((Object)new JwtAuthenticationResponse(jwt, userPrincipal.getId(), userPrincipal.getMobile(), userPrincipal.getRole()));
+        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt, userPrincipal.getId(), userPrincipal.getMobile(), userPrincipal.getRole()));
     }
 
     @GetMapping(value={"/validate"})
@@ -144,12 +144,12 @@ public class AuthController {
             String jwt;
             if (token != null && token.startsWith("Bearer ") && this.tokenProvider.validateToken(jwt = token.substring(7))) {
                 String username = this.tokenProvider.getUsernameFromJWT(jwt);
-                return ResponseEntity.ok((Object)new ApiResponse(true, "Token is valid for user: " + username));
+                return ResponseEntity.ok(new ApiResponse(true, "Token is valid for user: " + username));
             }
-            return ResponseEntity.badRequest().body((Object)new ApiResponse(false, "Invalid token"));
+            return ResponseEntity.badRequest().body(new ApiResponse(false, "Invalid token"));
         }
         catch (Exception e) {
-            return ResponseEntity.badRequest().body((Object)new ApiResponse(false, "Token validation failed"));
+            return ResponseEntity.badRequest().body(new ApiResponse(false, "Token validation failed"));
         }
     }
 

@@ -228,62 +228,62 @@ public class MenuItemDTO {
         }
         Long this$id = this.getId();
         Long other$id = other.getId();
-        if (this$id == null ? other$id != null : !((Object)this$id).equals(other$id)) {
+        if (this$id == null ? other$id != null : !(this$id).equals(other$id)) {
             return false;
         }
         Double this$price = this.getPrice();
         Double other$price = other.getPrice();
-        if (this$price == null ? other$price != null : !((Object)this$price).equals(other$price)) {
+        if (this$price == null ? other$price != null : !(this$price).equals(other$price)) {
             return false;
         }
         Double this$discountedPrice = this.getDiscountedPrice();
         Double other$discountedPrice = other.getDiscountedPrice();
-        if (this$discountedPrice == null ? other$discountedPrice != null : !((Object)this$discountedPrice).equals(other$discountedPrice)) {
+        if (this$discountedPrice == null ? other$discountedPrice != null : !(this$discountedPrice).equals(other$discountedPrice)) {
             return false;
         }
         Integer this$quantity = this.getQuantity();
         Integer other$quantity = other.getQuantity();
-        if (this$quantity == null ? other$quantity != null : !((Object)this$quantity).equals(other$quantity)) {
+        if (this$quantity == null ? other$quantity != null : !(this$quantity).equals(other$quantity)) {
             return false;
         }
         Boolean this$isVegetarian = this.getIsVegetarian();
         Boolean other$isVegetarian = other.getIsVegetarian();
-        if (this$isVegetarian == null ? other$isVegetarian != null : !((Object)this$isVegetarian).equals(other$isVegetarian)) {
+        if (this$isVegetarian == null ? other$isVegetarian != null : !(this$isVegetarian).equals(other$isVegetarian)) {
             return false;
         }
         Boolean this$isSpicy = this.getIsSpicy();
         Boolean other$isSpicy = other.getIsSpicy();
-        if (this$isSpicy == null ? other$isSpicy != null : !((Object)this$isSpicy).equals(other$isSpicy)) {
+        if (this$isSpicy == null ? other$isSpicy != null : !(this$isSpicy).equals(other$isSpicy)) {
             return false;
         }
         Boolean this$containsNuts = this.getContainsNuts();
         Boolean other$containsNuts = other.getContainsNuts();
-        if (this$containsNuts == null ? other$containsNuts != null : !((Object)this$containsNuts).equals(other$containsNuts)) {
+        if (this$containsNuts == null ? other$containsNuts != null : !(this$containsNuts).equals(other$containsNuts)) {
             return false;
         }
         Boolean this$containsDairy = this.getContainsDairy();
         Boolean other$containsDairy = other.getContainsDairy();
-        if (this$containsDairy == null ? other$containsDairy != null : !((Object)this$containsDairy).equals(other$containsDairy)) {
+        if (this$containsDairy == null ? other$containsDairy != null : !(this$containsDairy).equals(other$containsDairy)) {
             return false;
         }
         Double this$estimatedPrepTime = this.getEstimatedPrepTime();
         Double other$estimatedPrepTime = other.getEstimatedPrepTime();
-        if (this$estimatedPrepTime == null ? other$estimatedPrepTime != null : !((Object)this$estimatedPrepTime).equals(other$estimatedPrepTime)) {
+        if (this$estimatedPrepTime == null ? other$estimatedPrepTime != null : !(this$estimatedPrepTime).equals(other$estimatedPrepTime)) {
             return false;
         }
         Integer this$calories = this.getCalories();
         Integer other$calories = other.getCalories();
-        if (this$calories == null ? other$calories != null : !((Object)this$calories).equals(other$calories)) {
+        if (this$calories == null ? other$calories != null : !(this$calories).equals(other$calories)) {
             return false;
         }
         Boolean this$isAvailable = this.getIsAvailable();
         Boolean other$isAvailable = other.getIsAvailable();
-        if (this$isAvailable == null ? other$isAvailable != null : !((Object)this$isAvailable).equals(other$isAvailable)) {
+        if (this$isAvailable == null ? other$isAvailable != null : !(this$isAvailable).equals(other$isAvailable)) {
             return false;
         }
         Integer this$soldCount = this.getSoldCount();
         Integer other$soldCount = other.getSoldCount();
-        if (this$soldCount == null ? other$soldCount != null : !((Object)this$soldCount).equals(other$soldCount)) {
+        if (this$soldCount == null ? other$soldCount != null : !(this$soldCount).equals(other$soldCount)) {
             return false;
         }
         String this$itemName = this.getItemName();
@@ -303,7 +303,7 @@ public class MenuItemDTO {
         }
         List<String> this$ingredients = this.getIngredients();
         List<String> other$ingredients = other.getIngredients();
-        if (this$ingredients == null ? other$ingredients != null : !((Object)this$ingredients).equals(other$ingredients)) {
+        if (this$ingredients == null ? other$ingredients != null : !(this$ingredients).equals(other$ingredients)) {
             return false;
         }
         String this$preparationNotes = this.getPreparationNotes();

@@ -65,7 +65,7 @@ public class ExecutiveProfileService {
         profile.setAverageRating(this.ratingService.getAverageRating(executiveId, Actor.Role.DELIVERYEXECUTIVE));
         profile.setTotalDeliveries(this.orderService.getDeliveredOrderCount(executiveId));
         profile.setTotalEarnings(this.orderService.getTotalEarnings(executiveId));
-        logger.info("Retrieved profile for executive: {}", (Object)executiveId);
+        logger.info("Retrieved profile for executive: {}", executiveId);
         return profile;
     }
 
@@ -76,7 +76,7 @@ public class ExecutiveProfileService {
             executive.setName(request.getName());
         }
         this.executiveRepository.save(executive);
-        logger.info("Updated profile for executive: {}", (Object)executiveId);
+        logger.info("Updated profile for executive: {}", executiveId);
         return this.getProfile(executiveId);
     }
 
@@ -126,9 +126,9 @@ public class ExecutiveProfileService {
             }
         }
         catch (Exception e) {
-            logger.error("Failed to create Razorpay account for executive: {}", (Object)executiveId, (Object)e);
+            logger.error("Failed to create Razorpay account for executive: {}", executiveId, e);
         }
-        logger.info("Added bank account for executive: {}", (Object)executiveId);
+        logger.info("Added bank account for executive: {}", executiveId);
         return this.mapToBankAccountDTO(bankAccount);
     }
 
@@ -146,7 +146,7 @@ public class ExecutiveProfileService {
         this.bankAccountRepository.clearPrimaryForExecutive(executiveId);
         bankAccount.setPrimary(true);
         this.bankAccountRepository.save(bankAccount);
-        logger.info("Set primary bank account {} for executive: {}", (Object)bankAccountId, (Object)executiveId);
+        logger.info("Set primary bank account {} for executive: {}", bankAccountId, executiveId);
         return this.mapToBankAccountDTO(bankAccount);
     }
 
@@ -157,7 +157,7 @@ public class ExecutiveProfileService {
             throw new RuntimeException("Cannot delete primary bank account. Set another account as primary first.");
         }
         this.bankAccountRepository.delete(bankAccount);
-        logger.info("Deleted bank account {} for executive: {}", (Object)bankAccountId, (Object)executiveId);
+        logger.info("Deleted bank account {} for executive: {}", bankAccountId, executiveId);
     }
 
     @Transactional
@@ -168,7 +168,7 @@ public class ExecutiveProfileService {
         }
         executive.setPassword(newPassword);
         this.executiveRepository.save(executive);
-        logger.info("Password changed for executive: {}", (Object)executiveId);
+        logger.info("Password changed for executive: {}", executiveId);
     }
 
     private BankAccountDTO mapToBankAccountDTO(ExecutiveBankAccount account) {

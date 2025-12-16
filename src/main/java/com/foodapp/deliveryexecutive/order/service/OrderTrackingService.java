@@ -39,7 +39,7 @@ public class OrderTrackingService {
     public void updateExecutiveLocation(LocationUpdateDTO locationUpdate) {
         this.executiveLocations.put(locationUpdate.getOrderId(), locationUpdate);
         if (this.messagingTemplate != null) {
-            this.messagingTemplate.convertAndSend((Object)("/topic/order/" + locationUpdate.getOrderId() + "/location"), (Object)locationUpdate);
+            this.messagingTemplate.convertAndSend("/topic/order/" + locationUpdate.getOrderId() + "/location", locationUpdate);
         }
     }
 
@@ -47,7 +47,7 @@ public class OrderTrackingService {
         Order order = this.orderRepository.findById(orderId).orElse(null);
         if (order != null && this.messagingTemplate != null) {
             OrderTrackingDTO tracking = this.mapToTrackingDTO(order);
-            this.messagingTemplate.convertAndSend((Object)("/topic/order/" + orderId + "/status"), (Object)tracking);
+            this.messagingTemplate.convertAndSend("/topic/order/" + orderId + "/status", tracking);
         }
     }
 

@@ -196,12 +196,12 @@ public class ProfileApprovalDTO {
         }
         Long this$id = this.getId();
         Long other$id = other.getId();
-        if (this$id == null ? other$id != null : !((Object)this$id).equals(other$id)) {
+        if (this$id == null ? other$id != null : !(this$id).equals(other$id)) {
             return false;
         }
         Long this$approvedBy = this.getApprovedBy();
         Long other$approvedBy = other.getApprovedBy();
-        if (this$approvedBy == null ? other$approvedBy != null : !((Object)this$approvedBy).equals(other$approvedBy)) {
+        if (this$approvedBy == null ? other$approvedBy != null : !(this$approvedBy).equals(other$approvedBy)) {
             return false;
         }
         String this$name = this.getName();
@@ -231,12 +231,12 @@ public class ProfileApprovalDTO {
         }
         LocalDateTime this$registeredAt = this.getRegisteredAt();
         LocalDateTime other$registeredAt = other.getRegisteredAt();
-        if (this$registeredAt == null ? other$registeredAt != null : !((Object)this$registeredAt).equals(other$registeredAt)) {
+        if (this$registeredAt == null ? other$registeredAt != null : !(this$registeredAt).equals(other$registeredAt)) {
             return false;
         }
         LocalDateTime this$approvedAt = this.getApprovedAt();
         LocalDateTime other$approvedAt = other.getApprovedAt();
-        if (this$approvedAt == null ? other$approvedAt != null : !((Object)this$approvedAt).equals(other$approvedAt)) {
+        if (this$approvedAt == null ? other$approvedAt != null : !(this$approvedAt).equals(other$approvedAt)) {
             return false;
         }
         String this$address = this.getAddress();

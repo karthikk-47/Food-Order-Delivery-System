@@ -79,7 +79,7 @@ public class OrderService {
         order.setExecutive(executive);
         order.setOrderStatus(Order.OrderStatus.ACCEPTED);
         this.orderRepository.save(order);
-        logger.info("Order {} accepted by executive {}", (Object)orderId, (Object)executiveId);
+        logger.info("Order {} accepted by executive {}", orderId, executiveId);
         return order;
     }
 
@@ -94,7 +94,7 @@ public class OrderService {
         }
         order.setOrderStatus(Order.OrderStatus.OUTFORDELIVERY);
         this.orderRepository.save(order);
-        logger.info("Order {} picked up by executive {}", (Object)orderId, (Object)executiveId);
+        logger.info("Order {} picked up by executive {}", orderId, executiveId);
         return order;
     }
 
@@ -112,7 +112,7 @@ public class OrderService {
         }
         order.setOrderStatus(Order.OrderStatus.DELIVERED);
         this.orderRepository.save(order);
-        logger.info("Order {} delivered by executive {}", (Object)orderId, (Object)executiveId);
+        logger.info("Order {} delivered by executive {}", orderId, executiveId);
         return order;
     }
 
@@ -121,7 +121,7 @@ public class OrderService {
         Order order = this.getOrderById(orderId);
         order.setOrderStatus(status);
         this.orderRepository.save(order);
-        logger.info("Order {} status updated to {}", (Object)orderId, (Object)status);
+        logger.info("Order {} status updated to {}", orderId, status);
         return order;
     }
 

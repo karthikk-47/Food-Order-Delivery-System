@@ -213,37 +213,37 @@ public class AdminDTO {
         }
         Long this$id = this.getId();
         Long other$id = other.getId();
-        if (this$id == null ? other$id != null : !((Object)this$id).equals(other$id)) {
+        if (this$id == null ? other$id != null : !(this$id).equals(other$id)) {
             return false;
         }
         Boolean this$canManageUsers = this.getCanManageUsers();
         Boolean other$canManageUsers = other.getCanManageUsers();
-        if (this$canManageUsers == null ? other$canManageUsers != null : !((Object)this$canManageUsers).equals(other$canManageUsers)) {
+        if (this$canManageUsers == null ? other$canManageUsers != null : !(this$canManageUsers).equals(other$canManageUsers)) {
             return false;
         }
         Boolean this$canManagePayments = this.getCanManagePayments();
         Boolean other$canManagePayments = other.getCanManagePayments();
-        if (this$canManagePayments == null ? other$canManagePayments != null : !((Object)this$canManagePayments).equals(other$canManagePayments)) {
+        if (this$canManagePayments == null ? other$canManagePayments != null : !(this$canManagePayments).equals(other$canManagePayments)) {
             return false;
         }
         Boolean this$canManageDisputes = this.getCanManageDisputes();
         Boolean other$canManageDisputes = other.getCanManageDisputes();
-        if (this$canManageDisputes == null ? other$canManageDisputes != null : !((Object)this$canManageDisputes).equals(other$canManageDisputes)) {
+        if (this$canManageDisputes == null ? other$canManageDisputes != null : !(this$canManageDisputes).equals(other$canManageDisputes)) {
             return false;
         }
         Boolean this$canViewAnalytics = this.getCanViewAnalytics();
         Boolean other$canViewAnalytics = other.getCanViewAnalytics();
-        if (this$canViewAnalytics == null ? other$canViewAnalytics != null : !((Object)this$canViewAnalytics).equals(other$canViewAnalytics)) {
+        if (this$canViewAnalytics == null ? other$canViewAnalytics != null : !(this$canViewAnalytics).equals(other$canViewAnalytics)) {
             return false;
         }
         Boolean this$canManageAdmins = this.getCanManageAdmins();
         Boolean other$canManageAdmins = other.getCanManageAdmins();
-        if (this$canManageAdmins == null ? other$canManageAdmins != null : !((Object)this$canManageAdmins).equals(other$canManageAdmins)) {
+        if (this$canManageAdmins == null ? other$canManageAdmins != null : !(this$canManageAdmins).equals(other$canManageAdmins)) {
             return false;
         }
         Boolean this$isAccountLocked = this.getIsAccountLocked();
         Boolean other$isAccountLocked = other.getIsAccountLocked();
-        if (this$isAccountLocked == null ? other$isAccountLocked != null : !((Object)this$isAccountLocked).equals(other$isAccountLocked)) {
+        if (this$isAccountLocked == null ? other$isAccountLocked != null : !(this$isAccountLocked).equals(other$isAccountLocked)) {
             return false;
         }
         String this$username = this.getUsername();
@@ -273,27 +273,27 @@ public class AdminDTO {
         }
         Admin.AdminRole this$adminRole = this.getAdminRole();
         Admin.AdminRole other$adminRole = other.getAdminRole();
-        if (this$adminRole == null ? other$adminRole != null : !((Object)((Object)this$adminRole)).equals((Object)other$adminRole)) {
+        if (this$adminRole == null ? other$adminRole != null : !((Object)(this$adminRole)).equals(other$adminRole)) {
             return false;
         }
         Admin.AdminStatus this$status = this.getStatus();
         Admin.AdminStatus other$status = other.getStatus();
-        if (this$status == null ? other$status != null : !((Object)((Object)this$status)).equals((Object)other$status)) {
+        if (this$status == null ? other$status != null : !((Object)(this$status)).equals(other$status)) {
             return false;
         }
         LocalDateTime this$createdAt = this.getCreatedAt();
         LocalDateTime other$createdAt = other.getCreatedAt();
-        if (this$createdAt == null ? other$createdAt != null : !((Object)this$createdAt).equals(other$createdAt)) {
+        if (this$createdAt == null ? other$createdAt != null : !(this$createdAt).equals(other$createdAt)) {
             return false;
         }
         LocalDateTime this$updatedAt = this.getUpdatedAt();
         LocalDateTime other$updatedAt = other.getUpdatedAt();
-        if (this$updatedAt == null ? other$updatedAt != null : !((Object)this$updatedAt).equals(other$updatedAt)) {
+        if (this$updatedAt == null ? other$updatedAt != null : !(this$updatedAt).equals(other$updatedAt)) {
             return false;
         }
         LocalDateTime this$lastLogin = this.getLastLogin();
         LocalDateTime other$lastLogin = other.getLastLogin();
-        return !(this$lastLogin == null ? other$lastLogin != null : !((Object)this$lastLogin).equals(other$lastLogin));
+        return !(this$lastLogin == null ? other$lastLogin != null : !(this$lastLogin).equals(other$lastLogin));
     }
 
     @Generated
@@ -344,7 +344,7 @@ public class AdminDTO {
 
     @Generated
     public String toString() {
-        return "AdminDTO(id=" + this.getId() + ", username=" + this.getUsername() + ", email=" + this.getEmail() + ", password=" + this.getPassword() + ", fullName=" + this.getFullName() + ", phoneNumber=" + this.getPhoneNumber() + ", adminRole=" + String.valueOf((Object)this.getAdminRole()) + ", status=" + String.valueOf((Object)this.getStatus()) + ", canManageUsers=" + this.getCanManageUsers() + ", canManagePayments=" + this.getCanManagePayments() + ", canManageDisputes=" + this.getCanManageDisputes() + ", canViewAnalytics=" + this.getCanViewAnalytics() + ", canManageAdmins=" + this.getCanManageAdmins() + ", createdAt=" + String.valueOf(this.getCreatedAt()) + ", updatedAt=" + String.valueOf(this.getUpdatedAt()) + ", lastLogin=" + String.valueOf(this.getLastLogin()) + ", isAccountLocked=" + this.getIsAccountLocked() + ")";
+        return "AdminDTO(id=" + this.getId() + ", username=" + this.getUsername() + ", email=" + this.getEmail() + ", password=" + this.getPassword() + ", fullName=" + this.getFullName() + ", phoneNumber=" + this.getPhoneNumber() + ", adminRole=" + String.valueOf(this.getAdminRole()) + ", status=" + String.valueOf(this.getStatus()) + ", canManageUsers=" + this.getCanManageUsers() + ", canManagePayments=" + this.getCanManagePayments() + ", canManageDisputes=" + this.getCanManageDisputes() + ", canViewAnalytics=" + this.getCanViewAnalytics() + ", canManageAdmins=" + this.getCanManageAdmins() + ", createdAt=" + String.valueOf(this.getCreatedAt()) + ", updatedAt=" + String.valueOf(this.getUpdatedAt()) + ", lastLogin=" + String.valueOf(this.getLastLogin()) + ", isAccountLocked=" + this.getIsAccountLocked() + ")";
     }
 
     @Generated

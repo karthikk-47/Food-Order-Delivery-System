@@ -52,12 +52,12 @@ public class Viewport {
         }
         Southwest this$southwest = this.getSouthwest();
         Southwest other$southwest = other.getSouthwest();
-        if (this$southwest == null ? other$southwest != null : !((Object)this$southwest).equals(other$southwest)) {
+        if (this$southwest == null ? other$southwest != null : !(this$southwest).equals(other$southwest)) {
             return false;
         }
         Northeast this$northeast = this.getNortheast();
         Northeast other$northeast = other.getNortheast();
-        return !(this$northeast == null ? other$northeast != null : !((Object)this$northeast).equals(other$northeast));
+        return !(this$northeast == null ? other$northeast != null : !(this$northeast).equals(other$northeast));
     }
 
     @Generated

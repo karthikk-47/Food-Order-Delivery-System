@@ -134,7 +134,7 @@ public class CreateFundAccountResponse {
         }
         FundAccount this$fund_account = this.getFund_account();
         FundAccount other$fund_account = other.getFund_account();
-        if (this$fund_account == null ? other$fund_account != null : !((Object)this$fund_account).equals(other$fund_account)) {
+        if (this$fund_account == null ? other$fund_account != null : !(this$fund_account).equals(other$fund_account)) {
             return false;
         }
         String this$status = this.getStatus();
@@ -144,7 +144,7 @@ public class CreateFundAccountResponse {
         }
         Results this$results = this.getResults();
         Results other$results = other.getResults();
-        if (this$results == null ? other$results != null : !((Object)this$results).equals(other$results)) {
+        if (this$results == null ? other$results != null : !(this$results).equals(other$results)) {
             return false;
         }
         String this$utr = this.getUtr();

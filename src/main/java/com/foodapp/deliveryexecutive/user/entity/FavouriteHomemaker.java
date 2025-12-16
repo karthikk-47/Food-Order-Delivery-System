@@ -118,32 +118,32 @@ public class FavouriteHomemaker {
         }
         Long this$id = this.getId();
         Long other$id = other.getId();
-        if (this$id == null ? other$id != null : !((Object)this$id).equals(other$id)) {
+        if (this$id == null ? other$id != null : !(this$id).equals(other$id)) {
             return false;
         }
         Long this$userId = this.getUserId();
         Long other$userId = other.getUserId();
-        if (this$userId == null ? other$userId != null : !((Object)this$userId).equals(other$userId)) {
+        if (this$userId == null ? other$userId != null : !(this$userId).equals(other$userId)) {
             return false;
         }
         Long this$homemakerId = this.getHomemakerId();
         Long other$homemakerId = other.getHomemakerId();
-        if (this$homemakerId == null ? other$homemakerId != null : !((Object)this$homemakerId).equals(other$homemakerId)) {
+        if (this$homemakerId == null ? other$homemakerId != null : !(this$homemakerId).equals(other$homemakerId)) {
             return false;
         }
         LocalDateTime this$addedAt = this.getAddedAt();
         LocalDateTime other$addedAt = other.getAddedAt();
-        if (this$addedAt == null ? other$addedAt != null : !((Object)this$addedAt).equals(other$addedAt)) {
+        if (this$addedAt == null ? other$addedAt != null : !(this$addedAt).equals(other$addedAt)) {
             return false;
         }
         LocalDateTime this$removedAt = this.getRemovedAt();
         LocalDateTime other$removedAt = other.getRemovedAt();
-        if (this$removedAt == null ? other$removedAt != null : !((Object)this$removedAt).equals(other$removedAt)) {
+        if (this$removedAt == null ? other$removedAt != null : !(this$removedAt).equals(other$removedAt)) {
             return false;
         }
         FavouriteStatus this$status = this.getStatus();
         FavouriteStatus other$status = other.getStatus();
-        return !(this$status == null ? other$status != null : !((Object)((Object)this$status)).equals((Object)other$status));
+        return !(this$status == null ? other$status != null : !((Object)(this$status)).equals(other$status));
     }
 
     @Generated
@@ -172,7 +172,7 @@ public class FavouriteHomemaker {
 
     @Generated
     public String toString() {
-        return "FavouriteHomemaker(id=" + this.getId() + ", userId=" + this.getUserId() + ", homemakerId=" + this.getHomemakerId() + ", addedAt=" + String.valueOf(this.getAddedAt()) + ", removedAt=" + String.valueOf(this.getRemovedAt()) + ", status=" + String.valueOf((Object)this.getStatus()) + ")";
+        return "FavouriteHomemaker(id=" + this.getId() + ", userId=" + this.getUserId() + ", homemakerId=" + this.getHomemakerId() + ", addedAt=" + String.valueOf(this.getAddedAt()) + ", removedAt=" + String.valueOf(this.getRemovedAt()) + ", status=" + String.valueOf(this.getStatus()) + ")";
     }
 
     @Generated

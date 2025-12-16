@@ -156,37 +156,37 @@ public class CartItemDTO {
         }
         Long this$id = this.getId();
         Long other$id = other.getId();
-        if (this$id == null ? other$id != null : !((Object)this$id).equals(other$id)) {
+        if (this$id == null ? other$id != null : !(this$id).equals(other$id)) {
             return false;
         }
         Long this$menuItemId = this.getMenuItemId();
         Long other$menuItemId = other.getMenuItemId();
-        if (this$menuItemId == null ? other$menuItemId != null : !((Object)this$menuItemId).equals(other$menuItemId)) {
+        if (this$menuItemId == null ? other$menuItemId != null : !(this$menuItemId).equals(other$menuItemId)) {
             return false;
         }
         Double this$price = this.getPrice();
         Double other$price = other.getPrice();
-        if (this$price == null ? other$price != null : !((Object)this$price).equals(other$price)) {
+        if (this$price == null ? other$price != null : !(this$price).equals(other$price)) {
             return false;
         }
         Integer this$quantity = this.getQuantity();
         Integer other$quantity = other.getQuantity();
-        if (this$quantity == null ? other$quantity != null : !((Object)this$quantity).equals(other$quantity)) {
+        if (this$quantity == null ? other$quantity != null : !(this$quantity).equals(other$quantity)) {
             return false;
         }
         Double this$subtotal = this.getSubtotal();
         Double other$subtotal = other.getSubtotal();
-        if (this$subtotal == null ? other$subtotal != null : !((Object)this$subtotal).equals(other$subtotal)) {
+        if (this$subtotal == null ? other$subtotal != null : !(this$subtotal).equals(other$subtotal)) {
             return false;
         }
         Long this$homemakerId = this.getHomemakerId();
         Long other$homemakerId = other.getHomemakerId();
-        if (this$homemakerId == null ? other$homemakerId != null : !((Object)this$homemakerId).equals(other$homemakerId)) {
+        if (this$homemakerId == null ? other$homemakerId != null : !(this$homemakerId).equals(other$homemakerId)) {
             return false;
         }
         Boolean this$isVegetarian = this.getIsVegetarian();
         Boolean other$isVegetarian = other.getIsVegetarian();
-        if (this$isVegetarian == null ? other$isVegetarian != null : !((Object)this$isVegetarian).equals(other$isVegetarian)) {
+        if (this$isVegetarian == null ? other$isVegetarian != null : !(this$isVegetarian).equals(other$isVegetarian)) {
             return false;
         }
         String this$itemName = this.getItemName();

@@ -108,17 +108,17 @@ public class CreateOrderPaymentRequest {
         }
         Long this$orderId = this.getOrderId();
         Long other$orderId = other.getOrderId();
-        if (this$orderId == null ? other$orderId != null : !((Object)this$orderId).equals(other$orderId)) {
+        if (this$orderId == null ? other$orderId != null : !(this$orderId).equals(other$orderId)) {
             return false;
         }
         Long this$userId = this.getUserId();
         Long other$userId = other.getUserId();
-        if (this$userId == null ? other$userId != null : !((Object)this$userId).equals(other$userId)) {
+        if (this$userId == null ? other$userId != null : !(this$userId).equals(other$userId)) {
             return false;
         }
         Double this$amount = this.getAmount();
         Double other$amount = other.getAmount();
-        if (this$amount == null ? other$amount != null : !((Object)this$amount).equals(other$amount)) {
+        if (this$amount == null ? other$amount != null : !(this$amount).equals(other$amount)) {
             return false;
         }
         String this$customerEmail = this.getCustomerEmail();

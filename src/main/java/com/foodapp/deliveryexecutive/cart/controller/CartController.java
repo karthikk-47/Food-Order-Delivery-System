@@ -42,22 +42,22 @@ public class CartController {
 
     @GetMapping
     public ResponseEntity<CartDTO> getCart(@AuthenticationPrincipal UserPrincipal principal) {
-        return ResponseEntity.ok((Object)this.cartService.getCart(principal.getId()));
+        return ResponseEntity.ok(this.cartService.getCart(principal.getId()));
     }
 
     @PostMapping(value={"/items"})
     public ResponseEntity<CartDTO> addToCart(@AuthenticationPrincipal UserPrincipal principal, @RequestBody AddToCartRequest request) {
-        return ResponseEntity.ok((Object)this.cartService.addToCart(principal.getId(), request));
+        return ResponseEntity.ok(this.cartService.addToCart(principal.getId(), request));
     }
 
     @PutMapping(value={"/items/{itemId}"})
     public ResponseEntity<CartDTO> updateCartItem(@AuthenticationPrincipal UserPrincipal principal, @PathVariable Long itemId, @RequestBody UpdateCartItemRequest request) {
-        return ResponseEntity.ok((Object)this.cartService.updateCartItem(principal.getId(), itemId, request));
+        return ResponseEntity.ok(this.cartService.updateCartItem(principal.getId(), itemId, request));
     }
 
     @DeleteMapping(value={"/items/{itemId}"})
     public ResponseEntity<CartDTO> removeFromCart(@AuthenticationPrincipal UserPrincipal principal, @PathVariable Long itemId) {
-        return ResponseEntity.ok((Object)this.cartService.removeFromCart(principal.getId(), itemId));
+        return ResponseEntity.ok(this.cartService.removeFromCart(principal.getId(), itemId));
     }
 
     @DeleteMapping

@@ -156,32 +156,32 @@ public class CartItem {
         }
         Long this$id = this.getId();
         Long other$id = other.getId();
-        if (this$id == null ? other$id != null : !((Object)this$id).equals(other$id)) {
+        if (this$id == null ? other$id != null : !(this$id).equals(other$id)) {
             return false;
         }
         Integer this$quantity = this.getQuantity();
         Integer other$quantity = other.getQuantity();
-        if (this$quantity == null ? other$quantity != null : !((Object)this$quantity).equals(other$quantity)) {
+        if (this$quantity == null ? other$quantity != null : !(this$quantity).equals(other$quantity)) {
             return false;
         }
         Double this$price = this.getPrice();
         Double other$price = other.getPrice();
-        if (this$price == null ? other$price != null : !((Object)this$price).equals(other$price)) {
+        if (this$price == null ? other$price != null : !(this$price).equals(other$price)) {
             return false;
         }
         Cart this$cart = this.getCart();
         Cart other$cart = other.getCart();
-        if (this$cart == null ? other$cart != null : !((Object)this$cart).equals(other$cart)) {
+        if (this$cart == null ? other$cart != null : !(this$cart).equals(other$cart)) {
             return false;
         }
         MenuItem this$menuItem = this.getMenuItem();
         MenuItem other$menuItem = other.getMenuItem();
-        if (this$menuItem == null ? other$menuItem != null : !((Object)this$menuItem).equals(other$menuItem)) {
+        if (this$menuItem == null ? other$menuItem != null : !(this$menuItem).equals(other$menuItem)) {
             return false;
         }
         HomeMaker this$homeMaker = this.getHomeMaker();
         HomeMaker other$homeMaker = other.getHomeMaker();
-        if (this$homeMaker == null ? other$homeMaker != null : !((Object)this$homeMaker).equals(other$homeMaker)) {
+        if (this$homeMaker == null ? other$homeMaker != null : !(this$homeMaker).equals(other$homeMaker)) {
             return false;
         }
         String this$specialInstructions = this.getSpecialInstructions();
@@ -191,7 +191,7 @@ public class CartItem {
         }
         LocalDateTime this$addedAt = this.getAddedAt();
         LocalDateTime other$addedAt = other.getAddedAt();
-        return !(this$addedAt == null ? other$addedAt != null : !((Object)this$addedAt).equals(other$addedAt));
+        return !(this$addedAt == null ? other$addedAt != null : !(this$addedAt).equals(other$addedAt));
     }
 
     @Generated

@@ -138,7 +138,7 @@ extends Actor {
         }
         List<Order> this$orders = this.getOrders();
         List<Order> other$orders = other.getOrders();
-        return !(this$orders == null ? other$orders != null : !((Object)this$orders).equals(other$orders));
+        return !(this$orders == null ? other$orders != null : !(this$orders).equals(other$orders));
     }
 
     @Override

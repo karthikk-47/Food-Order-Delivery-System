@@ -30,7 +30,7 @@ implements Converter<Jwt, AbstractAuthenticationToken> {
     private final JwtGrantedAuthoritiesConverter defaultGrantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
 
     public AbstractAuthenticationToken convert(Jwt jwt) {
-        Collection authorities = Stream.concat(this.defaultGrantedAuthoritiesConverter.convert(jwt).stream(), this.extractResourceRoles(jwt).stream()).collect(Collectors.toSet());
+        Collection<GrantedAuthority> authorities = Stream.concat(this.defaultGrantedAuthoritiesConverter.convert(jwt).stream(), this.extractResourceRoles(jwt).stream()).collect(Collectors.toSet());
         return new JwtAuthenticationToken(jwt, authorities, this.getPrincipalClaimName(jwt));
     }
 
@@ -38,12 +38,13 @@ implements Converter<Jwt, AbstractAuthenticationToken> {
         return (String)jwt.getClaim("preferred_username");
     }
 
+    @SuppressWarnings("unchecked")
     private Collection<? extends GrantedAuthority> extractResourceRoles(Jwt jwt) {
-        Map realmAccess = (Map)jwt.getClaim("realm_access");
+        Map<String, Object> realmAccess = (Map<String, Object>)jwt.getClaim("realm_access");
         if (realmAccess == null || realmAccess.isEmpty()) {
             return Collections.emptyList();
         }
-        Collection resourceRoles = (Collection)realmAccess.get("roles");
+        Collection<String> resourceRoles = (Collection<String>)realmAccess.get("roles");
         if (resourceRoles == null) {
             return Collections.emptyList();
         }

@@ -55,9 +55,9 @@ public class WithdrawController {
     public ResponseEntity<WithdrawResponse> processWithdraw(@Valid @RequestBody WithdrawRequest request) {
         WithdrawResponse response = this.withdrawService.processWithdraw(request);
         if (response.isSuccess()) {
-            return ResponseEntity.ok((Object)response);
+            return ResponseEntity.ok(response);
         }
-        return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).body((Object)response);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
     @GetMapping(value={"/history/{customerId}"})
@@ -82,29 +82,29 @@ public class WithdrawController {
     public ResponseEntity<WithdrawResponse> updateWithdrawStatus(@PathVariable String payoutId) {
         WithdrawResponse response = this.withdrawService.updateWithdrawStatus(payoutId);
         if (response.isSuccess()) {
-            return ResponseEntity.ok((Object)response);
+            return ResponseEntity.ok(response);
         }
-        return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).body((Object)response);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
     @PostMapping(value={"/cancel/{payoutId}"})
     public ResponseEntity<WithdrawResponse> cancelWithdraw(@PathVariable String payoutId) {
         WithdrawResponse response = this.withdrawService.cancelWithdraw(payoutId);
         if (response.isSuccess()) {
-            return ResponseEntity.ok((Object)response);
+            return ResponseEntity.ok(response);
         }
-        return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).body((Object)response);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
     @GetMapping(value={"/total/{customerId}"})
     public ResponseEntity<Double> getTotalWithdrawn(@PathVariable Long customerId) {
         Double total = this.withdrawService.getTotalWithdrawn(customerId);
-        return ResponseEntity.ok((Object)total);
+        return ResponseEntity.ok(total);
     }
 
     @GetMapping(value={"/count/{customerId}"})
     public ResponseEntity<Long> getWithdrawCount(@PathVariable Long customerId, @RequestParam WithdrawTransaction.WithdrawStatus status) {
         Long count = this.withdrawService.getWithdrawCount(customerId, status);
-        return ResponseEntity.ok((Object)count);
+        return ResponseEntity.ok(count);
     }
 }

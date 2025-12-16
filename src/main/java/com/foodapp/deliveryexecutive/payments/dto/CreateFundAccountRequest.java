@@ -72,7 +72,7 @@ public class CreateFundAccountRequest {
         }
         BankAccount this$bank_account = this.getBank_account();
         BankAccount other$bank_account = other.getBank_account();
-        return !(this$bank_account == null ? other$bank_account != null : !((Object)this$bank_account).equals(other$bank_account));
+        return !(this$bank_account == null ? other$bank_account != null : !(this$bank_account).equals(other$bank_account));
     }
 
     @Generated

@@ -39,23 +39,23 @@ public class WalletController {
     @GetMapping(value={"/{customerId}"})
     public ResponseEntity<WalletDTO> getWallet(@PathVariable Long customerId, @RequestParam Actor.Role role) {
         WalletDTO wallet = this.walletService.getWalletDTO(customerId, role);
-        return ResponseEntity.ok((Object)wallet);
+        return ResponseEntity.ok(wallet);
     }
 
     @GetMapping(value={"/{customerId}/balance"})
     public ResponseEntity<Double> getBalance(@PathVariable Long customerId, @RequestParam Actor.Role role) {
         Double balance = this.walletService.getBalance(customerId, role);
-        return ResponseEntity.ok((Object)balance);
+        return ResponseEntity.ok(balance);
     }
 
     @PostMapping(value={"/{customerId}/create"})
     public ResponseEntity<Wallet> createWallet(@PathVariable Long customerId, @RequestParam Actor.Role role) {
         try {
             Wallet wallet = this.walletService.createWallet(customerId, role);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.CREATED).body((Object)wallet);
+            return ResponseEntity.status(HttpStatus.CREATED).body(wallet);
         }
         catch (RuntimeException e) {
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
@@ -63,10 +63,10 @@ public class WalletController {
     public ResponseEntity<Wallet> addBalance(@PathVariable Long customerId, @RequestParam Actor.Role role, @RequestParam Double amount) {
         try {
             Wallet wallet = this.walletService.addBalance(customerId, role, amount);
-            return ResponseEntity.ok((Object)wallet);
+            return ResponseEntity.ok(wallet);
         }
         catch (Exception e) {
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
@@ -74,10 +74,10 @@ public class WalletController {
     public ResponseEntity<Wallet> deductBalance(@PathVariable Long customerId, @RequestParam Actor.Role role, @RequestParam Double amount) {
         try {
             Wallet wallet = this.walletService.deductBalance(customerId, role, amount);
-            return ResponseEntity.ok((Object)wallet);
+            return ResponseEntity.ok(wallet);
         }
         catch (Exception e) {
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
@@ -85,16 +85,16 @@ public class WalletController {
     public ResponseEntity<Wallet> transferBalance(@RequestParam Long fromCustomerId, @RequestParam Long toCustomerId, @RequestParam Actor.Role fromRole, @RequestParam Actor.Role toRole, @RequestParam Double amount) {
         try {
             Wallet wallet = this.walletService.transferBalance(fromCustomerId, toCustomerId, fromRole, toRole, amount);
-            return ResponseEntity.ok((Object)wallet);
+            return ResponseEntity.ok(wallet);
         }
         catch (Exception e) {
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
     @GetMapping(value={"/{customerId}/has-balance"})
     public ResponseEntity<Boolean> hasBalance(@PathVariable Long customerId, @RequestParam Actor.Role role, @RequestParam Double amount) {
         boolean hasBalance = this.walletService.hasBalance(customerId, role, amount);
-        return ResponseEntity.ok((Object)hasBalance);
+        return ResponseEntity.ok(hasBalance);
     }
 }

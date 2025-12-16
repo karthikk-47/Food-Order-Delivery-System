@@ -79,7 +79,7 @@ public class AdminDashboardController {
             return ResponseEntity.ok(stats);
         }
         catch (Exception e) {
-            log.error("Error fetching dashboard stats", (Throwable)e);
+            log.error("Error fetching dashboard stats", e);
             return ResponseEntity.ok(this.getDefaultStats());
         }
     }
@@ -88,10 +88,10 @@ public class AdminDashboardController {
     public ResponseEntity<List<?>> getAllUsers() {
         log.info("Fetching all users for admin");
         try {
-            return ResponseEntity.ok((Object)this.userRepository.findAll());
+            return ResponseEntity.ok(this.userRepository.findAll());
         }
         catch (Exception e) {
-            log.error("Error fetching users", (Throwable)e);
+            log.error("Error fetching users", e);
             return ResponseEntity.ok(List.of());
         }
     }
@@ -100,10 +100,10 @@ public class AdminDashboardController {
     public ResponseEntity<List<?>> getAllHomemakers() {
         log.info("Fetching all homemakers for admin");
         try {
-            return ResponseEntity.ok((Object)this.homeMakerRepository.findAll());
+            return ResponseEntity.ok(this.homeMakerRepository.findAll());
         }
         catch (Exception e) {
-            log.error("Error fetching homemakers", (Throwable)e);
+            log.error("Error fetching homemakers", e);
             return ResponseEntity.ok(List.of());
         }
     }
@@ -112,17 +112,17 @@ public class AdminDashboardController {
     public ResponseEntity<List<?>> getAllExecutives() {
         log.info("Fetching all executives for admin");
         try {
-            return ResponseEntity.ok((Object)this.deliveryExecutiveRepository.findAll());
+            return ResponseEntity.ok(this.deliveryExecutiveRepository.findAll());
         }
         catch (Exception e) {
-            log.error("Error fetching executives", (Throwable)e);
+            log.error("Error fetching executives", e);
             return ResponseEntity.ok(List.of());
         }
     }
 
     @GetMapping(value={"/disputes"})
     public ResponseEntity<List<DisputeDTO>> getAllDisputes(@RequestParam(required=false) String status) {
-        log.info("Fetching disputes for admin with status: {}", (Object)status);
+        log.info("Fetching disputes for admin with status: {}", status);
         try {
             if ("OPEN".equals(status)) {
                 return ResponseEntity.ok(this.disputeService.getOpenDisputes());
@@ -130,28 +130,28 @@ public class AdminDashboardController {
             return ResponseEntity.ok(this.disputeService.getOpenDisputes());
         }
         catch (Exception e) {
-            log.error("Error fetching disputes", (Throwable)e);
+            log.error("Error fetching disputes", e);
             return ResponseEntity.ok(List.of());
         }
     }
 
     @GetMapping(value={"/verifications"})
     public ResponseEntity<List<?>> getVerificationsForAdmin(@RequestParam(required=false) String status, @RequestParam(required=false) String type) {
-        log.info("Fetching verifications for admin with status: {}, type: {}", (Object)status, (Object)type);
+        log.info("Fetching verifications for admin with status: {}, type: {}", status, type);
         try {
             return ResponseEntity.ok(List.of());
         }
         catch (Exception e) {
-            log.error("Error fetching verifications", (Throwable)e);
+            log.error("Error fetching verifications", e);
             return ResponseEntity.ok(List.of());
         }
     }
 
     @GetMapping(value={"/analytics"})
     public ResponseEntity<Map<String, Object>> getAnalytics(@RequestParam(required=false) String period) {
-        log.info("Fetching analytics with period: {}", (Object)period);
+        log.info("Fetching analytics with period: {}", period);
         try {
-            HashMap<String, Number> analytics = new HashMap<String, Number>();
+            HashMap<String, Object> analytics = new HashMap<String, Object>();
             analytics.put("totalRevenue", 0);
             analytics.put("totalCommission", 0);
             analytics.put("averageOrderValue", 0);
@@ -166,14 +166,14 @@ public class AdminDashboardController {
             return ResponseEntity.ok(analytics);
         }
         catch (Exception e) {
-            log.error("Error fetching analytics", (Throwable)e);
-            return ResponseEntity.ok(new HashMap());
+            log.error("Error fetching analytics", e);
+            return ResponseEntity.ok(new HashMap<>());
         }
     }
 
     @PutMapping(value={"/users/{id}/verify"})
     public ResponseEntity<Map<String, Object>> verifyUser(@PathVariable Long id) {
-        log.info("Verifying user: {}", (Object)id);
+        log.info("Verifying user: {}", id);
         HashMap<String, Object> response = new HashMap<String, Object>();
         response.put("success", true);
         response.put("message", "User verified successfully");
@@ -182,7 +182,7 @@ public class AdminDashboardController {
 
     @PutMapping(value={"/users/{id}/suspend"})
     public ResponseEntity<Map<String, Object>> suspendUser(@PathVariable Long id, @RequestBody Map<String, String> body) {
-        log.info("Suspending user: {} with reason: {}", (Object)id, (Object)body.get("reason"));
+        log.info("Suspending user: {} with reason: {}", id, body.get("reason"));
         HashMap<String, Object> response = new HashMap<String, Object>();
         response.put("success", true);
         response.put("message", "User suspended successfully");

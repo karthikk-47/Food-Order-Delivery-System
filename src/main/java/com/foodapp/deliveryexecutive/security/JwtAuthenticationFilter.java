@@ -53,13 +53,13 @@ extends OncePerRequestFilter {
             if (StringUtils.hasText((String)jwt) && this.tokenProvider.validateToken(jwt)) {
                 String username = this.tokenProvider.getUsernameFromJWT(jwt);
                 UserDetails userDetails = this.customUserDetailsService.loadUserByUsername(username);
-                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken((Object)userDetails, null, userDetails.getAuthorities());
-                authentication.setDetails((Object)new WebAuthenticationDetailsSource().buildDetails(request));
+                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication((Authentication)authentication);
             }
         }
         catch (Exception ex) {
-            this.logger.error((Object)"Could not set user authentication in security context", (Throwable)ex);
+            this.logger.error((Object)"Could not set user authentication in security context", ex);
         }
         filterChain.doFilter((ServletRequest)request, (ServletResponse)response);
     }

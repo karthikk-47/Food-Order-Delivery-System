@@ -91,17 +91,17 @@ public class ReverseGeocodeResponseDTO {
         }
         List<String> this$info_messages = this.getInfo_messages();
         List<String> other$info_messages = other.getInfo_messages();
-        if (this$info_messages == null ? other$info_messages != null : !((Object)this$info_messages).equals(other$info_messages)) {
+        if (this$info_messages == null ? other$info_messages != null : !(this$info_messages).equals(other$info_messages)) {
             return false;
         }
         List<Result> this$results = this.getResults();
         List<Result> other$results = other.getResults();
-        if (this$results == null ? other$results != null : !((Object)this$results).equals(other$results)) {
+        if (this$results == null ? other$results != null : !(this$results).equals(other$results)) {
             return false;
         }
         PlusCode this$plus_code = this.getPlus_code();
         PlusCode other$plus_code = other.getPlus_code();
-        if (this$plus_code == null ? other$plus_code != null : !((Object)this$plus_code).equals(other$plus_code)) {
+        if (this$plus_code == null ? other$plus_code != null : !(this$plus_code).equals(other$plus_code)) {
             return false;
         }
         String this$status = this.getStatus();

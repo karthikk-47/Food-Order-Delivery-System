@@ -53,27 +53,27 @@ public class MenuItemController {
 
     @PostMapping(value={"/menu-item/create", "/menu-items"}, consumes={"application/json"})
     public ResponseEntity<MenuItemDTO> createMenuItem(@RequestBody MenuItemDTO menuItemDTO) {
-        log.info("Creating menu item: {}", (Object)menuItemDTO.getItemName());
+        log.info("Creating menu item: {}", menuItemDTO.getItemName());
         try {
             MenuItemDTO createdItem = this.menuItemService.createMenuItem(menuItemDTO);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.CREATED).body((Object)createdItem);
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdItem);
         }
         catch (Exception e) {
-            log.error("Error creating menu item", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).body(null);
+            log.error("Error creating menu item", e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
     }
 
     @PostMapping(value={"/menu-item/create", "/menu-items"}, consumes={"multipart/form-data"})
     public ResponseEntity<MenuItemDTO> createMenuItemWithPhoto(@RequestParam String itemName, @RequestParam String description, @RequestParam Double price, @RequestParam Double estimatedPrepTime, @RequestParam Boolean isAvailable, @RequestParam(required=false) MultipartFile photo) {
-        log.info("Creating menu item with photo: {}", (Object)itemName);
+        log.info("Creating menu item with photo: {}", itemName);
         try {
             MenuItemDTO createdItem = this.menuItemService.createMenuItemWithPhoto(itemName, description, price, estimatedPrepTime, isAvailable, photo);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.CREATED).body((Object)createdItem);
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdItem);
         }
         catch (Exception e) {
-            log.error("Error creating menu item with photo", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).body(null);
+            log.error("Error creating menu item with photo", e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
     }
 
@@ -85,86 +85,86 @@ public class MenuItemController {
             return ResponseEntity.ok(items);
         }
         catch (Exception e) {
-            log.error("Error fetching menu items", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).build();
+            log.error("Error fetching menu items", e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
     @GetMapping(value={"/menu-item/{id}", "/menu-items/{id}"})
     public ResponseEntity<MenuItemDTO> getMenuItem(@PathVariable Long id) {
-        log.info("Fetching menu item with ID: {}", (Object)id);
+        log.info("Fetching menu item with ID: {}", id);
         try {
             MenuItemDTO item = this.menuItemService.getMenuItemById(id);
-            return ResponseEntity.ok((Object)item);
+            return ResponseEntity.ok(item);
         }
         catch (Exception e) {
-            log.error("Error fetching menu item", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.NOT_FOUND).build();
+            log.error("Error fetching menu item", e);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 
     @PutMapping(value={"/menu-item/{id}", "/menu-items/{id}"}, consumes={"application/json"})
     public ResponseEntity<MenuItemDTO> updateMenuItem(@PathVariable Long id, @RequestBody MenuItemDTO menuItemDTO) {
-        log.info("Updating menu item with ID: {}", (Object)id);
+        log.info("Updating menu item with ID: {}", id);
         try {
             MenuItemDTO updatedItem = this.menuItemService.updateMenuItem(id, menuItemDTO);
-            return ResponseEntity.ok((Object)updatedItem);
+            return ResponseEntity.ok(updatedItem);
         }
         catch (Exception e) {
-            log.error("Error updating menu item", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).build();
+            log.error("Error updating menu item", e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
     @PutMapping(value={"/menu-item/{id}", "/menu-items/{id}"}, consumes={"multipart/form-data"})
     public ResponseEntity<MenuItemDTO> updateMenuItemWithPhoto(@PathVariable Long id, @RequestParam String itemName, @RequestParam String description, @RequestParam Double price, @RequestParam Double estimatedPrepTime, @RequestParam Boolean isAvailable, @RequestParam(required=false) MultipartFile photo) {
-        log.info("Updating menu item with photo: {}", (Object)id);
+        log.info("Updating menu item with photo: {}", id);
         try {
             MenuItemDTO updatedItem = this.menuItemService.updateMenuItemWithPhoto(id, itemName, description, price, estimatedPrepTime, isAvailable, photo);
-            return ResponseEntity.ok((Object)updatedItem);
+            return ResponseEntity.ok(updatedItem);
         }
         catch (Exception e) {
-            log.error("Error updating menu item with photo", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).build();
+            log.error("Error updating menu item with photo", e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
     @PostMapping(value={"/menu-item/{id}/toggle-availability", "/menu-items/{id}/toggle-availability"})
     public ResponseEntity<MenuItemDTO> toggleAvailability(@PathVariable Long id) {
-        log.info("Toggling availability for menu item: {}", (Object)id);
+        log.info("Toggling availability for menu item: {}", id);
         try {
             MenuItemDTO item = this.menuItemService.toggleAvailability(id);
-            return ResponseEntity.ok((Object)item);
+            return ResponseEntity.ok(item);
         }
         catch (Exception e) {
-            log.error("Error toggling availability", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).build();
+            log.error("Error toggling availability", e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
     @GetMapping(value={"/menu/{menuId}/items"})
     public ResponseEntity<List<MenuItemDTO>> getMenuItems(@PathVariable Long menuId) {
-        log.info("Fetching items for menu: {}", (Object)menuId);
+        log.info("Fetching items for menu: {}", menuId);
         try {
             List<MenuItemDTO> items = this.menuItemService.getMenuItems(menuId);
             return ResponseEntity.ok(items);
         }
         catch (Exception e) {
-            log.error("Error fetching menu items", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).build();
+            log.error("Error fetching menu items", e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
     @DeleteMapping(value={"/menu-item/{id}", "/menu-items/{id}"})
     public ResponseEntity<Void> deleteMenuItem(@PathVariable Long id) {
-        log.info("Deleting menu item with ID: {}", (Object)id);
+        log.info("Deleting menu item with ID: {}", id);
         try {
             this.menuItemService.deleteMenuItem(id);
             return ResponseEntity.noContent().build();
         }
         catch (Exception e) {
-            log.error("Error deleting menu item", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).build();
+            log.error("Error deleting menu item", e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 }

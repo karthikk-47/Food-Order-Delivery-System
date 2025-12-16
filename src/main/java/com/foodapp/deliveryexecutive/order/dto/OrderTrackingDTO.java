@@ -322,72 +322,72 @@ public class OrderTrackingDTO {
         }
         Long this$orderId = this.getOrderId();
         Long other$orderId = other.getOrderId();
-        if (this$orderId == null ? other$orderId != null : !((Object)this$orderId).equals(other$orderId)) {
+        if (this$orderId == null ? other$orderId != null : !(this$orderId).equals(other$orderId)) {
             return false;
         }
         Integer this$stepNumber = this.getStepNumber();
         Integer other$stepNumber = other.getStepNumber();
-        if (this$stepNumber == null ? other$stepNumber != null : !((Object)this$stepNumber).equals(other$stepNumber)) {
+        if (this$stepNumber == null ? other$stepNumber != null : !(this$stepNumber).equals(other$stepNumber)) {
             return false;
         }
         Integer this$totalSteps = this.getTotalSteps();
         Integer other$totalSteps = other.getTotalSteps();
-        if (this$totalSteps == null ? other$totalSteps != null : !((Object)this$totalSteps).equals(other$totalSteps)) {
+        if (this$totalSteps == null ? other$totalSteps != null : !(this$totalSteps).equals(other$totalSteps)) {
             return false;
         }
         Double this$executiveLatitude = this.getExecutiveLatitude();
         Double other$executiveLatitude = other.getExecutiveLatitude();
-        if (this$executiveLatitude == null ? other$executiveLatitude != null : !((Object)this$executiveLatitude).equals(other$executiveLatitude)) {
+        if (this$executiveLatitude == null ? other$executiveLatitude != null : !(this$executiveLatitude).equals(other$executiveLatitude)) {
             return false;
         }
         Double this$executiveLongitude = this.getExecutiveLongitude();
         Double other$executiveLongitude = other.getExecutiveLongitude();
-        if (this$executiveLongitude == null ? other$executiveLongitude != null : !((Object)this$executiveLongitude).equals(other$executiveLongitude)) {
+        if (this$executiveLongitude == null ? other$executiveLongitude != null : !(this$executiveLongitude).equals(other$executiveLongitude)) {
             return false;
         }
         Double this$pickupLatitude = this.getPickupLatitude();
         Double other$pickupLatitude = other.getPickupLatitude();
-        if (this$pickupLatitude == null ? other$pickupLatitude != null : !((Object)this$pickupLatitude).equals(other$pickupLatitude)) {
+        if (this$pickupLatitude == null ? other$pickupLatitude != null : !(this$pickupLatitude).equals(other$pickupLatitude)) {
             return false;
         }
         Double this$pickupLongitude = this.getPickupLongitude();
         Double other$pickupLongitude = other.getPickupLongitude();
-        if (this$pickupLongitude == null ? other$pickupLongitude != null : !((Object)this$pickupLongitude).equals(other$pickupLongitude)) {
+        if (this$pickupLongitude == null ? other$pickupLongitude != null : !(this$pickupLongitude).equals(other$pickupLongitude)) {
             return false;
         }
         Double this$deliveryLatitude = this.getDeliveryLatitude();
         Double other$deliveryLatitude = other.getDeliveryLatitude();
-        if (this$deliveryLatitude == null ? other$deliveryLatitude != null : !((Object)this$deliveryLatitude).equals(other$deliveryLatitude)) {
+        if (this$deliveryLatitude == null ? other$deliveryLatitude != null : !(this$deliveryLatitude).equals(other$deliveryLatitude)) {
             return false;
         }
         Double this$deliveryLongitude = this.getDeliveryLongitude();
         Double other$deliveryLongitude = other.getDeliveryLongitude();
-        if (this$deliveryLongitude == null ? other$deliveryLongitude != null : !((Object)this$deliveryLongitude).equals(other$deliveryLongitude)) {
+        if (this$deliveryLongitude == null ? other$deliveryLongitude != null : !(this$deliveryLongitude).equals(other$deliveryLongitude)) {
             return false;
         }
         Long this$executiveId = this.getExecutiveId();
         Long other$executiveId = other.getExecutiveId();
-        if (this$executiveId == null ? other$executiveId != null : !((Object)this$executiveId).equals(other$executiveId)) {
+        if (this$executiveId == null ? other$executiveId != null : !(this$executiveId).equals(other$executiveId)) {
             return false;
         }
         Integer this$estimatedPrepTime = this.getEstimatedPrepTime();
         Integer other$estimatedPrepTime = other.getEstimatedPrepTime();
-        if (this$estimatedPrepTime == null ? other$estimatedPrepTime != null : !((Object)this$estimatedPrepTime).equals(other$estimatedPrepTime)) {
+        if (this$estimatedPrepTime == null ? other$estimatedPrepTime != null : !(this$estimatedPrepTime).equals(other$estimatedPrepTime)) {
             return false;
         }
         Integer this$estimatedDeliveryTime = this.getEstimatedDeliveryTime();
         Integer other$estimatedDeliveryTime = other.getEstimatedDeliveryTime();
-        if (this$estimatedDeliveryTime == null ? other$estimatedDeliveryTime != null : !((Object)this$estimatedDeliveryTime).equals(other$estimatedDeliveryTime)) {
+        if (this$estimatedDeliveryTime == null ? other$estimatedDeliveryTime != null : !(this$estimatedDeliveryTime).equals(other$estimatedDeliveryTime)) {
             return false;
         }
         Integer this$remainingMinutes = this.getRemainingMinutes();
         Integer other$remainingMinutes = other.getRemainingMinutes();
-        if (this$remainingMinutes == null ? other$remainingMinutes != null : !((Object)this$remainingMinutes).equals(other$remainingMinutes)) {
+        if (this$remainingMinutes == null ? other$remainingMinutes != null : !(this$remainingMinutes).equals(other$remainingMinutes)) {
             return false;
         }
         Double this$amount = this.getAmount();
         Double other$amount = other.getAmount();
-        if (this$amount == null ? other$amount != null : !((Object)this$amount).equals(other$amount)) {
+        if (this$amount == null ? other$amount != null : !(this$amount).equals(other$amount)) {
             return false;
         }
         String this$status = this.getStatus();
@@ -417,27 +417,27 @@ public class OrderTrackingDTO {
         }
         LocalDateTime this$createdAt = this.getCreatedAt();
         LocalDateTime other$createdAt = other.getCreatedAt();
-        if (this$createdAt == null ? other$createdAt != null : !((Object)this$createdAt).equals(other$createdAt)) {
+        if (this$createdAt == null ? other$createdAt != null : !(this$createdAt).equals(other$createdAt)) {
             return false;
         }
         LocalDateTime this$acceptedAt = this.getAcceptedAt();
         LocalDateTime other$acceptedAt = other.getAcceptedAt();
-        if (this$acceptedAt == null ? other$acceptedAt != null : !((Object)this$acceptedAt).equals(other$acceptedAt)) {
+        if (this$acceptedAt == null ? other$acceptedAt != null : !(this$acceptedAt).equals(other$acceptedAt)) {
             return false;
         }
         LocalDateTime this$pickedUpAt = this.getPickedUpAt();
         LocalDateTime other$pickedUpAt = other.getPickedUpAt();
-        if (this$pickedUpAt == null ? other$pickedUpAt != null : !((Object)this$pickedUpAt).equals(other$pickedUpAt)) {
+        if (this$pickedUpAt == null ? other$pickedUpAt != null : !(this$pickedUpAt).equals(other$pickedUpAt)) {
             return false;
         }
         LocalDateTime this$deliveredAt = this.getDeliveredAt();
         LocalDateTime other$deliveredAt = other.getDeliveredAt();
-        if (this$deliveredAt == null ? other$deliveredAt != null : !((Object)this$deliveredAt).equals(other$deliveredAt)) {
+        if (this$deliveredAt == null ? other$deliveredAt != null : !(this$deliveredAt).equals(other$deliveredAt)) {
             return false;
         }
         LocalDateTime this$lastUpdated = this.getLastUpdated();
         LocalDateTime other$lastUpdated = other.getLastUpdated();
-        if (this$lastUpdated == null ? other$lastUpdated != null : !((Object)this$lastUpdated).equals(other$lastUpdated)) {
+        if (this$lastUpdated == null ? other$lastUpdated != null : !(this$lastUpdated).equals(other$lastUpdated)) {
             return false;
         }
         String this$homemakerName = this.getHomemakerName();

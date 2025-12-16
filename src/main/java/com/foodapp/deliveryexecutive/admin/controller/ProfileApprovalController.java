@@ -55,8 +55,8 @@ public class ProfileApprovalController {
             return ResponseEntity.ok(pending);
         }
         catch (Exception e) {
-            log.error("Error fetching pending homemaker approvals", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.INTERNAL_SERVER_ERROR).body(List.of());
+            log.error("Error fetching pending homemaker approvals", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(List.of());
         }
     }
 
@@ -68,8 +68,8 @@ public class ProfileApprovalController {
             return ResponseEntity.ok(approved);
         }
         catch (Exception e) {
-            log.error("Error fetching approved homemakers", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.INTERNAL_SERVER_ERROR).body(List.of());
+            log.error("Error fetching approved homemakers", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(List.of());
         }
     }
 
@@ -81,14 +81,14 @@ public class ProfileApprovalController {
             return ResponseEntity.ok(rejected);
         }
         catch (Exception e) {
-            log.error("Error fetching rejected homemakers", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.INTERNAL_SERVER_ERROR).body(List.of());
+            log.error("Error fetching rejected homemakers", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(List.of());
         }
     }
 
     @PutMapping(value={"/homemakers/{id}/approve"})
     public ResponseEntity<Map<String, Object>> approveHomemaker(@PathVariable Long id, @RequestParam Long adminId) {
-        log.info("Approving homemaker {} by admin {}", (Object)id, (Object)adminId);
+        log.info("Approving homemaker {} by admin {}", id, adminId);
         HashMap<String, Object> response = new HashMap<String, Object>();
         try {
             ProfileApprovalDTO approved = this.profileApprovalService.approveHomemaker(id, adminId);
@@ -98,35 +98,35 @@ public class ProfileApprovalController {
             return ResponseEntity.ok(response);
         }
         catch (IllegalArgumentException e) {
-            log.error("Homemaker not found: {}", (Object)id);
+            log.error("Homemaker not found: {}", id);
             response.put("success", false);
             response.put("message", e.getMessage());
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.NOT_FOUND).body(response);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
         catch (IllegalStateException e) {
-            log.error("Invalid state for approval: {}", (Object)e.getMessage());
+            log.error("Invalid state for approval: {}", e.getMessage());
             response.put("success", false);
             response.put("message", e.getMessage());
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).body(response);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
         catch (Exception e) {
-            log.error("Error approving homemaker", (Throwable)e);
+            log.error("Error approving homemaker", e);
             response.put("success", false);
             response.put("message", "Error approving homemaker");
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
 
     @PutMapping(value={"/homemakers/{id}/reject"})
     public ResponseEntity<Map<String, Object>> rejectHomemaker(@PathVariable Long id, @RequestParam Long adminId, @RequestBody Map<String, String> body) {
-        log.info("Rejecting homemaker {} by admin {}", (Object)id, (Object)adminId);
+        log.info("Rejecting homemaker {} by admin {}", id, adminId);
         HashMap<String, Object> response = new HashMap<String, Object>();
         try {
             String reason = body.get("reason");
             if (reason == null || reason.trim().isEmpty()) {
                 response.put("success", false);
                 response.put("message", "Rejection reason is required");
-                return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).body(response);
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
             }
             ProfileApprovalDTO rejected = this.profileApprovalService.rejectHomemaker(id, adminId, reason);
             response.put("success", true);
@@ -135,22 +135,22 @@ public class ProfileApprovalController {
             return ResponseEntity.ok(response);
         }
         catch (IllegalArgumentException e) {
-            log.error("Homemaker not found: {}", (Object)id);
+            log.error("Homemaker not found: {}", id);
             response.put("success", false);
             response.put("message", e.getMessage());
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.NOT_FOUND).body(response);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
         catch (Exception e) {
-            log.error("Error rejecting homemaker", (Throwable)e);
+            log.error("Error rejecting homemaker", e);
             response.put("success", false);
             response.put("message", "Error rejecting homemaker");
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
 
     @PutMapping(value={"/homemakers/{id}/revert"})
     public ResponseEntity<Map<String, Object>> revertHomemakerToPending(@PathVariable Long id, @RequestParam Long adminId) {
-        log.info("Reverting homemaker {} to pending by admin {}", (Object)id, (Object)adminId);
+        log.info("Reverting homemaker {} to pending by admin {}", id, adminId);
         HashMap<String, Object> response = new HashMap<String, Object>();
         try {
             ProfileApprovalDTO reverted = this.profileApprovalService.revertHomemakerToPending(id, adminId);
@@ -160,16 +160,16 @@ public class ProfileApprovalController {
             return ResponseEntity.ok(response);
         }
         catch (Exception e) {
-            log.error("Error reverting homemaker to pending", (Throwable)e);
+            log.error("Error reverting homemaker to pending", e);
             response.put("success", false);
             response.put("message", "Error reverting homemaker to pending");
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
 
     @PutMapping(value={"/homemakers/bulk-approve"})
     public ResponseEntity<Map<String, Object>> bulkApproveHomemakers(@RequestBody List<Long> homemakerIds, @RequestParam Long adminId) {
-        log.info("Bulk approving {} homemakers by admin {}", (Object)homemakerIds.size(), (Object)adminId);
+        log.info("Bulk approving {} homemakers by admin {}", homemakerIds.size(), adminId);
         HashMap<String, Object> response = new HashMap<String, Object>();
         try {
             List<ProfileApprovalDTO> approved = this.profileApprovalService.bulkApproveHomemakers(homemakerIds, adminId);
@@ -181,10 +181,10 @@ public class ProfileApprovalController {
             return ResponseEntity.ok(response);
         }
         catch (Exception e) {
-            log.error("Error bulk approving homemakers", (Throwable)e);
+            log.error("Error bulk approving homemakers", e);
             response.put("success", false);
             response.put("message", "Error bulk approving homemakers");
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
 
@@ -196,8 +196,8 @@ public class ProfileApprovalController {
             return ResponseEntity.ok(pending);
         }
         catch (Exception e) {
-            log.error("Error fetching pending executive approvals", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.INTERNAL_SERVER_ERROR).body(List.of());
+            log.error("Error fetching pending executive approvals", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(List.of());
         }
     }
 
@@ -209,8 +209,8 @@ public class ProfileApprovalController {
             return ResponseEntity.ok(approved);
         }
         catch (Exception e) {
-            log.error("Error fetching approved executives", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.INTERNAL_SERVER_ERROR).body(List.of());
+            log.error("Error fetching approved executives", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(List.of());
         }
     }
 
@@ -222,14 +222,14 @@ public class ProfileApprovalController {
             return ResponseEntity.ok(rejected);
         }
         catch (Exception e) {
-            log.error("Error fetching rejected executives", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.INTERNAL_SERVER_ERROR).body(List.of());
+            log.error("Error fetching rejected executives", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(List.of());
         }
     }
 
     @PutMapping(value={"/executives/{id}/approve"})
     public ResponseEntity<Map<String, Object>> approveExecutive(@PathVariable Long id, @RequestParam Long adminId) {
-        log.info("Approving delivery executive {} by admin {}", (Object)id, (Object)adminId);
+        log.info("Approving delivery executive {} by admin {}", id, adminId);
         HashMap<String, Object> response = new HashMap<String, Object>();
         try {
             ProfileApprovalDTO approved = this.profileApprovalService.approveExecutive(id, adminId);
@@ -239,35 +239,35 @@ public class ProfileApprovalController {
             return ResponseEntity.ok(response);
         }
         catch (IllegalArgumentException e) {
-            log.error("Delivery Executive not found: {}", (Object)id);
+            log.error("Delivery Executive not found: {}", id);
             response.put("success", false);
             response.put("message", e.getMessage());
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.NOT_FOUND).body(response);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
         catch (IllegalStateException e) {
-            log.error("Invalid state for approval: {}", (Object)e.getMessage());
+            log.error("Invalid state for approval: {}", e.getMessage());
             response.put("success", false);
             response.put("message", e.getMessage());
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).body(response);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
         catch (Exception e) {
-            log.error("Error approving delivery executive", (Throwable)e);
+            log.error("Error approving delivery executive", e);
             response.put("success", false);
             response.put("message", "Error approving delivery executive");
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
 
     @PutMapping(value={"/executives/{id}/reject"})
     public ResponseEntity<Map<String, Object>> rejectExecutive(@PathVariable Long id, @RequestParam Long adminId, @RequestBody Map<String, String> body) {
-        log.info("Rejecting delivery executive {} by admin {}", (Object)id, (Object)adminId);
+        log.info("Rejecting delivery executive {} by admin {}", id, adminId);
         HashMap<String, Object> response = new HashMap<String, Object>();
         try {
             String reason = body.get("reason");
             if (reason == null || reason.trim().isEmpty()) {
                 response.put("success", false);
                 response.put("message", "Rejection reason is required");
-                return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).body(response);
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
             }
             ProfileApprovalDTO rejected = this.profileApprovalService.rejectExecutive(id, adminId, reason);
             response.put("success", true);
@@ -276,22 +276,22 @@ public class ProfileApprovalController {
             return ResponseEntity.ok(response);
         }
         catch (IllegalArgumentException e) {
-            log.error("Delivery Executive not found: {}", (Object)id);
+            log.error("Delivery Executive not found: {}", id);
             response.put("success", false);
             response.put("message", e.getMessage());
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.NOT_FOUND).body(response);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
         catch (Exception e) {
-            log.error("Error rejecting delivery executive", (Throwable)e);
+            log.error("Error rejecting delivery executive", e);
             response.put("success", false);
             response.put("message", "Error rejecting delivery executive");
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
 
     @PutMapping(value={"/executives/{id}/revert"})
     public ResponseEntity<Map<String, Object>> revertExecutiveToPending(@PathVariable Long id, @RequestParam Long adminId) {
-        log.info("Reverting delivery executive {} to pending by admin {}", (Object)id, (Object)adminId);
+        log.info("Reverting delivery executive {} to pending by admin {}", id, adminId);
         HashMap<String, Object> response = new HashMap<String, Object>();
         try {
             ProfileApprovalDTO reverted = this.profileApprovalService.revertExecutiveToPending(id, adminId);
@@ -301,16 +301,16 @@ public class ProfileApprovalController {
             return ResponseEntity.ok(response);
         }
         catch (Exception e) {
-            log.error("Error reverting delivery executive to pending", (Throwable)e);
+            log.error("Error reverting delivery executive to pending", e);
             response.put("success", false);
             response.put("message", "Error reverting delivery executive to pending");
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
 
     @PutMapping(value={"/executives/bulk-approve"})
     public ResponseEntity<Map<String, Object>> bulkApproveExecutives(@RequestBody List<Long> executiveIds, @RequestParam Long adminId) {
-        log.info("Bulk approving {} delivery executives by admin {}", (Object)executiveIds.size(), (Object)adminId);
+        log.info("Bulk approving {} delivery executives by admin {}", executiveIds.size(), adminId);
         HashMap<String, Object> response = new HashMap<String, Object>();
         try {
             List<ProfileApprovalDTO> approved = this.profileApprovalService.bulkApproveExecutives(executiveIds, adminId);
@@ -322,10 +322,10 @@ public class ProfileApprovalController {
             return ResponseEntity.ok(response);
         }
         catch (Exception e) {
-            log.error("Error bulk approving delivery executives", (Throwable)e);
+            log.error("Error bulk approving delivery executives", e);
             response.put("success", false);
             response.put("message", "Error bulk approving delivery executives");
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
 
@@ -337,8 +337,8 @@ public class ProfileApprovalController {
             return ResponseEntity.ok(pending);
         }
         catch (Exception e) {
-            log.error("Error fetching all pending approvals", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.INTERNAL_SERVER_ERROR).body(List.of());
+            log.error("Error fetching all pending approvals", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(List.of());
         }
     }
 
@@ -350,14 +350,14 @@ public class ProfileApprovalController {
             return ResponseEntity.ok(stats);
         }
         catch (Exception e) {
-            log.error("Error fetching approval statistics", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.INTERNAL_SERVER_ERROR).body(new HashMap());
+            log.error("Error fetching approval statistics", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new HashMap<>());
         }
     }
 
     @GetMapping(value={"/homemakers/{id}/status"})
     public ResponseEntity<Map<String, Object>> getHomemakerApprovalStatus(@PathVariable Long id) {
-        log.info("Checking homemaker approval status: {}", (Object)id);
+        log.info("Checking homemaker approval status: {}", id);
         HashMap<String, Object> response = new HashMap<String, Object>();
         try {
             String status = this.profileApprovalService.getHomemakerApprovalStatus(id);
@@ -371,13 +371,13 @@ public class ProfileApprovalController {
         catch (IllegalArgumentException e) {
             response.put("success", false);
             response.put("message", e.getMessage());
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.NOT_FOUND).body(response);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
     }
 
     @GetMapping(value={"/executives/{id}/status"})
     public ResponseEntity<Map<String, Object>> getExecutiveApprovalStatus(@PathVariable Long id) {
-        log.info("Checking delivery executive approval status: {}", (Object)id);
+        log.info("Checking delivery executive approval status: {}", id);
         HashMap<String, Object> response = new HashMap<String, Object>();
         try {
             String status = this.profileApprovalService.getExecutiveApprovalStatus(id);
@@ -391,7 +391,7 @@ public class ProfileApprovalController {
         catch (IllegalArgumentException e) {
             response.put("success", false);
             response.put("message", e.getMessage());
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.NOT_FOUND).body(response);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
     }
 }

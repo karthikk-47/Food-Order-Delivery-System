@@ -320,32 +320,32 @@ public class OrderPayment {
         }
         Long this$id = this.getId();
         Long other$id = other.getId();
-        if (this$id == null ? other$id != null : !((Object)this$id).equals(other$id)) {
+        if (this$id == null ? other$id != null : !(this$id).equals(other$id)) {
             return false;
         }
         Long this$orderId = this.getOrderId();
         Long other$orderId = other.getOrderId();
-        if (this$orderId == null ? other$orderId != null : !((Object)this$orderId).equals(other$orderId)) {
+        if (this$orderId == null ? other$orderId != null : !(this$orderId).equals(other$orderId)) {
             return false;
         }
         Long this$userId = this.getUserId();
         Long other$userId = other.getUserId();
-        if (this$userId == null ? other$userId != null : !((Object)this$userId).equals(other$userId)) {
+        if (this$userId == null ? other$userId != null : !(this$userId).equals(other$userId)) {
             return false;
         }
         Double this$amount = this.getAmount();
         Double other$amount = other.getAmount();
-        if (this$amount == null ? other$amount != null : !((Object)this$amount).equals(other$amount)) {
+        if (this$amount == null ? other$amount != null : !(this$amount).equals(other$amount)) {
             return false;
         }
         Boolean this$isRefunded = this.getIsRefunded();
         Boolean other$isRefunded = other.getIsRefunded();
-        if (this$isRefunded == null ? other$isRefunded != null : !((Object)this$isRefunded).equals(other$isRefunded)) {
+        if (this$isRefunded == null ? other$isRefunded != null : !(this$isRefunded).equals(other$isRefunded)) {
             return false;
         }
         Double this$refundAmount = this.getRefundAmount();
         Double other$refundAmount = other.getRefundAmount();
-        if (this$refundAmount == null ? other$refundAmount != null : !((Object)this$refundAmount).equals(other$refundAmount)) {
+        if (this$refundAmount == null ? other$refundAmount != null : !(this$refundAmount).equals(other$refundAmount)) {
             return false;
         }
         String this$currency = this.getCurrency();
@@ -370,12 +370,12 @@ public class OrderPayment {
         }
         PaymentStatus this$status = this.getStatus();
         PaymentStatus other$status = other.getStatus();
-        if (this$status == null ? other$status != null : !((Object)((Object)this$status)).equals((Object)other$status)) {
+        if (this$status == null ? other$status != null : !((Object)(this$status)).equals(other$status)) {
             return false;
         }
         PaymentMethod this$method = this.getMethod();
         PaymentMethod other$method = other.getMethod();
-        if (this$method == null ? other$method != null : !((Object)((Object)this$method)).equals((Object)other$method)) {
+        if (this$method == null ? other$method != null : !((Object)(this$method)).equals(other$method)) {
             return false;
         }
         String this$paymentDescription = this.getPaymentDescription();
@@ -395,17 +395,17 @@ public class OrderPayment {
         }
         LocalDateTime this$createdAt = this.getCreatedAt();
         LocalDateTime other$createdAt = other.getCreatedAt();
-        if (this$createdAt == null ? other$createdAt != null : !((Object)this$createdAt).equals(other$createdAt)) {
+        if (this$createdAt == null ? other$createdAt != null : !(this$createdAt).equals(other$createdAt)) {
             return false;
         }
         LocalDateTime this$paidAt = this.getPaidAt();
         LocalDateTime other$paidAt = other.getPaidAt();
-        if (this$paidAt == null ? other$paidAt != null : !((Object)this$paidAt).equals(other$paidAt)) {
+        if (this$paidAt == null ? other$paidAt != null : !(this$paidAt).equals(other$paidAt)) {
             return false;
         }
         LocalDateTime this$failedAt = this.getFailedAt();
         LocalDateTime other$failedAt = other.getFailedAt();
-        if (this$failedAt == null ? other$failedAt != null : !((Object)this$failedAt).equals(other$failedAt)) {
+        if (this$failedAt == null ? other$failedAt != null : !(this$failedAt).equals(other$failedAt)) {
             return false;
         }
         String this$failureReason = this.getFailureReason();
@@ -430,7 +430,7 @@ public class OrderPayment {
         }
         LocalDateTime this$refundedAt = this.getRefundedAt();
         LocalDateTime other$refundedAt = other.getRefundedAt();
-        return !(this$refundedAt == null ? other$refundedAt != null : !((Object)this$refundedAt).equals(other$refundedAt));
+        return !(this$refundedAt == null ? other$refundedAt != null : !(this$refundedAt).equals(other$refundedAt));
     }
 
     @Generated
@@ -493,7 +493,7 @@ public class OrderPayment {
 
     @Generated
     public String toString() {
-        return "OrderPayment(id=" + this.getId() + ", orderId=" + this.getOrderId() + ", userId=" + this.getUserId() + ", amount=" + this.getAmount() + ", currency=" + this.getCurrency() + ", razorpayOrderId=" + this.getRazorpayOrderId() + ", razorpayPaymentId=" + this.getRazorpayPaymentId() + ", razorpaySignature=" + this.getRazorpaySignature() + ", status=" + String.valueOf((Object)this.getStatus()) + ", method=" + String.valueOf((Object)this.getMethod()) + ", paymentDescription=" + this.getPaymentDescription() + ", customerEmail=" + this.getCustomerEmail() + ", customerPhone=" + this.getCustomerPhone() + ", createdAt=" + String.valueOf(this.getCreatedAt()) + ", paidAt=" + String.valueOf(this.getPaidAt()) + ", failedAt=" + String.valueOf(this.getFailedAt()) + ", failureReason=" + this.getFailureReason() + ", errorCode=" + this.getErrorCode() + ", errorDescription=" + this.getErrorDescription() + ", isRefunded=" + this.getIsRefunded() + ", refundId=" + this.getRefundId() + ", refundAmount=" + this.getRefundAmount() + ", refundedAt=" + String.valueOf(this.getRefundedAt()) + ")";
+        return "OrderPayment(id=" + this.getId() + ", orderId=" + this.getOrderId() + ", userId=" + this.getUserId() + ", amount=" + this.getAmount() + ", currency=" + this.getCurrency() + ", razorpayOrderId=" + this.getRazorpayOrderId() + ", razorpayPaymentId=" + this.getRazorpayPaymentId() + ", razorpaySignature=" + this.getRazorpaySignature() + ", status=" + String.valueOf(this.getStatus()) + ", method=" + String.valueOf(this.getMethod()) + ", paymentDescription=" + this.getPaymentDescription() + ", customerEmail=" + this.getCustomerEmail() + ", customerPhone=" + this.getCustomerPhone() + ", createdAt=" + String.valueOf(this.getCreatedAt()) + ", paidAt=" + String.valueOf(this.getPaidAt()) + ", failedAt=" + String.valueOf(this.getFailedAt()) + ", failureReason=" + this.getFailureReason() + ", errorCode=" + this.getErrorCode() + ", errorDescription=" + this.getErrorDescription() + ", isRefunded=" + this.getIsRefunded() + ", refundId=" + this.getRefundId() + ", refundAmount=" + this.getRefundAmount() + ", refundedAt=" + String.valueOf(this.getRefundedAt()) + ")";
     }
 
     public static enum PaymentStatus {

@@ -30,22 +30,22 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value={ResourceNotFoundException.class})
     public ResponseEntity<ErrorResponse> handleResourceNotFoundException(ResourceNotFoundException ex, WebRequest request) {
-        logger.error("Resource not found exception: {}", (Object)ex.getMessage());
+        logger.error("Resource not found exception: {}", ex.getMessage());
         ErrorResponse errorDetails = new ErrorResponse(HttpStatus.NOT_FOUND.value(), ex.getMessage(), request.getDescription(false));
-        return new ResponseEntity((Object)errorDetails, (HttpStatusCode)HttpStatus.NOT_FOUND);
+        return new ResponseEntity(errorDetails, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(value={IllegalArgumentException.class})
     public ResponseEntity<ErrorResponse> handleIllegalArgumentException(IllegalArgumentException ex, WebRequest request) {
-        logger.error("Illegal argument exception: {}", (Object)ex.getMessage());
+        logger.error("Illegal argument exception: {}", ex.getMessage());
         ErrorResponse errorDetails = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), ex.getMessage(), request.getDescription(false));
-        return new ResponseEntity((Object)errorDetails, (HttpStatusCode)HttpStatus.BAD_REQUEST);
+        return new ResponseEntity(errorDetails, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(value={Exception.class})
     public ResponseEntity<ErrorResponse> handleGlobalException(Exception ex, WebRequest request) {
-        logger.error("Global exception: ", (Throwable)ex);
+        logger.error("Global exception: ", ex);
         ErrorResponse errorDetails = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), "An unexpected error occurred", request.getDescription(false));
-        return new ResponseEntity((Object)errorDetails, (HttpStatusCode)HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

@@ -314,122 +314,122 @@ public class HomemakerAnalytics {
         }
         Long this$id = this.getId();
         Long other$id = other.getId();
-        if (this$id == null ? other$id != null : !((Object)this$id).equals(other$id)) {
+        if (this$id == null ? other$id != null : !(this$id).equals(other$id)) {
             return false;
         }
         Long this$homemakerId = this.getHomemakerId();
         Long other$homemakerId = other.getHomemakerId();
-        if (this$homemakerId == null ? other$homemakerId != null : !((Object)this$homemakerId).equals(other$homemakerId)) {
+        if (this$homemakerId == null ? other$homemakerId != null : !(this$homemakerId).equals(other$homemakerId)) {
             return false;
         }
         Integer this$totalOrdersThisMonth = this.getTotalOrdersThisMonth();
         Integer other$totalOrdersThisMonth = other.getTotalOrdersThisMonth();
-        if (this$totalOrdersThisMonth == null ? other$totalOrdersThisMonth != null : !((Object)this$totalOrdersThisMonth).equals(other$totalOrdersThisMonth)) {
+        if (this$totalOrdersThisMonth == null ? other$totalOrdersThisMonth != null : !(this$totalOrdersThisMonth).equals(other$totalOrdersThisMonth)) {
             return false;
         }
         Integer this$totalOrdersThisWeek = this.getTotalOrdersThisWeek();
         Integer other$totalOrdersThisWeek = other.getTotalOrdersThisWeek();
-        if (this$totalOrdersThisWeek == null ? other$totalOrdersThisWeek != null : !((Object)this$totalOrdersThisWeek).equals(other$totalOrdersThisWeek)) {
+        if (this$totalOrdersThisWeek == null ? other$totalOrdersThisWeek != null : !(this$totalOrdersThisWeek).equals(other$totalOrdersThisWeek)) {
             return false;
         }
         Integer this$totalOrdersToday = this.getTotalOrdersToday();
         Integer other$totalOrdersToday = other.getTotalOrdersToday();
-        if (this$totalOrdersToday == null ? other$totalOrdersToday != null : !((Object)this$totalOrdersToday).equals(other$totalOrdersToday)) {
+        if (this$totalOrdersToday == null ? other$totalOrdersToday != null : !(this$totalOrdersToday).equals(other$totalOrdersToday)) {
             return false;
         }
         Double this$totalRevenueThisMonth = this.getTotalRevenueThisMonth();
         Double other$totalRevenueThisMonth = other.getTotalRevenueThisMonth();
-        if (this$totalRevenueThisMonth == null ? other$totalRevenueThisMonth != null : !((Object)this$totalRevenueThisMonth).equals(other$totalRevenueThisMonth)) {
+        if (this$totalRevenueThisMonth == null ? other$totalRevenueThisMonth != null : !(this$totalRevenueThisMonth).equals(other$totalRevenueThisMonth)) {
             return false;
         }
         Double this$totalRevenueThisWeek = this.getTotalRevenueThisWeek();
         Double other$totalRevenueThisWeek = other.getTotalRevenueThisWeek();
-        if (this$totalRevenueThisWeek == null ? other$totalRevenueThisWeek != null : !((Object)this$totalRevenueThisWeek).equals(other$totalRevenueThisWeek)) {
+        if (this$totalRevenueThisWeek == null ? other$totalRevenueThisWeek != null : !(this$totalRevenueThisWeek).equals(other$totalRevenueThisWeek)) {
             return false;
         }
         Double this$totalRevenueToday = this.getTotalRevenueToday();
         Double other$totalRevenueToday = other.getTotalRevenueToday();
-        if (this$totalRevenueToday == null ? other$totalRevenueToday != null : !((Object)this$totalRevenueToday).equals(other$totalRevenueToday)) {
+        if (this$totalRevenueToday == null ? other$totalRevenueToday != null : !(this$totalRevenueToday).equals(other$totalRevenueToday)) {
             return false;
         }
         Double this$averageOrderValue = this.getAverageOrderValue();
         Double other$averageOrderValue = other.getAverageOrderValue();
-        if (this$averageOrderValue == null ? other$averageOrderValue != null : !((Object)this$averageOrderValue).equals(other$averageOrderValue)) {
+        if (this$averageOrderValue == null ? other$averageOrderValue != null : !(this$averageOrderValue).equals(other$averageOrderValue)) {
             return false;
         }
         Double this$averageRating = this.getAverageRating();
         Double other$averageRating = other.getAverageRating();
-        if (this$averageRating == null ? other$averageRating != null : !((Object)this$averageRating).equals(other$averageRating)) {
+        if (this$averageRating == null ? other$averageRating != null : !(this$averageRating).equals(other$averageRating)) {
             return false;
         }
         Integer this$totalCustomers = this.getTotalCustomers();
         Integer other$totalCustomers = other.getTotalCustomers();
-        if (this$totalCustomers == null ? other$totalCustomers != null : !((Object)this$totalCustomers).equals(other$totalCustomers)) {
+        if (this$totalCustomers == null ? other$totalCustomers != null : !(this$totalCustomers).equals(other$totalCustomers)) {
             return false;
         }
         Integer this$repeatCustomers = this.getRepeatCustomers();
         Integer other$repeatCustomers = other.getRepeatCustomers();
-        if (this$repeatCustomers == null ? other$repeatCustomers != null : !((Object)this$repeatCustomers).equals(other$repeatCustomers)) {
+        if (this$repeatCustomers == null ? other$repeatCustomers != null : !(this$repeatCustomers).equals(other$repeatCustomers)) {
             return false;
         }
         Integer this$ordersCompleted = this.getOrdersCompleted();
         Integer other$ordersCompleted = other.getOrdersCompleted();
-        if (this$ordersCompleted == null ? other$ordersCompleted != null : !((Object)this$ordersCompleted).equals(other$ordersCompleted)) {
+        if (this$ordersCompleted == null ? other$ordersCompleted != null : !(this$ordersCompleted).equals(other$ordersCompleted)) {
             return false;
         }
         Integer this$ordersCancelled = this.getOrdersCancelled();
         Integer other$ordersCancelled = other.getOrdersCancelled();
-        if (this$ordersCancelled == null ? other$ordersCancelled != null : !((Object)this$ordersCancelled).equals(other$ordersCancelled)) {
+        if (this$ordersCancelled == null ? other$ordersCancelled != null : !(this$ordersCancelled).equals(other$ordersCancelled)) {
             return false;
         }
         Integer this$ordersRefunded = this.getOrdersRefunded();
         Integer other$ordersRefunded = other.getOrdersRefunded();
-        if (this$ordersRefunded == null ? other$ordersRefunded != null : !((Object)this$ordersRefunded).equals(other$ordersRefunded)) {
+        if (this$ordersRefunded == null ? other$ordersRefunded != null : !(this$ordersRefunded).equals(other$ordersRefunded)) {
             return false;
         }
         Double this$completionRate = this.getCompletionRate();
         Double other$completionRate = other.getCompletionRate();
-        if (this$completionRate == null ? other$completionRate != null : !((Object)this$completionRate).equals(other$completionRate)) {
+        if (this$completionRate == null ? other$completionRate != null : !(this$completionRate).equals(other$completionRate)) {
             return false;
         }
         Double this$cancellationRate = this.getCancellationRate();
         Double other$cancellationRate = other.getCancellationRate();
-        if (this$cancellationRate == null ? other$cancellationRate != null : !((Object)this$cancellationRate).equals(other$cancellationRate)) {
+        if (this$cancellationRate == null ? other$cancellationRate != null : !(this$cancellationRate).equals(other$cancellationRate)) {
             return false;
         }
         Integer this$dishesListed = this.getDishesListed();
         Integer other$dishesListed = other.getDishesListed();
-        if (this$dishesListed == null ? other$dishesListed != null : !((Object)this$dishesListed).equals(other$dishesListed)) {
+        if (this$dishesListed == null ? other$dishesListed != null : !(this$dishesListed).equals(other$dishesListed)) {
             return false;
         }
         Integer this$activeDishes = this.getActiveDishes();
         Integer other$activeDishes = other.getActiveDishes();
-        if (this$activeDishes == null ? other$activeDishes != null : !((Object)this$activeDishes).equals(other$activeDishes)) {
+        if (this$activeDishes == null ? other$activeDishes != null : !(this$activeDishes).equals(other$activeDishes)) {
             return false;
         }
         Integer this$totalReviews = this.getTotalReviews();
         Integer other$totalReviews = other.getTotalReviews();
-        if (this$totalReviews == null ? other$totalReviews != null : !((Object)this$totalReviews).equals(other$totalReviews)) {
+        if (this$totalReviews == null ? other$totalReviews != null : !(this$totalReviews).equals(other$totalReviews)) {
             return false;
         }
         Integer this$positiveReviews = this.getPositiveReviews();
         Integer other$positiveReviews = other.getPositiveReviews();
-        if (this$positiveReviews == null ? other$positiveReviews != null : !((Object)this$positiveReviews).equals(other$positiveReviews)) {
+        if (this$positiveReviews == null ? other$positiveReviews != null : !(this$positiveReviews).equals(other$positiveReviews)) {
             return false;
         }
         Integer this$negativeReviews = this.getNegativeReviews();
         Integer other$negativeReviews = other.getNegativeReviews();
-        if (this$negativeReviews == null ? other$negativeReviews != null : !((Object)this$negativeReviews).equals(other$negativeReviews)) {
+        if (this$negativeReviews == null ? other$negativeReviews != null : !(this$negativeReviews).equals(other$negativeReviews)) {
             return false;
         }
         LocalDateTime this$lastUpdated = this.getLastUpdated();
         LocalDateTime other$lastUpdated = other.getLastUpdated();
-        if (this$lastUpdated == null ? other$lastUpdated != null : !((Object)this$lastUpdated).equals(other$lastUpdated)) {
+        if (this$lastUpdated == null ? other$lastUpdated != null : !(this$lastUpdated).equals(other$lastUpdated)) {
             return false;
         }
         LocalDateTime this$createdAt = this.getCreatedAt();
         LocalDateTime other$createdAt = other.getCreatedAt();
-        return !(this$createdAt == null ? other$createdAt != null : !((Object)this$createdAt).equals(other$createdAt));
+        return !(this$createdAt == null ? other$createdAt != null : !(this$createdAt).equals(other$createdAt));
     }
 
     @Generated

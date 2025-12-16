@@ -35,7 +35,7 @@ public class WalletService {
     }
 
     public Wallet getWalletByCustomerIdAndRole(Long customerId, Actor.Role role) {
-        return this.walletRepository.findByCustomerIdAndRole(customerId, role).orElseThrow(() -> new ResourceNotFoundException("Wallet not found for customer: " + customerId + " with role: " + String.valueOf((Object)role)));
+        return this.walletRepository.findByCustomerIdAndRole(customerId, role).orElseThrow(() -> new ResourceNotFoundException("Wallet not found for customer: " + customerId + " with role: " + String.valueOf(role)));
     }
 
     public WalletDTO getWalletDTO(Long customerId, Actor.Role role) {
@@ -55,7 +55,7 @@ public class WalletService {
         wallet.setRole(role);
         wallet.setBalance(0.0);
         this.walletRepository.save(wallet);
-        logger.info("Created wallet for customer: {} with role: {}", (Object)customerId, (Object)role);
+        logger.info("Created wallet for customer: {} with role: {}", customerId, role);
         return wallet;
     }
 

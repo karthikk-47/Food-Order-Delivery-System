@@ -118,42 +118,42 @@ public class HomemakerWalletDTO {
         }
         Long this$id = this.getId();
         Long other$id = other.getId();
-        if (this$id == null ? other$id != null : !((Object)this$id).equals(other$id)) {
+        if (this$id == null ? other$id != null : !(this$id).equals(other$id)) {
             return false;
         }
         Long this$homemakerId = this.getHomemakerId();
         Long other$homemakerId = other.getHomemakerId();
-        if (this$homemakerId == null ? other$homemakerId != null : !((Object)this$homemakerId).equals(other$homemakerId)) {
+        if (this$homemakerId == null ? other$homemakerId != null : !(this$homemakerId).equals(other$homemakerId)) {
             return false;
         }
         Double this$balance = this.getBalance();
         Double other$balance = other.getBalance();
-        if (this$balance == null ? other$balance != null : !((Object)this$balance).equals(other$balance)) {
+        if (this$balance == null ? other$balance != null : !(this$balance).equals(other$balance)) {
             return false;
         }
         Double this$totalEarnings = this.getTotalEarnings();
         Double other$totalEarnings = other.getTotalEarnings();
-        if (this$totalEarnings == null ? other$totalEarnings != null : !((Object)this$totalEarnings).equals(other$totalEarnings)) {
+        if (this$totalEarnings == null ? other$totalEarnings != null : !(this$totalEarnings).equals(other$totalEarnings)) {
             return false;
         }
         Double this$totalWithdrawn = this.getTotalWithdrawn();
         Double other$totalWithdrawn = other.getTotalWithdrawn();
-        if (this$totalWithdrawn == null ? other$totalWithdrawn != null : !((Object)this$totalWithdrawn).equals(other$totalWithdrawn)) {
+        if (this$totalWithdrawn == null ? other$totalWithdrawn != null : !(this$totalWithdrawn).equals(other$totalWithdrawn)) {
             return false;
         }
         LocalDateTime this$lastWithdrawalDate = this.getLastWithdrawalDate();
         LocalDateTime other$lastWithdrawalDate = other.getLastWithdrawalDate();
-        if (this$lastWithdrawalDate == null ? other$lastWithdrawalDate != null : !((Object)this$lastWithdrawalDate).equals(other$lastWithdrawalDate)) {
+        if (this$lastWithdrawalDate == null ? other$lastWithdrawalDate != null : !(this$lastWithdrawalDate).equals(other$lastWithdrawalDate)) {
             return false;
         }
         LocalDateTime this$createdAt = this.getCreatedAt();
         LocalDateTime other$createdAt = other.getCreatedAt();
-        if (this$createdAt == null ? other$createdAt != null : !((Object)this$createdAt).equals(other$createdAt)) {
+        if (this$createdAt == null ? other$createdAt != null : !(this$createdAt).equals(other$createdAt)) {
             return false;
         }
         LocalDateTime this$updatedAt = this.getUpdatedAt();
         LocalDateTime other$updatedAt = other.getUpdatedAt();
-        return !(this$updatedAt == null ? other$updatedAt != null : !((Object)this$updatedAt).equals(other$updatedAt));
+        return !(this$updatedAt == null ? other$updatedAt != null : !(this$updatedAt).equals(other$updatedAt));
     }
 
     @Generated

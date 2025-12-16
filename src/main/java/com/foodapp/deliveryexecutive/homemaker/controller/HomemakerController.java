@@ -40,7 +40,7 @@ public class HomemakerController {
 
     @GetMapping(value={"/{id}"})
     public ResponseEntity<Map<String, Object>> getHomemakerProfile(@PathVariable Long id) {
-        log.info("Fetching homemaker profile for ID: {}", (Object)id);
+        log.info("Fetching homemaker profile for ID: {}", id);
         try {
             HomeMaker homeMaker = this.homeMakerRepository.findById(id).orElse(null);
             if (homeMaker == null) {
@@ -51,22 +51,22 @@ public class HomemakerController {
             profile.put("name", homeMaker.getName());
             profile.put("mobile", homeMaker.getMobile());
             profile.put("address", homeMaker.getAddress());
-            profile.put("approvalStatus", (Object)homeMaker.getApprovalStatus());
-            profile.put("role", (Object)homeMaker.getRole());
+            profile.put("approvalStatus", homeMaker.getApprovalStatus());
+            profile.put("role", homeMaker.getRole());
             profile.put("totalOrders", 0);
             profile.put("totalEarnings", 0);
             profile.put("rating", 4.5);
             return ResponseEntity.ok(profile);
         }
         catch (Exception e) {
-            log.error("Error fetching homemaker profile", (Throwable)e);
+            log.error("Error fetching homemaker profile", e);
             return ResponseEntity.badRequest().build();
         }
     }
 
     @PutMapping(value={"/{id}"})
     public ResponseEntity<Map<String, Object>> updateHomemakerProfile(@PathVariable Long id, @RequestBody Map<String, Object> updates) {
-        log.info("Updating homemaker profile for ID: {}", (Object)id);
+        log.info("Updating homemaker profile for ID: {}", id);
         try {
             HomeMaker homeMaker = this.homeMakerRepository.findById(id).orElse(null);
             if (homeMaker == null) {
@@ -85,7 +85,7 @@ public class HomemakerController {
             return ResponseEntity.ok(response);
         }
         catch (Exception e) {
-            log.error("Error updating homemaker profile", (Throwable)e);
+            log.error("Error updating homemaker profile", e);
             return ResponseEntity.badRequest().build();
         }
     }
@@ -95,10 +95,10 @@ public class HomemakerController {
         log.info("Fetching all homemakers");
         try {
             List homemakers = this.homeMakerRepository.findAll();
-            return ResponseEntity.ok((Object)homemakers);
+            return ResponseEntity.ok(homemakers);
         }
         catch (Exception e) {
-            log.error("Error fetching homemakers", (Throwable)e);
+            log.error("Error fetching homemakers", e);
             return ResponseEntity.ok(List.of());
         }
     }
@@ -111,7 +111,7 @@ public class HomemakerController {
             return ResponseEntity.ok(homemakers);
         }
         catch (Exception e) {
-            log.error("Error fetching nearby homemakers", (Throwable)e);
+            log.error("Error fetching nearby homemakers", e);
             return ResponseEntity.ok(List.of());
         }
     }

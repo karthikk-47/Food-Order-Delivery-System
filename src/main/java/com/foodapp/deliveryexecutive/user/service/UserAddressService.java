@@ -32,7 +32,7 @@ public class UserAddressService {
     private UserAddressRepository userAddressRepository;
 
     public UserAddressDTO addAddress(UserAddressDTO addressDTO) {
-        log.info("Adding address for user: {}", (Object)addressDTO.getUserId());
+        log.info("Adding address for user: {}", addressDTO.getUserId());
         List<UserAddress> existingAddresses = this.userAddressRepository.findByUserId(addressDTO.getUserId());
         UserAddress address = new UserAddress();
         address.setUserId(addressDTO.getUserId());
@@ -47,18 +47,18 @@ public class UserAddressService {
         address.setDeliveryInstructions(addressDTO.getDeliveryInstructions());
         address.setIsDefault(existingAddresses.isEmpty() ? true : addressDTO.getIsDefault());
         UserAddress savedAddress = (UserAddress)this.userAddressRepository.save(address);
-        log.info("Address added successfully with ID: {}", (Object)savedAddress.getId());
+        log.info("Address added successfully with ID: {}", savedAddress.getId());
         return this.convertToDTO(savedAddress);
     }
 
     public UserAddressDTO getAddressById(Long id) {
-        log.debug("Fetching address with ID: {}", (Object)id);
+        log.debug("Fetching address with ID: {}", id);
         UserAddress address = (UserAddress)this.userAddressRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Address not found"));
         return this.convertToDTO(address);
     }
 
     public UserAddressDTO updateAddress(Long id, UserAddressDTO addressDTO) {
-        log.info("Updating address with ID: {}", (Object)id);
+        log.info("Updating address with ID: {}", id);
         UserAddress address = (UserAddress)this.userAddressRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Address not found"));
         if (addressDTO.getAddressLabel() != null) {
             address.setAddressLabel(addressDTO.getAddressLabel());
@@ -75,7 +75,7 @@ public class UserAddressService {
     }
 
     public void setAsDefault(Long userId, Long addressId) {
-        log.info("Setting address {} as default for user: {}", (Object)addressId, (Object)userId);
+        log.info("Setting address {} as default for user: {}", addressId, userId);
         List<UserAddress> userAddresses = this.userAddressRepository.findByUserId(userId);
         userAddresses.forEach(addr -> addr.setIsDefault(false));
         this.userAddressRepository.saveAll(userAddresses);
@@ -86,12 +86,12 @@ public class UserAddressService {
     }
 
     public List<UserAddressDTO> getUserAddresses(Long userId) {
-        log.debug("Fetching all addresses for user: {}", (Object)userId);
+        log.debug("Fetching all addresses for user: {}", userId);
         return this.userAddressRepository.findByUserIdAndIsActive(userId, true).stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
     public void deleteAddress(Long id) {
-        log.info("Deleting address with ID: {}", (Object)id);
+        log.info("Deleting address with ID: {}", id);
         UserAddress address = (UserAddress)this.userAddressRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Address not found"));
         address.setIsActive(false);
         this.userAddressRepository.save(address);

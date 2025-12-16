@@ -36,7 +36,7 @@ public class AdminService {
     private static final int LOCKOUT_DURATION_MINUTES = 30;
 
     public AdminDTO createAdmin(AdminDTO adminDTO) {
-        log.info("Creating new admin: {}", (Object)adminDTO.getUsername());
+        log.info("Creating new admin: {}", adminDTO.getUsername());
         if (this.adminRepository.findByUsername(adminDTO.getUsername()).isPresent()) {
             throw new IllegalArgumentException("Admin with username already exists");
         }
@@ -57,22 +57,22 @@ public class AdminService {
         admin.setCanViewAnalytics(adminDTO.getCanViewAnalytics());
         admin.setCanManageAdmins(adminDTO.getCanManageAdmins());
         Admin savedAdmin = (Admin)this.adminRepository.save(admin);
-        log.info("Admin created successfully with ID: {}", (Object)savedAdmin.getId());
+        log.info("Admin created successfully with ID: {}", savedAdmin.getId());
         return this.convertToDTO(savedAdmin);
     }
 
     public AdminDTO getAdminById(Long id) {
-        log.debug("Fetching admin by ID: {}", (Object)id);
+        log.debug("Fetching admin by ID: {}", id);
         return this.adminRepository.findById(id).map(this::convertToDTO).orElseThrow(() -> new IllegalArgumentException("Admin not found"));
     }
 
     public AdminDTO getAdminByUsername(String username) {
-        log.debug("Fetching admin by username: {}", (Object)username);
+        log.debug("Fetching admin by username: {}", username);
         return this.adminRepository.findByUsername(username).map(this::convertToDTO).orElseThrow(() -> new IllegalArgumentException("Admin not found"));
     }
 
     public AdminDTO updateAdmin(Long id, AdminDTO adminDTO) {
-        log.info("Updating admin with ID: {}", (Object)id);
+        log.info("Updating admin with ID: {}", id);
         Admin admin = (Admin)this.adminRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Admin not found"));
         if (adminDTO.getFullName() != null) {
             admin.setFullName(adminDTO.getFullName());
@@ -98,14 +98,14 @@ public class AdminService {
     }
 
     public void deleteAdmin(Long id) {
-        log.info("Deleting admin with ID: {}", (Object)id);
+        log.info("Deleting admin with ID: {}", id);
         Admin admin = (Admin)this.adminRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Admin not found"));
         this.adminRepository.delete(admin);
         log.info("Admin deleted successfully");
     }
 
     public AdminDTO suspendAdmin(Long id) {
-        log.info("Suspending admin with ID: {}", (Object)id);
+        log.info("Suspending admin with ID: {}", id);
         Admin admin = (Admin)this.adminRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Admin not found"));
         admin.setStatus(Admin.AdminStatus.SUSPENDED);
         Admin updatedAdmin = (Admin)this.adminRepository.save(admin);
@@ -114,7 +114,7 @@ public class AdminService {
     }
 
     public AdminDTO activateAdmin(Long id) {
-        log.info("Activating admin with ID: {}", (Object)id);
+        log.info("Activating admin with ID: {}", id);
         Admin admin = (Admin)this.adminRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Admin not found"));
         admin.setStatus(Admin.AdminStatus.ACTIVE);
         admin.setLoginAttempts(0);
@@ -125,7 +125,7 @@ public class AdminService {
     }
 
     public void recordLoginAttempt(String username, boolean success, String ipAddress) {
-        log.debug("Recording login attempt for username: {} from IP: {}", (Object)username, (Object)ipAddress);
+        log.debug("Recording login attempt for username: {} from IP: {}", username, ipAddress);
         Optional<Admin> optionalAdmin = this.adminRepository.findByUsername(username);
         if (optionalAdmin.isEmpty()) {
             return;
@@ -140,7 +140,7 @@ public class AdminService {
             admin.setLoginAttempts(admin.getLoginAttempts() + 1);
             if (admin.getLoginAttempts() >= 5) {
                 admin.setAccountLockedUntil(LocalDateTime.now().plusMinutes(30L));
-                log.warn("Admin account locked due to multiple failed login attempts: {}", (Object)username);
+                log.warn("Admin account locked due to multiple failed login attempts: {}", username);
             }
         }
         this.adminRepository.save(admin);
@@ -151,7 +151,7 @@ public class AdminService {
     }
 
     public List<AdminDTO> getAdminsByRole(Admin.AdminRole role) {
-        log.debug("Fetching admins by role: {}", (Object)role);
+        log.debug("Fetching admins by role: {}", role);
         return this.adminRepository.findByAdminRole(role).stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 

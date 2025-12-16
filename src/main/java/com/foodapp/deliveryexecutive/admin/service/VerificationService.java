@@ -33,7 +33,7 @@ public class VerificationService {
     private VerificationRepository verificationRepository;
 
     public VerificationDTO submitVerification(VerificationDTO verificationDTO) {
-        log.info("Submitting verification for user: {} of type: {}", (Object)verificationDTO.getUserId(), (Object)verificationDTO.getUserType());
+        log.info("Submitting verification for user: {} of type: {}", verificationDTO.getUserId(), verificationDTO.getUserType());
         Verification verification = new Verification();
         verification.setUserId(verificationDTO.getUserId());
         verification.setUserType(verificationDTO.getUserType());
@@ -44,12 +44,12 @@ public class VerificationService {
         verification.setPhoneNumber(verificationDTO.getPhoneNumber());
         verification.setEmail(verificationDTO.getEmail());
         Verification savedVerification = (Verification)this.verificationRepository.save(verification);
-        log.info("Verification submitted successfully with ID: {}", (Object)savedVerification.getId());
+        log.info("Verification submitted successfully with ID: {}", savedVerification.getId());
         return this.convertToDTO(savedVerification);
     }
 
     public VerificationDTO approveVerification(Long verificationId, Long adminId) {
-        log.info("Approving verification with ID: {} by admin: {}", (Object)verificationId, (Object)adminId);
+        log.info("Approving verification with ID: {} by admin: {}", verificationId, adminId);
         Verification verification = (Verification)this.verificationRepository.findById(verificationId).orElseThrow(() -> new IllegalArgumentException("Verification not found"));
         verification.setStatus(Verification.VerificationStatus.APPROVED);
         verification.setVerifiedBy(adminId);
@@ -73,12 +73,12 @@ public class VerificationService {
     }
 
     public VerificationDTO getVerificationById(Long id) {
-        log.debug("Fetching verification by ID: {}", (Object)id);
+        log.debug("Fetching verification by ID: {}", id);
         return this.verificationRepository.findById(id).map(this::convertToDTO).orElseThrow(() -> new IllegalArgumentException("Verification not found"));
     }
 
     public List<VerificationDTO> getUserVerifications(Long userId, String userType) {
-        log.debug("Fetching verifications for user: {} of type: {}", (Object)userId, (Object)userType);
+        log.debug("Fetching verifications for user: {} of type: {}", userId, userType);
         return this.verificationRepository.findByUserIdAndUserType(userId, userType).stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
@@ -88,12 +88,12 @@ public class VerificationService {
     }
 
     public List<VerificationDTO> getPendingVerificationsByUserType(String userType) {
-        log.debug("Fetching pending verifications for user type: {}", (Object)userType);
+        log.debug("Fetching pending verifications for user type: {}", userType);
         return this.verificationRepository.findByUserTypeAndStatus(userType, Verification.VerificationStatus.PENDING).stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
     public boolean hasRequiredVerification(Long userId, String userType, Verification.VerificationType type) {
-        log.debug("Checking if user has required verification: {}", (Object)type);
+        log.debug("Checking if user has required verification: {}", type);
         return this.verificationRepository.findByUserIdAndUserTypeAndVerificationType(userId, userType, type).filter(v -> v.getStatus() == Verification.VerificationStatus.APPROVED).filter(v -> v.getExpiresAt() == null || v.getExpiresAt().isAfter(LocalDateTime.now())).isPresent();
     }
 

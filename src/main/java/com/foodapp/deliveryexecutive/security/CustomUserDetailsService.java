@@ -48,19 +48,19 @@ implements UserDetailsService {
 
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        logger.debug("Loading user by username: {}", (Object)username);
+        logger.debug("Loading user by username: {}", username);
         UserPrincipal userPrincipal = this.findUserByMobile(username);
         if (userPrincipal == null) {
-            logger.error("User not found with mobile: {}", (Object)username);
+            logger.error("User not found with mobile: {}", username);
             throw new UsernameNotFoundException("User not found with mobile: " + username);
         }
-        logger.debug("User found with role: {}", (Object)userPrincipal.getRole());
+        logger.debug("User found with role: {}", userPrincipal.getRole());
         return userPrincipal;
     }
 
     @Transactional
     public UserDetails loadUserById(Long id, Actor.Role role) {
-        logger.debug("Loading user by id: {} and role: {}", (Object)id, (Object)role);
+        logger.debug("Loading user by id: {} and role: {}", id, role);
         UserPrincipal userPrincipal = null;
         switch (role) {
             case USER: {
@@ -84,7 +84,7 @@ implements UserDetailsService {
                 break;
             }
             default: {
-                throw new UsernameNotFoundException("User type not supported: " + String.valueOf((Object)role));
+                throw new UsernameNotFoundException("User type not supported: " + String.valueOf(role));
             }
         }
         return userPrincipal;
@@ -99,11 +99,11 @@ implements UserDetailsService {
         if (homeMaker.isPresent()) {
             HomeMaker hm = homeMaker.get();
             if (hm.getApprovalStatus() == HomeMaker.ApprovalStatus.PENDING) {
-                logger.warn("HomeMaker {} is pending approval", (Object)mobile);
+                logger.warn("HomeMaker {} is pending approval", mobile);
                 throw new UsernameNotFoundException("Your account is pending admin approval. Please wait for approval.");
             }
             if (hm.getApprovalStatus() == HomeMaker.ApprovalStatus.REJECTED) {
-                logger.warn("HomeMaker {} was rejected", (Object)mobile);
+                logger.warn("HomeMaker {} was rejected", mobile);
                 throw new UsernameNotFoundException("Your account application was rejected. Reason: " + (hm.getRejectionReason() != null ? hm.getRejectionReason() : "Not specified"));
             }
             return UserPrincipal.create(hm);
@@ -112,11 +112,11 @@ implements UserDetailsService {
         if (executive.isPresent()) {
             DeliveryExecutive de = executive.get();
             if (de.getApprovalStatus() == DeliveryExecutive.ApprovalStatus.PENDING) {
-                logger.warn("DeliveryExecutive {} is pending approval", (Object)mobile);
+                logger.warn("DeliveryExecutive {} is pending approval", mobile);
                 throw new UsernameNotFoundException("Your account is pending admin approval. Please wait for approval.");
             }
             if (de.getApprovalStatus() == DeliveryExecutive.ApprovalStatus.REJECTED) {
-                logger.warn("DeliveryExecutive {} was rejected", (Object)mobile);
+                logger.warn("DeliveryExecutive {} was rejected", mobile);
                 throw new UsernameNotFoundException("Your account application was rejected. Reason: " + (de.getRejectionReason() != null ? de.getRejectionReason() : "Not specified"));
             }
             return UserPrincipal.create(de);

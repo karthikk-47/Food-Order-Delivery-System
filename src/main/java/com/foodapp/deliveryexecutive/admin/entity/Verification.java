@@ -230,22 +230,22 @@ public class Verification {
         }
         Long this$id = this.getId();
         Long other$id = other.getId();
-        if (this$id == null ? other$id != null : !((Object)this$id).equals(other$id)) {
+        if (this$id == null ? other$id != null : !(this$id).equals(other$id)) {
             return false;
         }
         Long this$userId = this.getUserId();
         Long other$userId = other.getUserId();
-        if (this$userId == null ? other$userId != null : !((Object)this$userId).equals(other$userId)) {
+        if (this$userId == null ? other$userId != null : !(this$userId).equals(other$userId)) {
             return false;
         }
         Long this$verifiedBy = this.getVerifiedBy();
         Long other$verifiedBy = other.getVerifiedBy();
-        if (this$verifiedBy == null ? other$verifiedBy != null : !((Object)this$verifiedBy).equals(other$verifiedBy)) {
+        if (this$verifiedBy == null ? other$verifiedBy != null : !(this$verifiedBy).equals(other$verifiedBy)) {
             return false;
         }
         Integer this$verificationAttempts = this.getVerificationAttempts();
         Integer other$verificationAttempts = other.getVerificationAttempts();
-        if (this$verificationAttempts == null ? other$verificationAttempts != null : !((Object)this$verificationAttempts).equals(other$verificationAttempts)) {
+        if (this$verificationAttempts == null ? other$verificationAttempts != null : !(this$verificationAttempts).equals(other$verificationAttempts)) {
             return false;
         }
         String this$userType = this.getUserType();
@@ -255,12 +255,12 @@ public class Verification {
         }
         VerificationType this$verificationType = this.getVerificationType();
         VerificationType other$verificationType = other.getVerificationType();
-        if (this$verificationType == null ? other$verificationType != null : !((Object)((Object)this$verificationType)).equals((Object)other$verificationType)) {
+        if (this$verificationType == null ? other$verificationType != null : !((Object)(this$verificationType)).equals(other$verificationType)) {
             return false;
         }
         VerificationStatus this$status = this.getStatus();
         VerificationStatus other$status = other.getStatus();
-        if (this$status == null ? other$status != null : !((Object)((Object)this$status)).equals((Object)other$status)) {
+        if (this$status == null ? other$status != null : !((Object)(this$status)).equals(other$status)) {
             return false;
         }
         String this$documentUrl = this.getDocumentUrl();
@@ -295,17 +295,17 @@ public class Verification {
         }
         LocalDateTime this$submittedAt = this.getSubmittedAt();
         LocalDateTime other$submittedAt = other.getSubmittedAt();
-        if (this$submittedAt == null ? other$submittedAt != null : !((Object)this$submittedAt).equals(other$submittedAt)) {
+        if (this$submittedAt == null ? other$submittedAt != null : !(this$submittedAt).equals(other$submittedAt)) {
             return false;
         }
         LocalDateTime this$verifiedAt = this.getVerifiedAt();
         LocalDateTime other$verifiedAt = other.getVerifiedAt();
-        if (this$verifiedAt == null ? other$verifiedAt != null : !((Object)this$verifiedAt).equals(other$verifiedAt)) {
+        if (this$verifiedAt == null ? other$verifiedAt != null : !(this$verifiedAt).equals(other$verifiedAt)) {
             return false;
         }
         LocalDateTime this$expiresAt = this.getExpiresAt();
         LocalDateTime other$expiresAt = other.getExpiresAt();
-        return !(this$expiresAt == null ? other$expiresAt != null : !((Object)this$expiresAt).equals(other$expiresAt));
+        return !(this$expiresAt == null ? other$expiresAt != null : !(this$expiresAt).equals(other$expiresAt));
     }
 
     @Generated
@@ -354,7 +354,7 @@ public class Verification {
 
     @Generated
     public String toString() {
-        return "Verification(id=" + this.getId() + ", userId=" + this.getUserId() + ", userType=" + this.getUserType() + ", verificationType=" + String.valueOf((Object)this.getVerificationType()) + ", status=" + String.valueOf((Object)this.getStatus()) + ", documentUrl=" + this.getDocumentUrl() + ", identityNumber=" + this.getIdentityNumber() + ", bankAccountNumber=" + this.getBankAccountNumber() + ", phoneNumber=" + this.getPhoneNumber() + ", email=" + this.getEmail() + ", verifiedBy=" + this.getVerifiedBy() + ", rejectionReason=" + this.getRejectionReason() + ", submittedAt=" + String.valueOf(this.getSubmittedAt()) + ", verifiedAt=" + String.valueOf(this.getVerifiedAt()) + ", expiresAt=" + String.valueOf(this.getExpiresAt()) + ", verificationAttempts=" + this.getVerificationAttempts() + ")";
+        return "Verification(id=" + this.getId() + ", userId=" + this.getUserId() + ", userType=" + this.getUserType() + ", verificationType=" + String.valueOf(this.getVerificationType()) + ", status=" + String.valueOf(this.getStatus()) + ", documentUrl=" + this.getDocumentUrl() + ", identityNumber=" + this.getIdentityNumber() + ", bankAccountNumber=" + this.getBankAccountNumber() + ", phoneNumber=" + this.getPhoneNumber() + ", email=" + this.getEmail() + ", verifiedBy=" + this.getVerifiedBy() + ", rejectionReason=" + this.getRejectionReason() + ", submittedAt=" + String.valueOf(this.getSubmittedAt()) + ", verifiedAt=" + String.valueOf(this.getVerifiedAt()) + ", expiresAt=" + String.valueOf(this.getExpiresAt()) + ", verificationAttempts=" + this.getVerificationAttempts() + ")";
     }
 
     @Generated

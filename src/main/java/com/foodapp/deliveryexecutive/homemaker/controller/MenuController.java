@@ -49,105 +49,105 @@ public class MenuController {
 
     @PostMapping(value={"/create"})
     public ResponseEntity<MenuDTO> createMenu(@RequestBody MenuDTO menuDTO) {
-        log.info("Creating new menu for homemaker: {}", (Object)menuDTO.getHomemakerId());
+        log.info("Creating new menu for homemaker: {}", menuDTO.getHomemakerId());
         try {
             MenuDTO createdMenu = this.menuService.createMenu(menuDTO);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.CREATED).body((Object)createdMenu);
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdMenu);
         }
         catch (Exception e) {
-            log.error("Error creating menu", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).build();
+            log.error("Error creating menu", e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
     @GetMapping(value={"/{id}"})
     public ResponseEntity<MenuDTO> getMenu(@PathVariable Long id) {
-        log.info("Fetching menu with ID: {}", (Object)id);
+        log.info("Fetching menu with ID: {}", id);
         try {
             MenuDTO menu = this.menuService.getMenuById(id);
-            return ResponseEntity.ok((Object)menu);
+            return ResponseEntity.ok(menu);
         }
         catch (Exception e) {
-            log.error("Error fetching menu", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.NOT_FOUND).build();
+            log.error("Error fetching menu", e);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 
     @PutMapping(value={"/{id}"})
     public ResponseEntity<MenuDTO> updateMenu(@PathVariable Long id, @RequestBody MenuDTO menuDTO) {
-        log.info("Updating menu with ID: {}", (Object)id);
+        log.info("Updating menu with ID: {}", id);
         try {
             MenuDTO updatedMenu = this.menuService.updateMenu(id, menuDTO);
-            return ResponseEntity.ok((Object)updatedMenu);
+            return ResponseEntity.ok(updatedMenu);
         }
         catch (Exception e) {
-            log.error("Error updating menu", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).build();
+            log.error("Error updating menu", e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
     @PostMapping(value={"/{id}/publish"})
     public ResponseEntity<MenuDTO> publishMenu(@PathVariable Long id) {
-        log.info("Publishing menu with ID: {}", (Object)id);
+        log.info("Publishing menu with ID: {}", id);
         try {
             MenuDTO publishedMenu = this.menuService.publishMenu(id);
-            return ResponseEntity.ok((Object)publishedMenu);
+            return ResponseEntity.ok(publishedMenu);
         }
         catch (Exception e) {
-            log.error("Error publishing menu", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).build();
+            log.error("Error publishing menu", e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
     @PostMapping(value={"/{id}/archive"})
     public ResponseEntity<MenuDTO> archiveMenu(@PathVariable Long id) {
-        log.info("Archiving menu with ID: {}", (Object)id);
+        log.info("Archiving menu with ID: {}", id);
         try {
             MenuDTO archivedMenu = this.menuService.archiveMenu(id);
-            return ResponseEntity.ok((Object)archivedMenu);
+            return ResponseEntity.ok(archivedMenu);
         }
         catch (Exception e) {
-            log.error("Error archiving menu", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).build();
+            log.error("Error archiving menu", e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
     @GetMapping(value={"/homemaker/{homemakerId}/all"})
     public ResponseEntity<List<MenuDTO>> getHomemakerMenus(@PathVariable Long homemakerId) {
-        log.info("Fetching all menus for homemaker: {}", (Object)homemakerId);
+        log.info("Fetching all menus for homemaker: {}", homemakerId);
         try {
             List<MenuDTO> menus = this.menuService.getHomemakerMenus(homemakerId);
             return ResponseEntity.ok(menus);
         }
         catch (Exception e) {
-            log.error("Error fetching homemaker menus", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).build();
+            log.error("Error fetching homemaker menus", e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
     @GetMapping(value={"/homemaker/{homemakerId}/active"})
     public ResponseEntity<List<MenuDTO>> getActiveMenus(@PathVariable Long homemakerId) {
-        log.info("Fetching active menus for homemaker: {}", (Object)homemakerId);
+        log.info("Fetching active menus for homemaker: {}", homemakerId);
         try {
             List<MenuDTO> menus = this.menuService.getActiveMenus(homemakerId);
             return ResponseEntity.ok(menus);
         }
         catch (Exception e) {
-            log.error("Error fetching active menus", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).build();
+            log.error("Error fetching active menus", e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
     @DeleteMapping(value={"/{id}"})
     public ResponseEntity<Void> deleteMenu(@PathVariable Long id) {
-        log.info("Deleting menu with ID: {}", (Object)id);
+        log.info("Deleting menu with ID: {}", id);
         try {
             this.menuService.deleteMenu(id);
             return ResponseEntity.noContent().build();
         }
         catch (Exception e) {
-            log.error("Error deleting menu", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).build();
+            log.error("Error deleting menu", e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 }

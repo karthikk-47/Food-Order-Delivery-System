@@ -58,12 +58,12 @@ public class OrderPaymentWebhookController {
             logger.info("Received order payment webhook");
             if (!this.verifyWebhookSignature(payload, signature)) {
                 logger.error("Invalid webhook signature");
-                return ResponseEntity.status((HttpStatusCode)HttpStatus.UNAUTHORIZED).body((Object)"Invalid signature");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid signature");
             }
             JsonNode webhookData = this.objectMapper.readTree(payload);
             String event = webhookData.get("event").asText();
             JsonNode paymentData = webhookData.get("payload").get("payment").get("entity");
-            logger.info("Processing webhook event: {}", (Object)event);
+            logger.info("Processing webhook event: {}", event);
             switch (event) {
                 case "payment.authorized": {
                     this.handlePaymentAuthorized(paymentData);
@@ -78,7 +78,7 @@ public class OrderPaymentWebhookController {
                     break;
                 }
                 default: {
-                    logger.info("Unhandled webhook event: {}", (Object)event);
+                    logger.info("Unhandled webhook event: {}", event);
                 }
             }
             HashMap<String, String> response = new HashMap<String, String>();
@@ -86,10 +86,10 @@ public class OrderPaymentWebhookController {
             return ResponseEntity.ok(response);
         }
         catch (Exception e) {
-            logger.error("Error processing webhook: {}", (Object)e.getMessage(), (Object)e);
+            logger.error("Error processing webhook: {}", e.getMessage(), e);
             HashMap<String, String> error = new HashMap<String, String>();
             error.put("error", e.getMessage());
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
         }
     }
 
@@ -103,24 +103,24 @@ public class OrderPaymentWebhookController {
             return generatedSignature.equals(signature);
         }
         catch (Exception e) {
-            logger.error("Error verifying webhook signature: {}", (Object)e.getMessage(), (Object)e);
+            logger.error("Error verifying webhook signature: {}", e.getMessage(), e);
             return false;
         }
     }
 
     private void handlePaymentAuthorized(JsonNode paymentData) {
-        logger.info("Payment authorized: {}", (Object)paymentData.get("id").asText());
+        logger.info("Payment authorized: {}", paymentData.get("id").asText());
     }
 
     private void handlePaymentCaptured(JsonNode paymentData) {
-        logger.info("Payment captured: {}", (Object)paymentData.get("id").asText());
+        logger.info("Payment captured: {}", paymentData.get("id").asText());
     }
 
     private void handlePaymentFailed(JsonNode paymentData) {
         String orderId = paymentData.get("order_id").asText();
         String errorCode = paymentData.has("error_code") ? paymentData.get("error_code").asText() : "UNKNOWN";
         String errorDescription = paymentData.has("error_description") ? paymentData.get("error_description").asText() : "Payment failed";
-        logger.info("Payment failed for order: {}, reason: {}", (Object)orderId, (Object)errorDescription);
+        logger.info("Payment failed for order: {}, reason: {}", orderId, errorDescription);
         this.orderPaymentService.handlePaymentFailure(orderId, errorDescription, errorCode);
     }
 }

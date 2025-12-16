@@ -40,7 +40,7 @@ public class ProfileApprovalService {
     private DeliveryExecutiveRepository deliveryExecutiveRepository;
 
     public ProfileApprovalDTO approveHomemaker(Long homemakerId, Long adminId) {
-        log.info("Approving homemaker profile with ID: {} by admin: {}", (Object)homemakerId, (Object)adminId);
+        log.info("Approving homemaker profile with ID: {} by admin: {}", homemakerId, adminId);
         HomeMaker homeMaker = (HomeMaker)this.homeMakerRepository.findById(homemakerId).orElseThrow(() -> new IllegalArgumentException("Homemaker not found with ID: " + homemakerId));
         if (homeMaker.getApprovalStatus() == HomeMaker.ApprovalStatus.APPROVED) {
             throw new IllegalStateException("Homemaker is already approved");
@@ -48,7 +48,7 @@ public class ProfileApprovalService {
         homeMaker.setApprovalStatus(HomeMaker.ApprovalStatus.APPROVED);
         homeMaker.setRejectionReason(null);
         HomeMaker savedHomeMaker = (HomeMaker)this.homeMakerRepository.save(homeMaker);
-        log.info("Homemaker {} approved successfully by admin {}", (Object)homemakerId, (Object)adminId);
+        log.info("Homemaker {} approved successfully by admin {}", homemakerId, adminId);
         return this.convertHomemakerToDTO(savedHomeMaker, adminId, LocalDateTime.now());
     }
 
@@ -58,7 +58,7 @@ public class ProfileApprovalService {
         homeMaker.setApprovalStatus(HomeMaker.ApprovalStatus.REJECTED);
         homeMaker.setRejectionReason(reason);
         HomeMaker savedHomeMaker = (HomeMaker)this.homeMakerRepository.save(homeMaker);
-        log.info("Homemaker {} rejected successfully by admin {}", (Object)homemakerId, (Object)adminId);
+        log.info("Homemaker {} rejected successfully by admin {}", homemakerId, adminId);
         return this.convertHomemakerToDTO(savedHomeMaker, adminId, LocalDateTime.now());
     }
 
@@ -81,17 +81,17 @@ public class ProfileApprovalService {
     }
 
     public ProfileApprovalDTO revertHomemakerToPending(Long homemakerId, Long adminId) {
-        log.info("Reverting homemaker {} to pending status by admin {}", (Object)homemakerId, (Object)adminId);
+        log.info("Reverting homemaker {} to pending status by admin {}", homemakerId, adminId);
         HomeMaker homeMaker = (HomeMaker)this.homeMakerRepository.findById(homemakerId).orElseThrow(() -> new IllegalArgumentException("Homemaker not found with ID: " + homemakerId));
         homeMaker.setApprovalStatus(HomeMaker.ApprovalStatus.PENDING);
         homeMaker.setRejectionReason(null);
         HomeMaker savedHomeMaker = (HomeMaker)this.homeMakerRepository.save(homeMaker);
-        log.info("Homemaker {} reverted to pending successfully", (Object)homemakerId);
+        log.info("Homemaker {} reverted to pending successfully", homemakerId);
         return this.convertHomemakerToDTO(savedHomeMaker, null, null);
     }
 
     public ProfileApprovalDTO approveExecutive(Long executiveId, Long adminId) {
-        log.info("Approving delivery executive profile with ID: {} by admin: {}", (Object)executiveId, (Object)adminId);
+        log.info("Approving delivery executive profile with ID: {} by admin: {}", executiveId, adminId);
         DeliveryExecutive executive = (DeliveryExecutive)this.deliveryExecutiveRepository.findById(executiveId).orElseThrow(() -> new IllegalArgumentException("Delivery Executive not found with ID: " + executiveId));
         if (executive.getApprovalStatus() == DeliveryExecutive.ApprovalStatus.APPROVED) {
             throw new IllegalStateException("Delivery Executive is already approved");
@@ -99,7 +99,7 @@ public class ProfileApprovalService {
         executive.setApprovalStatus(DeliveryExecutive.ApprovalStatus.APPROVED);
         executive.setRejectionReason(null);
         DeliveryExecutive savedExecutive = (DeliveryExecutive)this.deliveryExecutiveRepository.save(executive);
-        log.info("Delivery Executive {} approved successfully by admin {}", (Object)executiveId, (Object)adminId);
+        log.info("Delivery Executive {} approved successfully by admin {}", executiveId, adminId);
         return this.convertExecutiveToDTO(savedExecutive, adminId, LocalDateTime.now());
     }
 
@@ -109,7 +109,7 @@ public class ProfileApprovalService {
         executive.setApprovalStatus(DeliveryExecutive.ApprovalStatus.REJECTED);
         executive.setRejectionReason(reason);
         DeliveryExecutive savedExecutive = (DeliveryExecutive)this.deliveryExecutiveRepository.save(executive);
-        log.info("Delivery Executive {} rejected successfully by admin {}", (Object)executiveId, (Object)adminId);
+        log.info("Delivery Executive {} rejected successfully by admin {}", executiveId, adminId);
         return this.convertExecutiveToDTO(savedExecutive, adminId, LocalDateTime.now());
     }
 
@@ -132,12 +132,12 @@ public class ProfileApprovalService {
     }
 
     public ProfileApprovalDTO revertExecutiveToPending(Long executiveId, Long adminId) {
-        log.info("Reverting delivery executive {} to pending status by admin {}", (Object)executiveId, (Object)adminId);
+        log.info("Reverting delivery executive {} to pending status by admin {}", executiveId, adminId);
         DeliveryExecutive executive = (DeliveryExecutive)this.deliveryExecutiveRepository.findById(executiveId).orElseThrow(() -> new IllegalArgumentException("Delivery Executive not found with ID: " + executiveId));
         executive.setApprovalStatus(DeliveryExecutive.ApprovalStatus.PENDING);
         executive.setRejectionReason(null);
         DeliveryExecutive savedExecutive = (DeliveryExecutive)this.deliveryExecutiveRepository.save(executive);
-        log.info("Delivery Executive {} reverted to pending successfully", (Object)executiveId);
+        log.info("Delivery Executive {} reverted to pending successfully", executiveId);
         return this.convertExecutiveToDTO(savedExecutive, null, null);
     }
 
@@ -173,28 +173,28 @@ public class ProfileApprovalService {
     }
 
     public List<ProfileApprovalDTO> bulkApproveHomemakers(List<Long> homemakerIds, Long adminId) {
-        log.info("Bulk approving {} homemakers by admin {}", (Object)homemakerIds.size(), (Object)adminId);
+        log.info("Bulk approving {} homemakers by admin {}", homemakerIds.size(), adminId);
         ArrayList<ProfileApprovalDTO> results = new ArrayList<ProfileApprovalDTO>();
         for (Long id : homemakerIds) {
             try {
                 results.add(this.approveHomemaker(id, adminId));
             }
             catch (Exception e) {
-                log.error("Failed to approve homemaker {}: {}", (Object)id, (Object)e.getMessage());
+                log.error("Failed to approve homemaker {}: {}", id, e.getMessage());
             }
         }
         return results;
     }
 
     public List<ProfileApprovalDTO> bulkApproveExecutives(List<Long> executiveIds, Long adminId) {
-        log.info("Bulk approving {} delivery executives by admin {}", (Object)executiveIds.size(), (Object)adminId);
+        log.info("Bulk approving {} delivery executives by admin {}", executiveIds.size(), adminId);
         ArrayList<ProfileApprovalDTO> results = new ArrayList<ProfileApprovalDTO>();
         for (Long id : executiveIds) {
             try {
                 results.add(this.approveExecutive(id, adminId));
             }
             catch (Exception e) {
-                log.error("Failed to approve delivery executive {}: {}", (Object)id, (Object)e.getMessage());
+                log.error("Failed to approve delivery executive {}: {}", id, e.getMessage());
             }
         }
         return results;

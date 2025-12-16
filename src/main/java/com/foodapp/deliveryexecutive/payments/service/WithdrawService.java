@@ -86,25 +86,25 @@ public class WithdrawService {
                 response.setRemainingBalance(wallet.getBalance());
                 response.setUtr(payoutResponse.getUtr());
                 response.setCreatedAt(Long.valueOf(payoutResponse.getCreated_at()));
-                logger.info("Withdrawal processed successfully for customer: {}, amount: {}", (Object)request.getCustomerId(), (Object)request.getAmount());
+                logger.info("Withdrawal processed successfully for customer: {}, amount: {}", request.getCustomerId(), request.getAmount());
             } else {
                 transaction.setStatus(WithdrawTransaction.WithdrawStatus.FAILED);
                 transaction.setFailureReason("Payout API call failed");
                 this.withdrawRepository.save(transaction);
                 response.setSuccess(false);
                 response.setMessage("Withdrawal failed. Please try again later.");
-                logger.error("Payout API returned null response for customer: {}", (Object)request.getCustomerId());
+                logger.error("Payout API returned null response for customer: {}", request.getCustomerId());
             }
         }
         catch (ResourceNotFoundException e) {
             response.setSuccess(false);
             response.setMessage(e.getMessage());
-            logger.error("Resource not found: {}", (Object)e.getMessage());
+            logger.error("Resource not found: {}", e.getMessage());
         }
         catch (Exception e) {
             response.setSuccess(false);
             response.setMessage("An error occurred while processing withdrawal");
-            logger.error("Error processing withdrawal for customer: {}", (Object)request.getCustomerId(), (Object)e);
+            logger.error("Error processing withdrawal for customer: {}", request.getCustomerId(), e);
         }
         return response;
     }
@@ -149,7 +149,7 @@ public class WithdrawService {
                 response.setStatus(statusResponse.getStatus());
                 response.setAmount(transaction.getAmount());
                 response.setUtr(statusResponse.getUtr());
-                logger.info("Updated withdrawal status for payout: {}, new status: {}", (Object)payoutId, (Object)newStatus);
+                logger.info("Updated withdrawal status for payout: {}, new status: {}", payoutId, newStatus);
             } else {
                 response.setSuccess(false);
                 response.setMessage("Failed to fetch payout status");
@@ -158,12 +158,12 @@ public class WithdrawService {
         catch (ResourceNotFoundException e) {
             response.setSuccess(false);
             response.setMessage(e.getMessage());
-            logger.error("Resource not found: {}", (Object)e.getMessage());
+            logger.error("Resource not found: {}", e.getMessage());
         }
         catch (Exception e) {
             response.setSuccess(false);
             response.setMessage("Error updating withdrawal status");
-            logger.error("Error updating withdrawal status for payout: {}", (Object)payoutId, (Object)e);
+            logger.error("Error updating withdrawal status for payout: {}", payoutId, e);
         }
         return response;
     }
@@ -175,7 +175,7 @@ public class WithdrawService {
             WithdrawTransaction transaction = this.withdrawRepository.findByPayoutId(payoutId).orElseThrow(() -> new ResourceNotFoundException("Transaction not found"));
             if (transaction.getStatus() != WithdrawTransaction.WithdrawStatus.PENDING && transaction.getStatus() != WithdrawTransaction.WithdrawStatus.PROCESSING) {
                 response.setSuccess(false);
-                response.setMessage("Cannot cancel transaction in current status: " + String.valueOf((Object)transaction.getStatus()));
+                response.setMessage("Cannot cancel transaction in current status: " + String.valueOf(transaction.getStatus()));
                 return response;
             }
             String cancelResponse = this.paymentsApi.cancelPayout(payoutId);
@@ -191,7 +191,7 @@ public class WithdrawService {
                 response.setStatus("cancelled");
                 response.setAmount(transaction.getAmount());
                 response.setRemainingBalance(wallet.getBalance());
-                logger.info("Cancelled withdrawal for payout: {}", (Object)payoutId);
+                logger.info("Cancelled withdrawal for payout: {}", payoutId);
             } else {
                 response.setSuccess(false);
                 response.setMessage("Failed to cancel withdrawal");
@@ -200,12 +200,12 @@ public class WithdrawService {
         catch (ResourceNotFoundException e) {
             response.setSuccess(false);
             response.setMessage(e.getMessage());
-            logger.error("Resource not found: {}", (Object)e.getMessage());
+            logger.error("Resource not found: {}", e.getMessage());
         }
         catch (Exception e) {
             response.setSuccess(false);
             response.setMessage("Error cancelling withdrawal");
-            logger.error("Error cancelling withdrawal for payout: {}", (Object)payoutId, (Object)e);
+            logger.error("Error cancelling withdrawal for payout: {}", payoutId, e);
         }
         return response;
     }

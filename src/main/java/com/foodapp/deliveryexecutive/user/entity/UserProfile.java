@@ -393,72 +393,72 @@ public class UserProfile {
         }
         Long this$id = this.getId();
         Long other$id = other.getId();
-        if (this$id == null ? other$id != null : !((Object)this$id).equals(other$id)) {
+        if (this$id == null ? other$id != null : !(this$id).equals(other$id)) {
             return false;
         }
         Long this$userId = this.getUserId();
         Long other$userId = other.getUserId();
-        if (this$userId == null ? other$userId != null : !((Object)this$userId).equals(other$userId)) {
+        if (this$userId == null ? other$userId != null : !(this$userId).equals(other$userId)) {
             return false;
         }
         Double this$latitude = this.getLatitude();
         Double other$latitude = other.getLatitude();
-        if (this$latitude == null ? other$latitude != null : !((Object)this$latitude).equals(other$latitude)) {
+        if (this$latitude == null ? other$latitude != null : !(this$latitude).equals(other$latitude)) {
             return false;
         }
         Double this$longitude = this.getLongitude();
         Double other$longitude = other.getLongitude();
-        if (this$longitude == null ? other$longitude != null : !((Object)this$longitude).equals(other$longitude)) {
+        if (this$longitude == null ? other$longitude != null : !(this$longitude).equals(other$longitude)) {
             return false;
         }
         Boolean this$hasAddressSaved = this.getHasAddressSaved();
         Boolean other$hasAddressSaved = other.getHasAddressSaved();
-        if (this$hasAddressSaved == null ? other$hasAddressSaved != null : !((Object)this$hasAddressSaved).equals(other$hasAddressSaved)) {
+        if (this$hasAddressSaved == null ? other$hasAddressSaved != null : !(this$hasAddressSaved).equals(other$hasAddressSaved)) {
             return false;
         }
         Integer this$addressCount = this.getAddressCount();
         Integer other$addressCount = other.getAddressCount();
-        if (this$addressCount == null ? other$addressCount != null : !((Object)this$addressCount).equals(other$addressCount)) {
+        if (this$addressCount == null ? other$addressCount != null : !(this$addressCount).equals(other$addressCount)) {
             return false;
         }
         Boolean this$emailVerified = this.getEmailVerified();
         Boolean other$emailVerified = other.getEmailVerified();
-        if (this$emailVerified == null ? other$emailVerified != null : !((Object)this$emailVerified).equals(other$emailVerified)) {
+        if (this$emailVerified == null ? other$emailVerified != null : !(this$emailVerified).equals(other$emailVerified)) {
             return false;
         }
         Boolean this$phoneVerified = this.getPhoneVerified();
         Boolean other$phoneVerified = other.getPhoneVerified();
-        if (this$phoneVerified == null ? other$phoneVerified != null : !((Object)this$phoneVerified).equals(other$phoneVerified)) {
+        if (this$phoneVerified == null ? other$phoneVerified != null : !(this$phoneVerified).equals(other$phoneVerified)) {
             return false;
         }
         Boolean this$notificationsEnabled = this.getNotificationsEnabled();
         Boolean other$notificationsEnabled = other.getNotificationsEnabled();
-        if (this$notificationsEnabled == null ? other$notificationsEnabled != null : !((Object)this$notificationsEnabled).equals(other$notificationsEnabled)) {
+        if (this$notificationsEnabled == null ? other$notificationsEnabled != null : !(this$notificationsEnabled).equals(other$notificationsEnabled)) {
             return false;
         }
         Boolean this$promotionalEmailsEnabled = this.getPromotionalEmailsEnabled();
         Boolean other$promotionalEmailsEnabled = other.getPromotionalEmailsEnabled();
-        if (this$promotionalEmailsEnabled == null ? other$promotionalEmailsEnabled != null : !((Object)this$promotionalEmailsEnabled).equals(other$promotionalEmailsEnabled)) {
+        if (this$promotionalEmailsEnabled == null ? other$promotionalEmailsEnabled != null : !(this$promotionalEmailsEnabled).equals(other$promotionalEmailsEnabled)) {
             return false;
         }
         Integer this$totalOrders = this.getTotalOrders();
         Integer other$totalOrders = other.getTotalOrders();
-        if (this$totalOrders == null ? other$totalOrders != null : !((Object)this$totalOrders).equals(other$totalOrders)) {
+        if (this$totalOrders == null ? other$totalOrders != null : !(this$totalOrders).equals(other$totalOrders)) {
             return false;
         }
         Integer this$totalFavouriteHomemakers = this.getTotalFavouriteHomemakers();
         Integer other$totalFavouriteHomemakers = other.getTotalFavouriteHomemakers();
-        if (this$totalFavouriteHomemakers == null ? other$totalFavouriteHomemakers != null : !((Object)this$totalFavouriteHomemakers).equals(other$totalFavouriteHomemakers)) {
+        if (this$totalFavouriteHomemakers == null ? other$totalFavouriteHomemakers != null : !(this$totalFavouriteHomemakers).equals(other$totalFavouriteHomemakers)) {
             return false;
         }
         Double this$totalSpent = this.getTotalSpent();
         Double other$totalSpent = other.getTotalSpent();
-        if (this$totalSpent == null ? other$totalSpent != null : !((Object)this$totalSpent).equals(other$totalSpent)) {
+        if (this$totalSpent == null ? other$totalSpent != null : !(this$totalSpent).equals(other$totalSpent)) {
             return false;
         }
         Double this$averageOrderValue = this.getAverageOrderValue();
         Double other$averageOrderValue = other.getAverageOrderValue();
-        if (this$averageOrderValue == null ? other$averageOrderValue != null : !((Object)this$averageOrderValue).equals(other$averageOrderValue)) {
+        if (this$averageOrderValue == null ? other$averageOrderValue != null : !(this$averageOrderValue).equals(other$averageOrderValue)) {
             return false;
         }
         String this$firstName = this.getFirstName();
@@ -508,17 +508,17 @@ public class UserProfile {
         }
         AccountStatus this$accountStatus = this.getAccountStatus();
         AccountStatus other$accountStatus = other.getAccountStatus();
-        if (this$accountStatus == null ? other$accountStatus != null : !((Object)((Object)this$accountStatus)).equals((Object)other$accountStatus)) {
+        if (this$accountStatus == null ? other$accountStatus != null : !((Object)(this$accountStatus)).equals(other$accountStatus)) {
             return false;
         }
         LocalDateTime this$emailVerifiedAt = this.getEmailVerifiedAt();
         LocalDateTime other$emailVerifiedAt = other.getEmailVerifiedAt();
-        if (this$emailVerifiedAt == null ? other$emailVerifiedAt != null : !((Object)this$emailVerifiedAt).equals(other$emailVerifiedAt)) {
+        if (this$emailVerifiedAt == null ? other$emailVerifiedAt != null : !(this$emailVerifiedAt).equals(other$emailVerifiedAt)) {
             return false;
         }
         LocalDateTime this$phoneVerifiedAt = this.getPhoneVerifiedAt();
         LocalDateTime other$phoneVerifiedAt = other.getPhoneVerifiedAt();
-        if (this$phoneVerifiedAt == null ? other$phoneVerifiedAt != null : !((Object)this$phoneVerifiedAt).equals(other$phoneVerifiedAt)) {
+        if (this$phoneVerifiedAt == null ? other$phoneVerifiedAt != null : !(this$phoneVerifiedAt).equals(other$phoneVerifiedAt)) {
             return false;
         }
         String this$preferredPaymentMethod = this.getPreferredPaymentMethod();
@@ -528,17 +528,17 @@ public class UserProfile {
         }
         LocalDateTime this$createdAt = this.getCreatedAt();
         LocalDateTime other$createdAt = other.getCreatedAt();
-        if (this$createdAt == null ? other$createdAt != null : !((Object)this$createdAt).equals(other$createdAt)) {
+        if (this$createdAt == null ? other$createdAt != null : !(this$createdAt).equals(other$createdAt)) {
             return false;
         }
         LocalDateTime this$updatedAt = this.getUpdatedAt();
         LocalDateTime other$updatedAt = other.getUpdatedAt();
-        if (this$updatedAt == null ? other$updatedAt != null : !((Object)this$updatedAt).equals(other$updatedAt)) {
+        if (this$updatedAt == null ? other$updatedAt != null : !(this$updatedAt).equals(other$updatedAt)) {
             return false;
         }
         LocalDateTime this$lastLogin = this.getLastLogin();
         LocalDateTime other$lastLogin = other.getLastLogin();
-        return !(this$lastLogin == null ? other$lastLogin != null : !((Object)this$lastLogin).equals(other$lastLogin));
+        return !(this$lastLogin == null ? other$lastLogin != null : !(this$lastLogin).equals(other$lastLogin));
     }
 
     @Generated
@@ -615,7 +615,7 @@ public class UserProfile {
 
     @Generated
     public String toString() {
-        return "UserProfile(id=" + this.getId() + ", userId=" + this.getUserId() + ", firstName=" + this.getFirstName() + ", lastName=" + this.getLastName() + ", email=" + this.getEmail() + ", phoneNumber=" + this.getPhoneNumber() + ", profileImage=" + this.getProfileImage() + ", primaryAddress=" + this.getPrimaryAddress() + ", city=" + this.getCity() + ", state=" + this.getState() + ", zipCode=" + this.getZipCode() + ", latitude=" + this.getLatitude() + ", longitude=" + this.getLongitude() + ", hasAddressSaved=" + this.getHasAddressSaved() + ", addressCount=" + this.getAddressCount() + ", accountStatus=" + String.valueOf((Object)this.getAccountStatus()) + ", emailVerified=" + this.getEmailVerified() + ", phoneVerified=" + this.getPhoneVerified() + ", emailVerifiedAt=" + String.valueOf(this.getEmailVerifiedAt()) + ", phoneVerifiedAt=" + String.valueOf(this.getPhoneVerifiedAt()) + ", preferredPaymentMethod=" + this.getPreferredPaymentMethod() + ", notificationsEnabled=" + this.getNotificationsEnabled() + ", promotionalEmailsEnabled=" + this.getPromotionalEmailsEnabled() + ", totalOrders=" + this.getTotalOrders() + ", totalFavouriteHomemakers=" + this.getTotalFavouriteHomemakers() + ", totalSpent=" + this.getTotalSpent() + ", averageOrderValue=" + this.getAverageOrderValue() + ", createdAt=" + String.valueOf(this.getCreatedAt()) + ", updatedAt=" + String.valueOf(this.getUpdatedAt()) + ", lastLogin=" + String.valueOf(this.getLastLogin()) + ")";
+        return "UserProfile(id=" + this.getId() + ", userId=" + this.getUserId() + ", firstName=" + this.getFirstName() + ", lastName=" + this.getLastName() + ", email=" + this.getEmail() + ", phoneNumber=" + this.getPhoneNumber() + ", profileImage=" + this.getProfileImage() + ", primaryAddress=" + this.getPrimaryAddress() + ", city=" + this.getCity() + ", state=" + this.getState() + ", zipCode=" + this.getZipCode() + ", latitude=" + this.getLatitude() + ", longitude=" + this.getLongitude() + ", hasAddressSaved=" + this.getHasAddressSaved() + ", addressCount=" + this.getAddressCount() + ", accountStatus=" + String.valueOf(this.getAccountStatus()) + ", emailVerified=" + this.getEmailVerified() + ", phoneVerified=" + this.getPhoneVerified() + ", emailVerifiedAt=" + String.valueOf(this.getEmailVerifiedAt()) + ", phoneVerifiedAt=" + String.valueOf(this.getPhoneVerifiedAt()) + ", preferredPaymentMethod=" + this.getPreferredPaymentMethod() + ", notificationsEnabled=" + this.getNotificationsEnabled() + ", promotionalEmailsEnabled=" + this.getPromotionalEmailsEnabled() + ", totalOrders=" + this.getTotalOrders() + ", totalFavouriteHomemakers=" + this.getTotalFavouriteHomemakers() + ", totalSpent=" + this.getTotalSpent() + ", averageOrderValue=" + this.getAverageOrderValue() + ", createdAt=" + String.valueOf(this.getCreatedAt()) + ", updatedAt=" + String.valueOf(this.getUpdatedAt()) + ", lastLogin=" + String.valueOf(this.getLastLogin()) + ")";
     }
 
     @Generated

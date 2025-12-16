@@ -163,12 +163,12 @@ public class Payment {
         }
         Long this$id = this.getId();
         Long other$id = other.getId();
-        if (this$id == null ? other$id != null : !((Object)this$id).equals(other$id)) {
+        if (this$id == null ? other$id != null : !(this$id).equals(other$id)) {
             return false;
         }
         Double this$amount = this.getAmount();
         Double other$amount = other.getAmount();
-        if (this$amount == null ? other$amount != null : !((Object)this$amount).equals(other$amount)) {
+        if (this$amount == null ? other$amount != null : !(this$amount).equals(other$amount)) {
             return false;
         }
         String this$transactionId = this.getTransactionId();
@@ -183,7 +183,7 @@ public class Payment {
         }
         PaymentStatus this$status = this.getStatus();
         PaymentStatus other$status = other.getStatus();
-        if (this$status == null ? other$status != null : !((Object)((Object)this$status)).equals((Object)other$status)) {
+        if (this$status == null ? other$status != null : !((Object)(this$status)).equals(other$status)) {
             return false;
         }
         Order this$order = this.getOrder();
@@ -193,17 +193,17 @@ public class Payment {
         }
         User this$user = this.getUser();
         User other$user = other.getUser();
-        if (this$user == null ? other$user != null : !((Object)this$user).equals(other$user)) {
+        if (this$user == null ? other$user != null : !(this$user).equals(other$user)) {
             return false;
         }
         LocalDateTime this$createdAt = this.getCreatedAt();
         LocalDateTime other$createdAt = other.getCreatedAt();
-        if (this$createdAt == null ? other$createdAt != null : !((Object)this$createdAt).equals(other$createdAt)) {
+        if (this$createdAt == null ? other$createdAt != null : !(this$createdAt).equals(other$createdAt)) {
             return false;
         }
         LocalDateTime this$updatedAt = this.getUpdatedAt();
         LocalDateTime other$updatedAt = other.getUpdatedAt();
-        return !(this$updatedAt == null ? other$updatedAt != null : !((Object)this$updatedAt).equals(other$updatedAt));
+        return !(this$updatedAt == null ? other$updatedAt != null : !(this$updatedAt).equals(other$updatedAt));
     }
 
     @Generated
@@ -238,7 +238,7 @@ public class Payment {
 
     @Generated
     public String toString() {
-        return "Payment(id=" + this.getId() + ", amount=" + this.getAmount() + ", transactionId=" + this.getTransactionId() + ", paymentMethod=" + this.getPaymentMethod() + ", status=" + String.valueOf((Object)this.getStatus()) + ", order=" + String.valueOf(this.getOrder()) + ", user=" + String.valueOf(this.getUser()) + ", createdAt=" + String.valueOf(this.getCreatedAt()) + ", updatedAt=" + String.valueOf(this.getUpdatedAt()) + ")";
+        return "Payment(id=" + this.getId() + ", amount=" + this.getAmount() + ", transactionId=" + this.getTransactionId() + ", paymentMethod=" + this.getPaymentMethod() + ", status=" + String.valueOf(this.getStatus()) + ", order=" + String.valueOf(this.getOrder()) + ", user=" + String.valueOf(this.getUser()) + ", createdAt=" + String.valueOf(this.getCreatedAt()) + ", updatedAt=" + String.valueOf(this.getUpdatedAt()) + ")";
     }
 
     public static enum PaymentStatus {

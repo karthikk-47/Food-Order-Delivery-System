@@ -157,37 +157,37 @@ public class Cart {
         }
         Long this$id = this.getId();
         Long other$id = other.getId();
-        if (this$id == null ? other$id != null : !((Object)this$id).equals(other$id)) {
+        if (this$id == null ? other$id != null : !(this$id).equals(other$id)) {
             return false;
         }
         Double this$totalAmount = this.getTotalAmount();
         Double other$totalAmount = other.getTotalAmount();
-        if (this$totalAmount == null ? other$totalAmount != null : !((Object)this$totalAmount).equals(other$totalAmount)) {
+        if (this$totalAmount == null ? other$totalAmount != null : !(this$totalAmount).equals(other$totalAmount)) {
             return false;
         }
         Integer this$itemCount = this.getItemCount();
         Integer other$itemCount = other.getItemCount();
-        if (this$itemCount == null ? other$itemCount != null : !((Object)this$itemCount).equals(other$itemCount)) {
+        if (this$itemCount == null ? other$itemCount != null : !(this$itemCount).equals(other$itemCount)) {
             return false;
         }
         User this$user = this.getUser();
         User other$user = other.getUser();
-        if (this$user == null ? other$user != null : !((Object)this$user).equals(other$user)) {
+        if (this$user == null ? other$user != null : !(this$user).equals(other$user)) {
             return false;
         }
         List<CartItem> this$items = this.getItems();
         List<CartItem> other$items = other.getItems();
-        if (this$items == null ? other$items != null : !((Object)this$items).equals(other$items)) {
+        if (this$items == null ? other$items != null : !(this$items).equals(other$items)) {
             return false;
         }
         LocalDateTime this$createdAt = this.getCreatedAt();
         LocalDateTime other$createdAt = other.getCreatedAt();
-        if (this$createdAt == null ? other$createdAt != null : !((Object)this$createdAt).equals(other$createdAt)) {
+        if (this$createdAt == null ? other$createdAt != null : !(this$createdAt).equals(other$createdAt)) {
             return false;
         }
         LocalDateTime this$updatedAt = this.getUpdatedAt();
         LocalDateTime other$updatedAt = other.getUpdatedAt();
-        return !(this$updatedAt == null ? other$updatedAt != null : !((Object)this$updatedAt).equals(other$updatedAt));
+        return !(this$updatedAt == null ? other$updatedAt != null : !(this$updatedAt).equals(other$updatedAt));
     }
 
     @Generated

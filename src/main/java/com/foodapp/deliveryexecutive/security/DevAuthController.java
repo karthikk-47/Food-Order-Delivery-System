@@ -45,15 +45,15 @@ public class DevAuthController {
         try {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(mobile);
             if (Objects.isNull(userDetails)) {
-                return ResponseEntity.badRequest().body((Object)new SimpleApiResponse(false, "User not found"));
+                return ResponseEntity.badRequest().body(new SimpleApiResponse(false, "User not found"));
             }
-            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken((Object)userDetails, null, userDetails.getAuthorities());
+            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             String jwt = this.tokenProvider.createToken((Authentication)authentication);
             DevLoginResponse resp = new DevLoginResponse(jwt, ((UserPrincipal)userDetails).getId(), ((UserPrincipal)userDetails).getMobile(), ((UserPrincipal)userDetails).getRole());
-            return ResponseEntity.ok((Object)resp);
+            return ResponseEntity.ok(resp);
         }
         catch (Exception e) {
-            return ResponseEntity.badRequest().body((Object)new SimpleApiResponse(false, "Dev login failed"));
+            return ResponseEntity.badRequest().body(new SimpleApiResponse(false, "Dev login failed"));
         }
     }
 

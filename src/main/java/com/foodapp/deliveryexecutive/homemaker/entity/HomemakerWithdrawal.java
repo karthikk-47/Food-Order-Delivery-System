@@ -238,27 +238,27 @@ public class HomemakerWithdrawal {
         }
         Long this$id = this.getId();
         Long other$id = other.getId();
-        if (this$id == null ? other$id != null : !((Object)this$id).equals(other$id)) {
+        if (this$id == null ? other$id != null : !(this$id).equals(other$id)) {
             return false;
         }
         Long this$homemakerId = this.getHomemakerId();
         Long other$homemakerId = other.getHomemakerId();
-        if (this$homemakerId == null ? other$homemakerId != null : !((Object)this$homemakerId).equals(other$homemakerId)) {
+        if (this$homemakerId == null ? other$homemakerId != null : !(this$homemakerId).equals(other$homemakerId)) {
             return false;
         }
         Double this$amount = this.getAmount();
         Double other$amount = other.getAmount();
-        if (this$amount == null ? other$amount != null : !((Object)this$amount).equals(other$amount)) {
+        if (this$amount == null ? other$amount != null : !(this$amount).equals(other$amount)) {
             return false;
         }
         WithdrawalStatus this$status = this.getStatus();
         WithdrawalStatus other$status = other.getStatus();
-        if (this$status == null ? other$status != null : !((Object)((Object)this$status)).equals((Object)other$status)) {
+        if (this$status == null ? other$status != null : !((Object)(this$status)).equals(other$status)) {
             return false;
         }
         WithdrawalMethod this$method = this.getMethod();
         WithdrawalMethod other$method = other.getMethod();
-        if (this$method == null ? other$method != null : !((Object)((Object)this$method)).equals((Object)other$method)) {
+        if (this$method == null ? other$method != null : !((Object)(this$method)).equals(other$method)) {
             return false;
         }
         String this$bankAccountNumber = this.getBankAccountNumber();
@@ -293,27 +293,27 @@ public class HomemakerWithdrawal {
         }
         LocalDateTime this$requestDate = this.getRequestDate();
         LocalDateTime other$requestDate = other.getRequestDate();
-        if (this$requestDate == null ? other$requestDate != null : !((Object)this$requestDate).equals(other$requestDate)) {
+        if (this$requestDate == null ? other$requestDate != null : !(this$requestDate).equals(other$requestDate)) {
             return false;
         }
         LocalDateTime this$processedDate = this.getProcessedDate();
         LocalDateTime other$processedDate = other.getProcessedDate();
-        if (this$processedDate == null ? other$processedDate != null : !((Object)this$processedDate).equals(other$processedDate)) {
+        if (this$processedDate == null ? other$processedDate != null : !(this$processedDate).equals(other$processedDate)) {
             return false;
         }
         LocalDateTime this$completedDate = this.getCompletedDate();
         LocalDateTime other$completedDate = other.getCompletedDate();
-        if (this$completedDate == null ? other$completedDate != null : !((Object)this$completedDate).equals(other$completedDate)) {
+        if (this$completedDate == null ? other$completedDate != null : !(this$completedDate).equals(other$completedDate)) {
             return false;
         }
         LocalDateTime this$createdAt = this.getCreatedAt();
         LocalDateTime other$createdAt = other.getCreatedAt();
-        if (this$createdAt == null ? other$createdAt != null : !((Object)this$createdAt).equals(other$createdAt)) {
+        if (this$createdAt == null ? other$createdAt != null : !(this$createdAt).equals(other$createdAt)) {
             return false;
         }
         LocalDateTime this$updatedAt = this.getUpdatedAt();
         LocalDateTime other$updatedAt = other.getUpdatedAt();
-        return !(this$updatedAt == null ? other$updatedAt != null : !((Object)this$updatedAt).equals(other$updatedAt));
+        return !(this$updatedAt == null ? other$updatedAt != null : !(this$updatedAt).equals(other$updatedAt));
     }
 
     @Generated
@@ -362,7 +362,7 @@ public class HomemakerWithdrawal {
 
     @Generated
     public String toString() {
-        return "HomemakerWithdrawal(id=" + this.getId() + ", homemakerId=" + this.getHomemakerId() + ", amount=" + this.getAmount() + ", status=" + String.valueOf((Object)this.getStatus()) + ", method=" + String.valueOf((Object)this.getMethod()) + ", bankAccountNumber=" + this.getBankAccountNumber() + ", bankIFSC=" + this.getBankIFSC() + ", upiId=" + this.getUpiId() + ", chequeNumber=" + this.getChequeNumber() + ", transactionId=" + this.getTransactionId() + ", rejectionReason=" + this.getRejectionReason() + ", requestDate=" + String.valueOf(this.getRequestDate()) + ", processedDate=" + String.valueOf(this.getProcessedDate()) + ", completedDate=" + String.valueOf(this.getCompletedDate()) + ", createdAt=" + String.valueOf(this.getCreatedAt()) + ", updatedAt=" + String.valueOf(this.getUpdatedAt()) + ")";
+        return "HomemakerWithdrawal(id=" + this.getId() + ", homemakerId=" + this.getHomemakerId() + ", amount=" + this.getAmount() + ", status=" + String.valueOf(this.getStatus()) + ", method=" + String.valueOf(this.getMethod()) + ", bankAccountNumber=" + this.getBankAccountNumber() + ", bankIFSC=" + this.getBankIFSC() + ", upiId=" + this.getUpiId() + ", chequeNumber=" + this.getChequeNumber() + ", transactionId=" + this.getTransactionId() + ", rejectionReason=" + this.getRejectionReason() + ", requestDate=" + String.valueOf(this.getRequestDate()) + ", processedDate=" + String.valueOf(this.getProcessedDate()) + ", completedDate=" + String.valueOf(this.getCompletedDate()) + ", createdAt=" + String.valueOf(this.getCreatedAt()) + ", updatedAt=" + String.valueOf(this.getUpdatedAt()) + ")";
     }
 
     @Generated

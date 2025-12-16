@@ -47,79 +47,79 @@ public class UserProfileController {
 
     @PostMapping(value={"/create"})
     public ResponseEntity<UserProfileDTO> createProfile(@RequestBody UserProfileDTO profileDTO) {
-        log.info("Creating user profile for user: {}", (Object)profileDTO.getUserId());
+        log.info("Creating user profile for user: {}", profileDTO.getUserId());
         try {
             UserProfileDTO createdProfile = this.userProfileService.createProfile(profileDTO);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.CREATED).body((Object)createdProfile);
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdProfile);
         }
         catch (Exception e) {
-            log.error("Error creating profile", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).build();
+            log.error("Error creating profile", e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
     @GetMapping(value={"/{id}"})
     public ResponseEntity<UserProfileDTO> getProfile(@PathVariable Long id) {
-        log.info("Fetching profile with ID: {}", (Object)id);
+        log.info("Fetching profile with ID: {}", id);
         try {
             UserProfileDTO profile = this.userProfileService.getProfileById(id);
-            return ResponseEntity.ok((Object)profile);
+            return ResponseEntity.ok(profile);
         }
         catch (Exception e) {
-            log.error("Error fetching profile", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.NOT_FOUND).build();
+            log.error("Error fetching profile", e);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 
     @GetMapping(value={"/user/{userId}"})
     public ResponseEntity<UserProfileDTO> getProfileByUserId(@PathVariable Long userId) {
-        log.info("Fetching profile for user: {}", (Object)userId);
+        log.info("Fetching profile for user: {}", userId);
         try {
             UserProfileDTO profile = this.userProfileService.getProfileByUserId(userId);
-            return ResponseEntity.ok((Object)profile);
+            return ResponseEntity.ok(profile);
         }
         catch (Exception e) {
-            log.error("Error fetching profile for user", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.NOT_FOUND).build();
+            log.error("Error fetching profile for user", e);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 
     @PutMapping(value={"/{id}"})
     public ResponseEntity<UserProfileDTO> updateProfile(@PathVariable Long id, @RequestBody UserProfileDTO profileDTO) {
-        log.info("Updating profile with ID: {}", (Object)id);
+        log.info("Updating profile with ID: {}", id);
         try {
             UserProfileDTO updatedProfile = this.userProfileService.updateProfile(id, profileDTO);
-            return ResponseEntity.ok((Object)updatedProfile);
+            return ResponseEntity.ok(updatedProfile);
         }
         catch (Exception e) {
-            log.error("Error updating profile", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).build();
+            log.error("Error updating profile", e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
     @PostMapping(value={"/{id}/verify-email"})
     public ResponseEntity<UserProfileDTO> verifyEmail(@PathVariable Long id) {
-        log.info("Verifying email for profile: {}", (Object)id);
+        log.info("Verifying email for profile: {}", id);
         try {
             UserProfileDTO verifiedProfile = this.userProfileService.verifyEmail(id);
-            return ResponseEntity.ok((Object)verifiedProfile);
+            return ResponseEntity.ok(verifiedProfile);
         }
         catch (Exception e) {
-            log.error("Error verifying email", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).build();
+            log.error("Error verifying email", e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
     @PostMapping(value={"/{id}/verify-phone"})
     public ResponseEntity<UserProfileDTO> verifyPhone(@PathVariable Long id) {
-        log.info("Verifying phone for profile: {}", (Object)id);
+        log.info("Verifying phone for profile: {}", id);
         try {
             UserProfileDTO verifiedProfile = this.userProfileService.verifyPhone(id);
-            return ResponseEntity.ok((Object)verifiedProfile);
+            return ResponseEntity.ok(verifiedProfile);
         }
         catch (Exception e) {
-            log.error("Error verifying phone", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).build();
+            log.error("Error verifying phone", e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
@@ -131,8 +131,8 @@ public class UserProfileController {
             return ResponseEntity.ok(users);
         }
         catch (Exception e) {
-            log.error("Error fetching active users", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).build();
+            log.error("Error fetching active users", e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 }

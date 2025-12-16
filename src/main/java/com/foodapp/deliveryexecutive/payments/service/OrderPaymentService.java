@@ -48,7 +48,7 @@ public class OrderPaymentService {
 
     @Transactional
     public OrderPaymentResponse createPayment(CreateOrderPaymentRequest request) {
-        logger.info("Creating payment for order: {}", (Object)request.getOrderId());
+        logger.info("Creating payment for order: {}", request.getOrderId());
         Optional orderOpt = this.orderRepository.findById(request.getOrderId());
         if (orderOpt.isEmpty()) {
             throw new RuntimeException("Order not found with ID: " + request.getOrderId());
@@ -75,18 +75,18 @@ public class OrderPaymentService {
             payment.setCustomerPhone(request.getCustomerPhone());
             payment.setPaymentDescription("Payment for Order #" + request.getOrderId());
             OrderPayment savedPayment = (OrderPayment)this.orderPaymentRepository.save(payment);
-            logger.info("Payment created successfully with ID: {}", (Object)savedPayment.getId());
+            logger.info("Payment created successfully with ID: {}", savedPayment.getId());
             return this.mapToResponse(savedPayment);
         }
         catch (Exception e) {
-            logger.error("Error creating payment: {}", (Object)e.getMessage(), (Object)e);
+            logger.error("Error creating payment: {}", e.getMessage(), e);
             throw new RuntimeException("Failed to create payment: " + e.getMessage());
         }
     }
 
     @Transactional
     public OrderPaymentResponse verifyPayment(VerifyPaymentRequest request) {
-        logger.info("Verifying payment for Razorpay order: {}", (Object)request.getRazorpayOrderId());
+        logger.info("Verifying payment for Razorpay order: {}", request.getRazorpayOrderId());
         Optional<OrderPayment> paymentOpt = this.orderPaymentRepository.findByRazorpayOrderId(request.getRazorpayOrderId());
         if (paymentOpt.isEmpty()) {
             throw new RuntimeException("Payment not found for Razorpay order: " + request.getRazorpayOrderId());
@@ -112,11 +112,11 @@ public class OrderPaymentService {
             }
             OrderPayment savedPayment = (OrderPayment)this.orderPaymentRepository.save(payment);
             this.updateOrderAfterPayment(payment.getOrderId(), true);
-            logger.info("Payment verified successfully for order: {}", (Object)payment.getOrderId());
+            logger.info("Payment verified successfully for order: {}", payment.getOrderId());
             return this.mapToResponse(savedPayment);
         }
         catch (Exception e) {
-            logger.error("Error verifying payment: {}", (Object)e.getMessage(), (Object)e);
+            logger.error("Error verifying payment: {}", e.getMessage(), e);
             payment.setStatus(OrderPayment.PaymentStatus.FAILED);
             payment.setFailureReason(e.getMessage());
             payment.setFailedAt(LocalDateTime.now());
@@ -137,17 +137,17 @@ public class OrderPaymentService {
             return generatedSignature.equals(signature);
         }
         catch (Exception e) {
-            logger.error("Error verifying signature: {}", (Object)e.getMessage(), (Object)e);
+            logger.error("Error verifying signature: {}", e.getMessage(), e);
             return false;
         }
     }
 
     @Transactional
     public void handlePaymentFailure(String razorpayOrderId, String reason, String errorCode) {
-        logger.info("Handling payment failure for Razorpay order: {}", (Object)razorpayOrderId);
+        logger.info("Handling payment failure for Razorpay order: {}", razorpayOrderId);
         Optional<OrderPayment> paymentOpt = this.orderPaymentRepository.findByRazorpayOrderId(razorpayOrderId);
         if (paymentOpt.isEmpty()) {
-            logger.warn("Payment not found for failed Razorpay order: {}", (Object)razorpayOrderId);
+            logger.warn("Payment not found for failed Razorpay order: {}", razorpayOrderId);
             return;
         }
         OrderPayment payment = paymentOpt.get();
@@ -157,7 +157,7 @@ public class OrderPaymentService {
         payment.setFailedAt(LocalDateTime.now());
         this.orderPaymentRepository.save(payment);
         this.updateOrderAfterPayment(payment.getOrderId(), false);
-        logger.info("Payment failure recorded for order: {}", (Object)payment.getOrderId());
+        logger.info("Payment failure recorded for order: {}", payment.getOrderId());
     }
 
     private void updateOrderAfterPayment(Long orderId, boolean success) {
@@ -175,7 +175,7 @@ public class OrderPaymentService {
     }
 
     public OrderPaymentResponse getPaymentByOrderId(Long orderId) {
-        logger.info("Fetching payment for order: {}", (Object)orderId);
+        logger.info("Fetching payment for order: {}", orderId);
         Optional<OrderPayment> paymentOpt = this.orderPaymentRepository.findByOrderId(orderId);
         if (paymentOpt.isEmpty()) {
             throw new RuntimeException("Payment not found for order: " + orderId);
@@ -184,20 +184,20 @@ public class OrderPaymentService {
     }
 
     public List<OrderPaymentResponse> getUserPaymentHistory(Long userId) {
-        logger.info("Fetching payment history for user: {}", (Object)userId);
+        logger.info("Fetching payment history for user: {}", userId);
         List<OrderPayment> payments = this.orderPaymentRepository.findByUserIdOrderByCreatedAtDesc(userId);
         return payments.stream().map(this::mapToResponse).collect(Collectors.toList());
     }
 
     public List<OrderPaymentResponse> getSuccessfulPaymentsByUser(Long userId) {
-        logger.info("Fetching successful payments for user: {}", (Object)userId);
+        logger.info("Fetching successful payments for user: {}", userId);
         List<OrderPayment> payments = this.orderPaymentRepository.findSuccessfulPaymentsByUserId(userId);
         return payments.stream().map(this::mapToResponse).collect(Collectors.toList());
     }
 
     @Transactional
     public OrderPaymentResponse initiateRefund(Long paymentId, String reason) {
-        logger.info("Initiating refund for payment: {}", (Object)paymentId);
+        logger.info("Initiating refund for payment: {}", paymentId);
         Optional paymentOpt = this.orderPaymentRepository.findById(paymentId);
         if (paymentOpt.isEmpty()) {
             throw new RuntimeException("Payment not found with ID: " + paymentId);
@@ -219,11 +219,11 @@ public class OrderPaymentService {
             payment.setRefundedAt(LocalDateTime.now());
             payment.setStatus(OrderPayment.PaymentStatus.REFUNDED);
             OrderPayment savedPayment = (OrderPayment)this.orderPaymentRepository.save(payment);
-            logger.info("Refund initiated successfully for payment: {}", (Object)paymentId);
+            logger.info("Refund initiated successfully for payment: {}", paymentId);
             return this.mapToResponse(savedPayment);
         }
         catch (Exception e) {
-            logger.error("Error initiating refund: {}", (Object)e.getMessage(), (Object)e);
+            logger.error("Error initiating refund: {}", e.getMessage(), e);
             throw new RuntimeException("Failed to initiate refund: " + e.getMessage());
         }
     }
@@ -249,7 +249,7 @@ public class OrderPaymentService {
             this.orderPaymentRepository.save(payment);
             this.updateOrderAfterPayment(payment.getOrderId(), false);
         }
-        logger.info("Processed {} expired payments", (Object)expiredPayments.size());
+        logger.info("Processed {} expired payments", expiredPayments.size());
     }
 
     private OrderPaymentResponse mapToResponse(OrderPayment payment) {

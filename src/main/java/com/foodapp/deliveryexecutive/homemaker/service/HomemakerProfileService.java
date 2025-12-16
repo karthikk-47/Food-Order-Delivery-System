@@ -31,7 +31,7 @@ public class HomemakerProfileService {
     private HomemakerProfileRepository homemakerProfileRepository;
 
     public HomemakerProfileDTO createProfile(HomemakerProfileDTO profileDTO) {
-        log.info("Creating homemaker profile for user: {}", (Object)profileDTO.getUserId());
+        log.info("Creating homemaker profile for user: {}", profileDTO.getUserId());
         HomemakerProfile profile = new HomemakerProfile();
         profile.setUserId(profileDTO.getUserId());
         profile.setFullName(profileDTO.getFullName());
@@ -46,24 +46,24 @@ public class HomemakerProfileService {
         profile.setOperatingHours(profileDTO.getOperatingHours());
         profile.setYearsOfExperience(profileDTO.getYearsOfExperience());
         HomemakerProfile savedProfile = (HomemakerProfile)this.homemakerProfileRepository.save(profile);
-        log.info("Homemaker profile created successfully with ID: {}", (Object)savedProfile.getId());
+        log.info("Homemaker profile created successfully with ID: {}", savedProfile.getId());
         return this.convertToDTO(savedProfile);
     }
 
     public HomemakerProfileDTO getProfileById(Long id) {
-        log.debug("Fetching profile with ID: {}", (Object)id);
+        log.debug("Fetching profile with ID: {}", id);
         HomemakerProfile profile = (HomemakerProfile)this.homemakerProfileRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Profile not found"));
         return this.convertToDTO(profile);
     }
 
     public HomemakerProfileDTO getProfileByUserId(Long userId) {
-        log.debug("Fetching profile for user: {}", (Object)userId);
+        log.debug("Fetching profile for user: {}", userId);
         HomemakerProfile profile = this.homemakerProfileRepository.findByUserId(userId).orElseThrow(() -> new IllegalArgumentException("Profile not found for user"));
         return this.convertToDTO(profile);
     }
 
     public HomemakerProfileDTO updateProfile(Long id, HomemakerProfileDTO profileDTO) {
-        log.info("Updating profile with ID: {}", (Object)id);
+        log.info("Updating profile with ID: {}", id);
         HomemakerProfile profile = (HomemakerProfile)this.homemakerProfileRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Profile not found"));
         if (profileDTO.getFullName() != null) {
             profile.setFullName(profileDTO.getFullName());
@@ -86,7 +86,7 @@ public class HomemakerProfileService {
     }
 
     public HomemakerProfileDTO verifyHomemaker(Long id) {
-        log.info("Verifying homemaker with ID: {}", (Object)id);
+        log.info("Verifying homemaker with ID: {}", id);
         HomemakerProfile profile = (HomemakerProfile)this.homemakerProfileRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Profile not found"));
         profile.setIsVerified(true);
         profile.setVerifiedAt(LocalDateTime.now());
@@ -97,7 +97,7 @@ public class HomemakerProfileService {
     }
 
     public HomemakerProfileDTO suspendAccount(Long id) {
-        log.info("Suspending account for homemaker: {}", (Object)id);
+        log.info("Suspending account for homemaker: {}", id);
         HomemakerProfile profile = (HomemakerProfile)this.homemakerProfileRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Profile not found"));
         profile.setAccountStatus(HomemakerProfile.AccountStatus.SUSPENDED);
         HomemakerProfile suspendedProfile = (HomemakerProfile)this.homemakerProfileRepository.save(profile);
@@ -106,7 +106,7 @@ public class HomemakerProfileService {
     }
 
     public void updateWalletBalance(Long id, Double amount) {
-        log.info("Updating wallet balance for homemaker: {} with amount: {}", (Object)id, (Object)amount);
+        log.info("Updating wallet balance for homemaker: {} with amount: {}", id, amount);
         HomemakerProfile profile = (HomemakerProfile)this.homemakerProfileRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Profile not found"));
         profile.setWalletBalance(profile.getWalletBalance() + amount);
         this.homemakerProfileRepository.save(profile);

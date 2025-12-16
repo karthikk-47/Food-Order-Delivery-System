@@ -275,7 +275,7 @@ public class PayoutResponse {
         }
         Map<String, String> this$notes = this.getNotes();
         Map<String, String> other$notes = other.getNotes();
-        if (this$notes == null ? other$notes != null : !((Object)this$notes).equals(other$notes)) {
+        if (this$notes == null ? other$notes != null : !(this$notes).equals(other$notes)) {
             return false;
         }
         String this$status = this.getStatus();

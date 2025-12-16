@@ -46,12 +46,12 @@ public class Actor {
         }
         Long this$id = this.getId();
         Long other$id = other.getId();
-        if (this$id == null ? other$id != null : !((Object)this$id).equals(other$id)) {
+        if (this$id == null ? other$id != null : !(this$id).equals(other$id)) {
             return false;
         }
         Role this$role = this.getRole();
         Role other$role = other.getRole();
-        return !(this$role == null ? other$role != null : !((Object)((Object)this$role)).equals((Object)other$role));
+        return !(this$role == null ? other$role != null : !((Object)(this$role)).equals(other$role));
     }
 
     @Generated
@@ -72,7 +72,7 @@ public class Actor {
 
     @Generated
     public String toString() {
-        return "Actor(id=" + this.getId() + ", role=" + String.valueOf((Object)this.getRole()) + ")";
+        return "Actor(id=" + this.getId() + ", role=" + String.valueOf(this.getRole()) + ")";
     }
 
     @Generated

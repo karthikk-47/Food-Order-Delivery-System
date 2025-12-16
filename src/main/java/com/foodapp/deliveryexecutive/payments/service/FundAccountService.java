@@ -43,7 +43,7 @@ public class FundAccountService {
             fundAccount.setActive(response.isActive());
             fundAccount.setCreated_at(response.getCreated_at());
             this.fundAccountRepository.save(fundAccount);
-            logger.info("Fund account saved successfully with ID: {}", (Object)fundAccount.getId());
+            logger.info("Fund account saved successfully with ID: {}", fundAccount.getId());
         }
         return response;
     }
@@ -81,7 +81,7 @@ public class FundAccountService {
         FundAccountEntity fundAccount = (FundAccountEntity)this.fundAccountRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Fund account not found with ID: " + id));
         fundAccount.setActive(false);
         this.fundAccountRepository.save(fundAccount);
-        logger.info("Fund account deactivated: {}", (Object)id);
+        logger.info("Fund account deactivated: {}", id);
     }
 
     @Transactional
@@ -89,6 +89,6 @@ public class FundAccountService {
         FundAccountEntity fundAccount = (FundAccountEntity)this.fundAccountRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Fund account not found with ID: " + id));
         fundAccount.setStatus(status);
         this.fundAccountRepository.save(fundAccount);
-        logger.info("Fund account status updated: {} -> {}", (Object)id, (Object)status);
+        logger.info("Fund account status updated: {} -> {}", id, status);
     }
 }

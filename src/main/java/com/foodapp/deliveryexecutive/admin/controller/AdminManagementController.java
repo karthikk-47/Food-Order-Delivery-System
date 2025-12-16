@@ -70,7 +70,7 @@ public class AdminManagementController {
     public ResponseEntity<Map<String, Object>> getAllUsers(@RequestParam(required=false) String search, @RequestParam(defaultValue="0") int page, @RequestParam(defaultValue="10") int size) {
         log.info("Fetching users - search: {}, page: {}, size: {}", new Object[]{search, page, size});
         try {
-            List users = this.userRepository.findAll();
+            List<User> users = this.userRepository.findAll();
             if (search != null && !search.isEmpty()) {
                 String searchLower = search.toLowerCase();
                 users = users.stream().filter(u -> u.getName().toLowerCase().contains(searchLower) || u.getMobile().contains(searchLower) || u.getEmail().toLowerCase().contains(searchLower)).collect(Collectors.toList());
@@ -78,7 +78,7 @@ public class AdminManagementController {
             int total = users.size();
             int start = page * size;
             int end = Math.min(start + size, total);
-            List paginatedUsers = users.subList(start, Math.min(end, users.size()));
+            List<User> paginatedUsers = users.subList(start, Math.min(end, users.size()));
             HashMap<String, Object> response = new HashMap<String, Object>();
             response.put("data", paginatedUsers);
             response.put("totalRecords", total);
@@ -87,30 +87,30 @@ public class AdminManagementController {
             return ResponseEntity.ok(response);
         }
         catch (Exception e) {
-            log.error("Error fetching users", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("error", "Failed to fetch users"));
+            log.error("Error fetching users", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("error", "Failed to fetch users"));
         }
     }
 
     @GetMapping(value={"/users/{id}"})
     public ResponseEntity<?> getUserById(@PathVariable Long id) {
-        log.info("Fetching user with ID: {}", (Object)id);
+        log.info("Fetching user with ID: {}", id);
         try {
             Optional user = this.userRepository.findById(id);
             if (user.isPresent()) {
-                return ResponseEntity.ok((Object)((User)user.get()));
+                return ResponseEntity.ok(((User)user.get()));
             }
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.NOT_FOUND).body(Collections.singletonMap("error", "User not found"));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.singletonMap("error", "User not found"));
         }
         catch (Exception e) {
-            log.error("Error fetching user", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("error", "Failed to fetch user"));
+            log.error("Error fetching user", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("error", "Failed to fetch user"));
         }
     }
 
     @DeleteMapping(value={"/users/{id}"})
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
-        log.info("Deleting user with ID: {}", (Object)id);
+        log.info("Deleting user with ID: {}", id);
         try {
             User user = (User)this.userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("User not found"));
             this.userRepository.delete(user);
@@ -118,20 +118,20 @@ public class AdminManagementController {
             return ResponseEntity.ok(Collections.singletonMap("message", "User deleted successfully"));
         }
         catch (IllegalArgumentException e) {
-            log.warn("User not found: {}", (Object)e.getMessage());
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.NOT_FOUND).body(Collections.singletonMap("error", e.getMessage()));
+            log.warn("User not found: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.singletonMap("error", e.getMessage()));
         }
         catch (Exception e) {
-            log.error("Error deleting user", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("error", "Failed to delete user"));
+            log.error("Error deleting user", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("error", "Failed to delete user"));
         }
     }
 
     @GetMapping(value={"/homemakers"})
     public ResponseEntity<Map<String, Object>> getAllHomemakers(@RequestParam(required=false) String status, @RequestParam(required=false) String search, @RequestParam(defaultValue="0") int page, @RequestParam(defaultValue="10") int size) {
-        log.info("Fetching homemakers - status: {}, search: {}", (Object)status, (Object)search);
+        log.info("Fetching homemakers - status: {}, search: {}", status, search);
         try {
-            List homemakers = this.homeMakerRepository.findAll();
+            List<HomeMaker> homemakers = this.homeMakerRepository.findAll();
             if (status != null && !status.isEmpty()) {
                 homemakers = homemakers.stream().filter(h -> h.getApprovalStatus().toString().equalsIgnoreCase(status)).collect(Collectors.toList());
             }
@@ -142,7 +142,7 @@ public class AdminManagementController {
             int total = homemakers.size();
             int start = page * size;
             int end = Math.min(start + size, total);
-            List paginatedHomemakers = homemakers.subList(start, Math.min(end, homemakers.size()));
+            List<HomeMaker> paginatedHomemakers = homemakers.subList(start, Math.min(end, homemakers.size()));
             HashMap<String, Object> response = new HashMap<String, Object>();
             response.put("data", paginatedHomemakers);
             response.put("totalRecords", total);
@@ -151,30 +151,30 @@ public class AdminManagementController {
             return ResponseEntity.ok(response);
         }
         catch (Exception e) {
-            log.error("Error fetching homemakers", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("error", "Failed to fetch homemakers"));
+            log.error("Error fetching homemakers", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("error", "Failed to fetch homemakers"));
         }
     }
 
     @GetMapping(value={"/homemakers/{id}"})
     public ResponseEntity<?> getHomemakerById(@PathVariable Long id) {
-        log.info("Fetching homemaker with ID: {}", (Object)id);
+        log.info("Fetching homemaker with ID: {}", id);
         try {
             Optional homemaker = this.homeMakerRepository.findById(id);
             if (homemaker.isPresent()) {
-                return ResponseEntity.ok((Object)((HomeMaker)homemaker.get()));
+                return ResponseEntity.ok(((HomeMaker)homemaker.get()));
             }
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.NOT_FOUND).body(Collections.singletonMap("error", "Homemaker not found"));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.singletonMap("error", "Homemaker not found"));
         }
         catch (Exception e) {
-            log.error("Error fetching homemaker", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("error", "Failed to fetch homemaker"));
+            log.error("Error fetching homemaker", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("error", "Failed to fetch homemaker"));
         }
     }
 
     @PutMapping(value={"/homemakers/{id}/approval-status"})
     public ResponseEntity<?> updateHomemakerApprovalStatus(@PathVariable Long id, @RequestBody Map<String, String> request) {
-        log.info("Updating homemaker approval status for ID: {} to {}", (Object)id, (Object)request.get("status"));
+        log.info("Updating homemaker approval status for ID: {} to {}", id, request.get("status"));
         try {
             HomeMaker homemaker = (HomeMaker)this.homeMakerRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Homemaker not found"));
             String newStatus = request.get("status");
@@ -184,21 +184,21 @@ public class AdminManagementController {
             }
             HomeMaker updatedHomemaker = (HomeMaker)this.homeMakerRepository.save(homemaker);
             log.info("Homemaker approval status updated successfully");
-            return ResponseEntity.ok((Object)updatedHomemaker);
+            return ResponseEntity.ok(updatedHomemaker);
         }
         catch (IllegalArgumentException e) {
-            log.warn("Invalid homemaker or status: {}", (Object)e.getMessage());
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.NOT_FOUND).body(Collections.singletonMap("error", e.getMessage()));
+            log.warn("Invalid homemaker or status: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.singletonMap("error", e.getMessage()));
         }
         catch (Exception e) {
-            log.error("Error updating homemaker approval status", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("error", "Failed to update homemaker"));
+            log.error("Error updating homemaker approval status", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("error", "Failed to update homemaker"));
         }
     }
 
     @DeleteMapping(value={"/homemakers/{id}"})
     public ResponseEntity<?> deleteHomemaker(@PathVariable Long id) {
-        log.info("Deleting homemaker with ID: {}", (Object)id);
+        log.info("Deleting homemaker with ID: {}", id);
         try {
             HomeMaker homemaker = (HomeMaker)this.homeMakerRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Homemaker not found"));
             this.homeMakerRepository.delete(homemaker);
@@ -206,16 +206,16 @@ public class AdminManagementController {
             return ResponseEntity.ok(Collections.singletonMap("message", "Homemaker deleted successfully"));
         }
         catch (Exception e) {
-            log.error("Error deleting homemaker", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("error", "Failed to delete homemaker"));
+            log.error("Error deleting homemaker", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("error", "Failed to delete homemaker"));
         }
     }
 
     @GetMapping(value={"/executives"})
     public ResponseEntity<Map<String, Object>> getAllExecutives(@RequestParam(required=false) String status, @RequestParam(required=false) String search, @RequestParam(defaultValue="0") int page, @RequestParam(defaultValue="10") int size) {
-        log.info("Fetching delivery executives - status: {}, search: {}", (Object)status, (Object)search);
+        log.info("Fetching delivery executives - status: {}, search: {}", status, search);
         try {
-            List executives = this.deliveryExecutiveRepository.findAll();
+            List<DeliveryExecutive> executives = this.deliveryExecutiveRepository.findAll();
             if (status != null && !status.isEmpty()) {
                 executives = executives.stream().filter(e -> e.getApprovalStatus().toString().equalsIgnoreCase(status)).collect(Collectors.toList());
             }
@@ -226,7 +226,7 @@ public class AdminManagementController {
             int total = executives.size();
             int start = page * size;
             int end = Math.min(start + size, total);
-            List paginatedExecutives = executives.subList(start, Math.min(end, executives.size()));
+            List<DeliveryExecutive> paginatedExecutives = executives.subList(start, Math.min(end, executives.size()));
             HashMap<String, Object> response = new HashMap<String, Object>();
             response.put("data", paginatedExecutives);
             response.put("totalRecords", total);
@@ -235,30 +235,30 @@ public class AdminManagementController {
             return ResponseEntity.ok(response);
         }
         catch (Exception e2) {
-            log.error("Error fetching delivery executives", (Throwable)e2);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("error", "Failed to fetch executives"));
+            log.error("Error fetching delivery executives", e2);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("error", "Failed to fetch executives"));
         }
     }
 
     @GetMapping(value={"/executives/{id}"})
     public ResponseEntity<?> getExecutiveById(@PathVariable Long id) {
-        log.info("Fetching delivery executive with ID: {}", (Object)id);
+        log.info("Fetching delivery executive with ID: {}", id);
         try {
             Optional executive = this.deliveryExecutiveRepository.findById(id);
             if (executive.isPresent()) {
-                return ResponseEntity.ok((Object)((DeliveryExecutive)executive.get()));
+                return ResponseEntity.ok(((DeliveryExecutive)executive.get()));
             }
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.NOT_FOUND).body(Collections.singletonMap("error", "Executive not found"));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.singletonMap("error", "Executive not found"));
         }
         catch (Exception e) {
-            log.error("Error fetching executive", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("error", "Failed to fetch executive"));
+            log.error("Error fetching executive", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("error", "Failed to fetch executive"));
         }
     }
 
     @PutMapping(value={"/executives/{id}/approval-status"})
     public ResponseEntity<?> updateExecutiveApprovalStatus(@PathVariable Long id, @RequestBody Map<String, String> request) {
-        log.info("Updating executive approval status for ID: {} to {}", (Object)id, (Object)request.get("status"));
+        log.info("Updating executive approval status for ID: {} to {}", id, request.get("status"));
         try {
             DeliveryExecutive executive = (DeliveryExecutive)this.deliveryExecutiveRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Executive not found"));
             String newStatus = request.get("status");
@@ -268,21 +268,21 @@ public class AdminManagementController {
             }
             DeliveryExecutive updatedExecutive = (DeliveryExecutive)this.deliveryExecutiveRepository.save(executive);
             log.info("Executive approval status updated successfully");
-            return ResponseEntity.ok((Object)updatedExecutive);
+            return ResponseEntity.ok(updatedExecutive);
         }
         catch (IllegalArgumentException e) {
-            log.warn("Invalid executive or status: {}", (Object)e.getMessage());
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.NOT_FOUND).body(Collections.singletonMap("error", e.getMessage()));
+            log.warn("Invalid executive or status: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.singletonMap("error", e.getMessage()));
         }
         catch (Exception e) {
-            log.error("Error updating executive approval status", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("error", "Failed to update executive"));
+            log.error("Error updating executive approval status", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("error", "Failed to update executive"));
         }
     }
 
     @DeleteMapping(value={"/executives/{id}"})
     public ResponseEntity<?> deleteExecutive(@PathVariable Long id) {
-        log.info("Deleting delivery executive with ID: {}", (Object)id);
+        log.info("Deleting delivery executive with ID: {}", id);
         try {
             DeliveryExecutive executive = (DeliveryExecutive)this.deliveryExecutiveRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Executive not found"));
             this.deliveryExecutiveRepository.delete(executive);
@@ -290,8 +290,8 @@ public class AdminManagementController {
             return ResponseEntity.ok(Collections.singletonMap("message", "Executive deleted successfully"));
         }
         catch (Exception e) {
-            log.error("Error deleting executive", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("error", "Failed to delete executive"));
+            log.error("Error deleting executive", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("error", "Failed to delete executive"));
         }
     }
 }

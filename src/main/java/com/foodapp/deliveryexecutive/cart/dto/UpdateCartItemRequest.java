@@ -46,7 +46,7 @@ public class UpdateCartItemRequest {
         }
         Integer this$quantity = this.getQuantity();
         Integer other$quantity = other.getQuantity();
-        if (this$quantity == null ? other$quantity != null : !((Object)this$quantity).equals(other$quantity)) {
+        if (this$quantity == null ? other$quantity != null : !(this$quantity).equals(other$quantity)) {
             return false;
         }
         String this$specialInstructions = this.getSpecialInstructions();

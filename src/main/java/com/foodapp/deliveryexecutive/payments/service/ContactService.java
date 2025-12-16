@@ -36,7 +36,7 @@ public class ContactService {
     public CreateContactResponse createAndSaveContact(CreateContactRequest request) throws Exception {
         Optional<Contact> existing;
         if (this.contactRepository.existsByEmail(request.getEmail()) && (existing = this.contactRepository.findByEmail(request.getEmail())).isPresent()) {
-            logger.info("Contact already exists with email: {}", (Object)request.getEmail());
+            logger.info("Contact already exists with email: {}", request.getEmail());
             return this.mapToResponse(existing.get());
         }
         CreateContactResponse response = this.paymentsApi.createContact(request);
@@ -54,7 +54,7 @@ public class ContactService {
             contact.setNotes(response.getNotes());
             contact.setCreated_at(response.getCreated_at());
             this.contactRepository.save(contact);
-            logger.info("Contact saved successfully with ID: {}", (Object)contact.getId());
+            logger.info("Contact saved successfully with ID: {}", contact.getId());
         }
         return response;
     }
@@ -88,7 +88,7 @@ public class ContactService {
         Contact contact = (Contact)this.contactRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Contact not found with ID: " + id));
         contact.setActive(false);
         this.contactRepository.save(contact);
-        logger.info("Contact deactivated: {}", (Object)id);
+        logger.info("Contact deactivated: {}", id);
     }
 
     private CreateContactResponse mapToResponse(Contact contact) {

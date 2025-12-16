@@ -59,7 +59,7 @@ public class DataSeedController {
 
     @GetMapping(value={"/status"})
     public ResponseEntity<Map<String, Object>> getStatus() {
-        HashMap<String, Long> status = new HashMap<String, Long>();
+        HashMap<String, Object> status = new HashMap<String, Object>();
         status.put("users", this.userRepository.count());
         status.put("homemakers", this.homeMakerRepository.count());
         status.put("executives", this.deliveryExecutiveRepository.count());
@@ -87,7 +87,7 @@ public class DataSeedController {
             return ResponseEntity.ok(result);
         }
         catch (Exception e) {
-            log.error("Error during data seeding", (Throwable)e);
+            log.error("Error during data seeding", e);
             result.put("success", false);
             result.put("error", e.getMessage());
             return ResponseEntity.internalServerError().body(result);
@@ -97,7 +97,7 @@ public class DataSeedController {
     private int seedAdmins() {
         long existingCount = this.adminRepository.count();
         if (existingCount >= 3L) {
-            log.info("Admins already exist ({}), skipping", (Object)existingCount);
+            log.info("Admins already exist ({}), skipping", existingCount);
             return 0;
         }
         ArrayList<Admin> admins = new ArrayList<Admin>();
@@ -150,7 +150,7 @@ public class DataSeedController {
     private int seedUsers() {
         long existingCount = this.userRepository.count();
         if (existingCount >= 500L) {
-            log.info("Users already exist ({}), skipping", (Object)existingCount);
+            log.info("Users already exist ({}), skipping", existingCount);
             return 0;
         }
         int usersToCreate = 500 - (int)existingCount;
@@ -178,7 +178,7 @@ public class DataSeedController {
     private int seedHomemakers() {
         long existingCount = this.homeMakerRepository.count();
         if (existingCount >= 30L) {
-            log.info("Homemakers already exist ({}), skipping", (Object)existingCount);
+            log.info("Homemakers already exist ({}), skipping", existingCount);
             return 0;
         }
         int homemakersToCreate = 30 - (int)existingCount;
@@ -209,7 +209,7 @@ public class DataSeedController {
     private int seedDeliveryExecutives() {
         long existingCount = this.deliveryExecutiveRepository.count();
         if (existingCount >= 50L) {
-            log.info("Delivery executives already exist ({}), skipping", (Object)existingCount);
+            log.info("Delivery executives already exist ({}), skipping", existingCount);
             return 0;
         }
         int executivesToCreate = 50 - (int)existingCount;

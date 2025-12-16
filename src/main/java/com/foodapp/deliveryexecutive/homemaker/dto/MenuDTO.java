@@ -248,67 +248,67 @@ public class MenuDTO {
         }
         Long this$id = this.getId();
         Long other$id = other.getId();
-        if (this$id == null ? other$id != null : !((Object)this$id).equals(other$id)) {
+        if (this$id == null ? other$id != null : !(this$id).equals(other$id)) {
             return false;
         }
         Long this$homemakerId = this.getHomemakerId();
         Long other$homemakerId = other.getHomemakerId();
-        if (this$homemakerId == null ? other$homemakerId != null : !((Object)this$homemakerId).equals(other$homemakerId)) {
+        if (this$homemakerId == null ? other$homemakerId != null : !(this$homemakerId).equals(other$homemakerId)) {
             return false;
         }
         Boolean this$isRecurring = this.getIsRecurring();
         Boolean other$isRecurring = other.getIsRecurring();
-        if (this$isRecurring == null ? other$isRecurring != null : !((Object)this$isRecurring).equals(other$isRecurring)) {
+        if (this$isRecurring == null ? other$isRecurring != null : !(this$isRecurring).equals(other$isRecurring)) {
             return false;
         }
         Double this$estimatedPrepTime = this.getEstimatedPrepTime();
         Double other$estimatedPrepTime = other.getEstimatedPrepTime();
-        if (this$estimatedPrepTime == null ? other$estimatedPrepTime != null : !((Object)this$estimatedPrepTime).equals(other$estimatedPrepTime)) {
+        if (this$estimatedPrepTime == null ? other$estimatedPrepTime != null : !(this$estimatedPrepTime).equals(other$estimatedPrepTime)) {
             return false;
         }
         Integer this$minOrderQuantity = this.getMinOrderQuantity();
         Integer other$minOrderQuantity = other.getMinOrderQuantity();
-        if (this$minOrderQuantity == null ? other$minOrderQuantity != null : !((Object)this$minOrderQuantity).equals(other$minOrderQuantity)) {
+        if (this$minOrderQuantity == null ? other$minOrderQuantity != null : !(this$minOrderQuantity).equals(other$minOrderQuantity)) {
             return false;
         }
         Integer this$maxOrderQuantity = this.getMaxOrderQuantity();
         Integer other$maxOrderQuantity = other.getMaxOrderQuantity();
-        if (this$maxOrderQuantity == null ? other$maxOrderQuantity != null : !((Object)this$maxOrderQuantity).equals(other$maxOrderQuantity)) {
+        if (this$maxOrderQuantity == null ? other$maxOrderQuantity != null : !(this$maxOrderQuantity).equals(other$maxOrderQuantity)) {
             return false;
         }
         Double this$averageRating = this.getAverageRating();
         Double other$averageRating = other.getAverageRating();
-        if (this$averageRating == null ? other$averageRating != null : !((Object)this$averageRating).equals(other$averageRating)) {
+        if (this$averageRating == null ? other$averageRating != null : !(this$averageRating).equals(other$averageRating)) {
             return false;
         }
         Integer this$totalOrders = this.getTotalOrders();
         Integer other$totalOrders = other.getTotalOrders();
-        if (this$totalOrders == null ? other$totalOrders != null : !((Object)this$totalOrders).equals(other$totalOrders)) {
+        if (this$totalOrders == null ? other$totalOrders != null : !(this$totalOrders).equals(other$totalOrders)) {
             return false;
         }
         Integer this$totalReviews = this.getTotalReviews();
         Integer other$totalReviews = other.getTotalReviews();
-        if (this$totalReviews == null ? other$totalReviews != null : !((Object)this$totalReviews).equals(other$totalReviews)) {
+        if (this$totalReviews == null ? other$totalReviews != null : !(this$totalReviews).equals(other$totalReviews)) {
             return false;
         }
         Menu.MenuStatus this$status = this.getStatus();
         Menu.MenuStatus other$status = other.getStatus();
-        if (this$status == null ? other$status != null : !((Object)((Object)this$status)).equals((Object)other$status)) {
+        if (this$status == null ? other$status != null : !((Object)(this$status)).equals(other$status)) {
             return false;
         }
         LocalDateTime this$publishedDate = this.getPublishedDate();
         LocalDateTime other$publishedDate = other.getPublishedDate();
-        if (this$publishedDate == null ? other$publishedDate != null : !((Object)this$publishedDate).equals(other$publishedDate)) {
+        if (this$publishedDate == null ? other$publishedDate != null : !(this$publishedDate).equals(other$publishedDate)) {
             return false;
         }
         LocalDateTime this$validFrom = this.getValidFrom();
         LocalDateTime other$validFrom = other.getValidFrom();
-        if (this$validFrom == null ? other$validFrom != null : !((Object)this$validFrom).equals(other$validFrom)) {
+        if (this$validFrom == null ? other$validFrom != null : !(this$validFrom).equals(other$validFrom)) {
             return false;
         }
         LocalDateTime this$validUntil = this.getValidUntil();
         LocalDateTime other$validUntil = other.getValidUntil();
-        if (this$validUntil == null ? other$validUntil != null : !((Object)this$validUntil).equals(other$validUntil)) {
+        if (this$validUntil == null ? other$validUntil != null : !(this$validUntil).equals(other$validUntil)) {
             return false;
         }
         String this$recurrencePattern = this.getRecurrencePattern();
@@ -318,7 +318,7 @@ public class MenuDTO {
         }
         List<String> this$cuisineTypes = this.getCuisineTypes();
         List<String> other$cuisineTypes = other.getCuisineTypes();
-        if (this$cuisineTypes == null ? other$cuisineTypes != null : !((Object)this$cuisineTypes).equals(other$cuisineTypes)) {
+        if (this$cuisineTypes == null ? other$cuisineTypes != null : !(this$cuisineTypes).equals(other$cuisineTypes)) {
             return false;
         }
         String this$description = this.getDescription();
@@ -328,22 +328,22 @@ public class MenuDTO {
         }
         Menu.MenuType this$menuType = this.getMenuType();
         Menu.MenuType other$menuType = other.getMenuType();
-        if (this$menuType == null ? other$menuType != null : !((Object)((Object)this$menuType)).equals((Object)other$menuType)) {
+        if (this$menuType == null ? other$menuType != null : !((Object)(this$menuType)).equals(other$menuType)) {
             return false;
         }
         LocalDateTime this$createdAt = this.getCreatedAt();
         LocalDateTime other$createdAt = other.getCreatedAt();
-        if (this$createdAt == null ? other$createdAt != null : !((Object)this$createdAt).equals(other$createdAt)) {
+        if (this$createdAt == null ? other$createdAt != null : !(this$createdAt).equals(other$createdAt)) {
             return false;
         }
         LocalDateTime this$updatedAt = this.getUpdatedAt();
         LocalDateTime other$updatedAt = other.getUpdatedAt();
-        if (this$updatedAt == null ? other$updatedAt != null : !((Object)this$updatedAt).equals(other$updatedAt)) {
+        if (this$updatedAt == null ? other$updatedAt != null : !(this$updatedAt).equals(other$updatedAt)) {
             return false;
         }
         List<MenuItemDTO> this$items = this.getItems();
         List<MenuItemDTO> other$items = other.getItems();
-        return !(this$items == null ? other$items != null : !((Object)this$items).equals(other$items));
+        return !(this$items == null ? other$items != null : !(this$items).equals(other$items));
     }
 
     @Generated
@@ -400,7 +400,7 @@ public class MenuDTO {
 
     @Generated
     public String toString() {
-        return "MenuDTO(id=" + this.getId() + ", homemakerId=" + this.getHomemakerId() + ", status=" + String.valueOf((Object)this.getStatus()) + ", publishedDate=" + String.valueOf(this.getPublishedDate()) + ", validFrom=" + String.valueOf(this.getValidFrom()) + ", validUntil=" + String.valueOf(this.getValidUntil()) + ", isRecurring=" + this.getIsRecurring() + ", recurrencePattern=" + this.getRecurrencePattern() + ", cuisineTypes=" + String.valueOf(this.getCuisineTypes()) + ", description=" + this.getDescription() + ", estimatedPrepTime=" + this.getEstimatedPrepTime() + ", menuType=" + String.valueOf((Object)this.getMenuType()) + ", minOrderQuantity=" + this.getMinOrderQuantity() + ", maxOrderQuantity=" + this.getMaxOrderQuantity() + ", averageRating=" + this.getAverageRating() + ", totalOrders=" + this.getTotalOrders() + ", totalReviews=" + this.getTotalReviews() + ", createdAt=" + String.valueOf(this.getCreatedAt()) + ", updatedAt=" + String.valueOf(this.getUpdatedAt()) + ", items=" + String.valueOf(this.getItems()) + ")";
+        return "MenuDTO(id=" + this.getId() + ", homemakerId=" + this.getHomemakerId() + ", status=" + String.valueOf(this.getStatus()) + ", publishedDate=" + String.valueOf(this.getPublishedDate()) + ", validFrom=" + String.valueOf(this.getValidFrom()) + ", validUntil=" + String.valueOf(this.getValidUntil()) + ", isRecurring=" + this.getIsRecurring() + ", recurrencePattern=" + this.getRecurrencePattern() + ", cuisineTypes=" + String.valueOf(this.getCuisineTypes()) + ", description=" + this.getDescription() + ", estimatedPrepTime=" + this.getEstimatedPrepTime() + ", menuType=" + String.valueOf(this.getMenuType()) + ", minOrderQuantity=" + this.getMinOrderQuantity() + ", maxOrderQuantity=" + this.getMaxOrderQuantity() + ", averageRating=" + this.getAverageRating() + ", totalOrders=" + this.getTotalOrders() + ", totalReviews=" + this.getTotalReviews() + ", createdAt=" + String.valueOf(this.getCreatedAt()) + ", updatedAt=" + String.valueOf(this.getUpdatedAt()) + ", items=" + String.valueOf(this.getItems()) + ")";
     }
 
     @Generated

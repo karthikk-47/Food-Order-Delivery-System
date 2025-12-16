@@ -31,20 +31,20 @@ public class HomemakerAnalyticsService {
     private HomemakerAnalyticsRepository analyticsRepository;
 
     public HomemakerAnalyticsDTO getAnalytics(Long homemakerId) {
-        log.debug("Fetching analytics for homemaker: {}", (Object)homemakerId);
+        log.debug("Fetching analytics for homemaker: {}", homemakerId);
         HomemakerAnalytics analytics = this.analyticsRepository.findByHomemakerId(homemakerId).orElseGet(() -> this.createAnalytics(homemakerId));
         return this.convertToDTO(analytics);
     }
 
     private HomemakerAnalytics createAnalytics(Long homemakerId) {
-        log.info("Creating analytics record for homemaker: {}", (Object)homemakerId);
+        log.info("Creating analytics record for homemaker: {}", homemakerId);
         HomemakerAnalytics analytics = new HomemakerAnalytics();
         analytics.setHomemakerId(homemakerId);
         return (HomemakerAnalytics)this.analyticsRepository.save(analytics);
     }
 
     public void recordOrderCompletion(Long homemakerId, Double orderValue) {
-        log.info("Recording order completion for homemaker: {} with value: {}", (Object)homemakerId, (Object)orderValue);
+        log.info("Recording order completion for homemaker: {} with value: {}", homemakerId, orderValue);
         HomemakerAnalytics analytics = this.analyticsRepository.findByHomemakerId(homemakerId).orElseGet(() -> this.createAnalytics(homemakerId));
         analytics.setTotalOrdersThisMonth(analytics.getTotalOrdersThisMonth() + 1);
         analytics.setTotalOrdersThisWeek(analytics.getTotalOrdersThisWeek() + 1);
@@ -58,7 +58,7 @@ public class HomemakerAnalyticsService {
     }
 
     public void recordOrderCancellation(Long homemakerId) {
-        log.info("Recording order cancellation for homemaker: {}", (Object)homemakerId);
+        log.info("Recording order cancellation for homemaker: {}", homemakerId);
         HomemakerAnalytics analytics = this.analyticsRepository.findByHomemakerId(homemakerId).orElseGet(() -> this.createAnalytics(homemakerId));
         analytics.setOrdersCancelled(analytics.getOrdersCancelled() + 1);
         analytics.setLastUpdated(LocalDateTime.now());
@@ -67,7 +67,7 @@ public class HomemakerAnalyticsService {
     }
 
     public void updateRatingAndReviews(Long homemakerId, Double rating, Boolean isPositive) {
-        log.info("Updating rating for homemaker: {} with rating: {}", (Object)homemakerId, (Object)rating);
+        log.info("Updating rating for homemaker: {} with rating: {}", homemakerId, rating);
         HomemakerAnalytics analytics = this.analyticsRepository.findByHomemakerId(homemakerId).orElseGet(() -> this.createAnalytics(homemakerId));
         analytics.setTotalReviews(analytics.getTotalReviews() + 1);
         if (isPositive.booleanValue()) {

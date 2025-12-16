@@ -58,23 +58,23 @@ public class RazorpayWebhookController {
         try {
             if (!this.verifySignature(payload, signature)) {
                 logger.warn("Invalid webhook signature");
-                return ResponseEntity.status((HttpStatusCode)HttpStatus.UNAUTHORIZED).body((Object)"Invalid signature");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid signature");
             }
             ObjectMapper mapper = new ObjectMapper();
             RazorpayWebhookEvent event = (RazorpayWebhookEvent)mapper.readValue(payload, RazorpayWebhookEvent.class);
             String eventType = event.getEvent();
             RazorpayWebhookEvent.PayoutPayload.PayoutEntity payout = event.getPayload().getPayout();
-            logger.info("Received webhook event: {} for payout: {}", (Object)eventType, (Object)payout.getId());
+            logger.info("Received webhook event: {} for payout: {}", eventType, payout.getId());
             WithdrawTransaction transaction = this.withdrawRepository.findByPayoutId(payout.getId()).orElse(null);
             if (transaction == null) {
-                logger.warn("Transaction not found for payout ID: {}", (Object)payout.getId());
-                return ResponseEntity.ok((Object)"Transaction not found");
+                logger.warn("Transaction not found for payout ID: {}", payout.getId());
+                return ResponseEntity.ok("Transaction not found");
             }
             switch (eventType) {
                 case "payout.processed": {
                     transaction.setStatus(WithdrawTransaction.WithdrawStatus.PROCESSED);
                     transaction.setUtr(payout.getUtr());
-                    logger.info("Payout processed: {}", (Object)payout.getId());
+                    logger.info("Payout processed: {}", payout.getId());
                     break;
                 }
                 case "payout.failed": 
@@ -84,38 +84,38 @@ public class RazorpayWebhookController {
                         transaction.setFailureReason(payout.getStatusDetails().getDescription());
                     }
                     this.refundToWallet(transaction);
-                    logger.info("Payout failed: {}, refunded to wallet", (Object)payout.getId());
+                    logger.info("Payout failed: {}, refunded to wallet", payout.getId());
                     break;
                 }
                 case "payout.reversed": {
                     transaction.setStatus(WithdrawTransaction.WithdrawStatus.REVERSED);
                     transaction.setUtr(payout.getUtr());
                     this.refundToWallet(transaction);
-                    logger.info("Payout reversed: {}, refunded to wallet", (Object)payout.getId());
+                    logger.info("Payout reversed: {}, refunded to wallet", payout.getId());
                     break;
                 }
                 case "payout.cancelled": {
                     transaction.setStatus(WithdrawTransaction.WithdrawStatus.CANCELLED);
                     this.refundToWallet(transaction);
-                    logger.info("Payout cancelled: {}, refunded to wallet", (Object)payout.getId());
+                    logger.info("Payout cancelled: {}, refunded to wallet", payout.getId());
                     break;
                 }
                 case "payout.queued": 
                 case "payout.processing": {
                     transaction.setStatus(WithdrawTransaction.WithdrawStatus.PROCESSING);
-                    logger.info("Payout processing: {}", (Object)payout.getId());
+                    logger.info("Payout processing: {}", payout.getId());
                     break;
                 }
                 default: {
-                    logger.info("Unhandled event type: {}", (Object)eventType);
+                    logger.info("Unhandled event type: {}", eventType);
                 }
             }
             this.withdrawRepository.save(transaction);
-            return ResponseEntity.ok((Object)"Webhook processed successfully");
+            return ResponseEntity.ok("Webhook processed successfully");
         }
         catch (Exception e) {
-            logger.error("Error processing webhook", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.INTERNAL_SERVER_ERROR).body((Object)"Error processing webhook");
+            logger.error("Error processing webhook", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error processing webhook");
         }
     }
 
@@ -136,7 +136,7 @@ public class RazorpayWebhookController {
             return hexString.toString().equals(signature);
         }
         catch (Exception e) {
-            logger.error("Error verifying signature", (Throwable)e);
+            logger.error("Error verifying signature", e);
             return false;
         }
     }
@@ -147,11 +147,11 @@ public class RazorpayWebhookController {
             if (wallet != null) {
                 wallet.setBalance(wallet.getBalance() + transaction.getAmount());
                 this.walletRepository.save(wallet);
-                logger.info("Refunded {} to wallet for customer: {}", (Object)transaction.getAmount(), (Object)transaction.getCustomerId());
+                logger.info("Refunded {} to wallet for customer: {}", transaction.getAmount(), transaction.getCustomerId());
             }
         }
         catch (Exception e) {
-            logger.error("Error refunding to wallet for transaction: {}", (Object)transaction.getId(), (Object)e);
+            logger.error("Error refunding to wallet for transaction: {}", transaction.getId(), e);
         }
     }
 }

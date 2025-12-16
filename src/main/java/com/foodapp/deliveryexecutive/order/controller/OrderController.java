@@ -45,7 +45,7 @@ public class OrderController {
     @GetMapping(value={"/{orderId}"})
     public ResponseEntity<OrderDetailsDTO> getOrderDetails(@PathVariable Long orderId) {
         OrderDetailsDTO order = this.orderService.getOrderDetails(orderId);
-        return ResponseEntity.ok((Object)order);
+        return ResponseEntity.ok(order);
     }
 
     @GetMapping(value={"/available"})
@@ -88,10 +88,10 @@ public class OrderController {
     public ResponseEntity<OrderDetailsDTO> acceptOrder(@PathVariable Long orderId, @RequestParam Long executiveId) {
         try {
             Order order = this.orderService.acceptOrder(executiveId, orderId);
-            return ResponseEntity.ok((Object)this.orderService.getOrderDetails(order.getId()));
+            return ResponseEntity.ok(this.orderService.getOrderDetails(order.getId()));
         }
         catch (RuntimeException e) {
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
@@ -99,10 +99,10 @@ public class OrderController {
     public ResponseEntity<OrderDetailsDTO> confirmPickup(@PathVariable Long orderId, @RequestParam Long executiveId) {
         try {
             Order order = this.orderService.confirmPickup(executiveId, orderId);
-            return ResponseEntity.ok((Object)this.orderService.getOrderDetails(order.getId()));
+            return ResponseEntity.ok(this.orderService.getOrderDetails(order.getId()));
         }
         catch (RuntimeException e) {
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
@@ -110,28 +110,28 @@ public class OrderController {
     public ResponseEntity<OrderDetailsDTO> confirmDelivery(@PathVariable Long orderId, @RequestParam Long executiveId, @RequestBody DeliveryProofDTO proof) {
         try {
             Order order = this.orderService.confirmDelivery(executiveId, orderId, proof.getCustomerOtp());
-            return ResponseEntity.ok((Object)this.orderService.getOrderDetails(order.getId()));
+            return ResponseEntity.ok(this.orderService.getOrderDetails(order.getId()));
         }
         catch (RuntimeException e) {
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
     @PutMapping(value={"/{orderId}/status"})
     public ResponseEntity<OrderDetailsDTO> updateOrderStatus(@PathVariable Long orderId, @RequestParam Order.OrderStatus status) {
         Order order = this.orderService.updateOrderStatus(orderId, status);
-        return ResponseEntity.ok((Object)this.orderService.getOrderDetails(order.getId()));
+        return ResponseEntity.ok(this.orderService.getOrderDetails(order.getId()));
     }
 
     @GetMapping(value={"/executive/{executiveId}/stats/delivered-count"})
     public ResponseEntity<Long> getDeliveredCount(@PathVariable Long executiveId) {
         Long count = this.orderService.getDeliveredOrderCount(executiveId);
-        return ResponseEntity.ok((Object)count);
+        return ResponseEntity.ok(count);
     }
 
     @GetMapping(value={"/executive/{executiveId}/stats/total-earnings"})
     public ResponseEntity<Double> getTotalEarnings(@PathVariable Long executiveId) {
         Double earnings = this.orderService.getTotalEarnings(executiveId);
-        return ResponseEntity.ok((Object)earnings);
+        return ResponseEntity.ok(earnings);
     }
 }

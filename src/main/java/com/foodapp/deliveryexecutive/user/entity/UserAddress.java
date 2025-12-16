@@ -220,32 +220,32 @@ public class UserAddress {
         }
         Long this$id = this.getId();
         Long other$id = other.getId();
-        if (this$id == null ? other$id != null : !((Object)this$id).equals(other$id)) {
+        if (this$id == null ? other$id != null : !(this$id).equals(other$id)) {
             return false;
         }
         Long this$userId = this.getUserId();
         Long other$userId = other.getUserId();
-        if (this$userId == null ? other$userId != null : !((Object)this$userId).equals(other$userId)) {
+        if (this$userId == null ? other$userId != null : !(this$userId).equals(other$userId)) {
             return false;
         }
         Double this$latitude = this.getLatitude();
         Double other$latitude = other.getLatitude();
-        if (this$latitude == null ? other$latitude != null : !((Object)this$latitude).equals(other$latitude)) {
+        if (this$latitude == null ? other$latitude != null : !(this$latitude).equals(other$latitude)) {
             return false;
         }
         Double this$longitude = this.getLongitude();
         Double other$longitude = other.getLongitude();
-        if (this$longitude == null ? other$longitude != null : !((Object)this$longitude).equals(other$longitude)) {
+        if (this$longitude == null ? other$longitude != null : !(this$longitude).equals(other$longitude)) {
             return false;
         }
         Boolean this$isDefault = this.getIsDefault();
         Boolean other$isDefault = other.getIsDefault();
-        if (this$isDefault == null ? other$isDefault != null : !((Object)this$isDefault).equals(other$isDefault)) {
+        if (this$isDefault == null ? other$isDefault != null : !(this$isDefault).equals(other$isDefault)) {
             return false;
         }
         Boolean this$isActive = this.getIsActive();
         Boolean other$isActive = other.getIsActive();
-        if (this$isActive == null ? other$isActive != null : !((Object)this$isActive).equals(other$isActive)) {
+        if (this$isActive == null ? other$isActive != null : !(this$isActive).equals(other$isActive)) {
             return false;
         }
         String this$addressLabel = this.getAddressLabel();
@@ -285,12 +285,12 @@ public class UserAddress {
         }
         LocalDateTime this$createdAt = this.getCreatedAt();
         LocalDateTime other$createdAt = other.getCreatedAt();
-        if (this$createdAt == null ? other$createdAt != null : !((Object)this$createdAt).equals(other$createdAt)) {
+        if (this$createdAt == null ? other$createdAt != null : !(this$createdAt).equals(other$createdAt)) {
             return false;
         }
         LocalDateTime this$updatedAt = this.getUpdatedAt();
         LocalDateTime other$updatedAt = other.getUpdatedAt();
-        return !(this$updatedAt == null ? other$updatedAt != null : !((Object)this$updatedAt).equals(other$updatedAt));
+        return !(this$updatedAt == null ? other$updatedAt != null : !(this$updatedAt).equals(other$updatedAt));
     }
 
     @Generated

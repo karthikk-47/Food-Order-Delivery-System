@@ -36,7 +36,7 @@ public class OrderTrackingController {
 
     @GetMapping(value={"/{orderId}/track"})
     public ResponseEntity<OrderTrackingDTO> trackOrder(@PathVariable Long orderId) {
-        return ResponseEntity.ok((Object)this.trackingService.getOrderTracking(orderId));
+        return ResponseEntity.ok(this.trackingService.getOrderTracking(orderId));
     }
 
     @MessageMapping(value={"/order/{orderId}/location"})

@@ -84,7 +84,7 @@ public class ErrorResponse {
         }
         LocalDateTime this$timestamp = this.getTimestamp();
         LocalDateTime other$timestamp = other.getTimestamp();
-        if (this$timestamp == null ? other$timestamp != null : !((Object)this$timestamp).equals(other$timestamp)) {
+        if (this$timestamp == null ? other$timestamp != null : !(this$timestamp).equals(other$timestamp)) {
             return false;
         }
         String this$details = this.getDetails();

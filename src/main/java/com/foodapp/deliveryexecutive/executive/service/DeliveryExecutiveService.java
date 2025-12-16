@@ -83,7 +83,7 @@ public class DeliveryExecutiveService {
         executive.setRole(Actor.Role.DELIVERYEXECUTIVE);
         executive.setOnline(false);
         this.deliveryExecutiveRepository.save(executive);
-        logger.info("Delivery executive registered with ID: {}", (Object)executive.getId());
+        logger.info("Delivery executive registered with ID: {}", executive.getId());
         DeliveryRegisterResponse response = new DeliveryRegisterResponse();
         response.setDeliveryExecutiveId(executive.getId());
         response.setMessage("Successfully Registered");
@@ -99,9 +99,9 @@ public class DeliveryExecutiveService {
             String reason = executive.getRejectionReason() != null ? executive.getRejectionReason() : "No reason provided";
             throw new RuntimeException("Your profile has been rejected. Reason: " + reason);
         }
-        Authentication authentication = this.authenticationManager.authenticate((Authentication)new UsernamePasswordAuthenticationToken((Object)request.getMobile(), (Object)request.getPassword()));
+        Authentication authentication = this.authenticationManager.authenticate((Authentication)new UsernamePasswordAuthenticationToken(request.getMobile(), request.getPassword()));
         String jwt = this.jwtTokenProvider.createToken(authentication);
-        logger.info("Delivery executive logged in: {}", (Object)executive.getId());
+        logger.info("Delivery executive logged in: {}", executive.getId());
         DeliveryLoginResponse response = new DeliveryLoginResponse();
         response.setDeliveryExecutiveId(executive.getId());
         response.setName(executive.getName());
@@ -114,7 +114,7 @@ public class DeliveryExecutiveService {
         DeliveryExecutive executive = (DeliveryExecutive)this.deliveryExecutiveRepository.findById(executiveId).orElseThrow(() -> new ResourceNotFoundException("Executive not found"));
         executive.setOnline(request.isOnline());
         this.deliveryExecutiveRepository.save(executive);
-        logger.info("Executive {} status updated to: {}", (Object)executiveId, (Object)(request.isOnline() ? "online" : "offline"));
+        logger.info("Executive {} status updated to: {}", executiveId, (Object)(request.isOnline() ? "online" : "offline"));
     }
 
     public List<OrderSummaryDTO> getNearbyOrders(Long executiveId, Point location) {
@@ -135,28 +135,28 @@ public class DeliveryExecutiveService {
             switch (sortBy.toLowerCase()) {
                 case "commission": {
                     sortedOrders = this.orderSortingService.sortByCommission(nearbyOrders, nearbyOrdersMap);
-                    logger.info("Sorted {} orders by commission for executive: {}", (Object)sortedOrders.size(), (Object)executiveId);
+                    logger.info("Sorted {} orders by commission for executive: {}", sortedOrders.size(), executiveId);
                     break;
                 }
                 case "distance": {
                     sortedOrders = this.orderSortingService.sortByDistance(nearbyOrders, nearbyOrdersMap);
-                    logger.info("Sorted {} orders by distance for executive: {}", (Object)sortedOrders.size(), (Object)executiveId);
+                    logger.info("Sorted {} orders by distance for executive: {}", sortedOrders.size(), executiveId);
                     break;
                 }
                 case "priority": {
                     sortedOrders = this.orderSortingService.sortByPriority(nearbyOrders, nearbyOrdersMap);
-                    logger.info("Sorted {} orders by priority for executive: {}", (Object)sortedOrders.size(), (Object)executiveId);
+                    logger.info("Sorted {} orders by priority for executive: {}", sortedOrders.size(), executiveId);
                     break;
                 }
                 default: {
                     sortedOrders = this.orderSortingService.sortOrdersByOptimalParameters(nearbyOrders, nearbyOrdersMap);
-                    logger.info("Sorted {} orders by optimal score for executive: {}", (Object)sortedOrders.size(), (Object)executiveId);
+                    logger.info("Sorted {} orders by optimal score for executive: {}", sortedOrders.size(), executiveId);
                 }
             }
             return sortedOrders;
         }
         catch (Exception e) {
-            logger.error("Failed to get nearby orders for executive: {}", (Object)executiveId, (Object)e);
+            logger.error("Failed to get nearby orders for executive: {}", executiveId, e);
             return List.of();
         }
     }
@@ -166,7 +166,7 @@ public class DeliveryExecutiveService {
         DeliveryExecutive executive = (DeliveryExecutive)this.deliveryExecutiveRepository.findById(executiveId).orElseThrow(() -> new ResourceNotFoundException("Executive not found"));
         executive.addLocation(LocalTime.now(), location);
         this.deliveryExecutiveRepository.save(executive);
-        logger.debug("Updated location for executive: {}", (Object)executiveId);
+        logger.debug("Updated location for executive: {}", executiveId);
     }
 
     @Transactional
@@ -176,7 +176,7 @@ public class DeliveryExecutiveService {
             throw new RuntimeException("Order not assigned to this executive");
         }
         this.walletService.processDeliveryPayment(executiveId, order);
-        logger.info("Processed delivery payment for executive: {}", (Object)executiveId);
+        logger.info("Processed delivery payment for executive: {}", executiveId);
     }
 
     public WalletDTO getWallet(Long executiveId) {
@@ -203,7 +203,7 @@ public class DeliveryExecutiveService {
         profile.put("mobile", executive.getMobile());
         profile.put("aadharNo", executive.getAadharNo());
         profile.put("licenseNo", executive.getLicenseNo());
-        profile.put("approvalStatus", (Object)executive.getApprovalStatus());
+        profile.put("approvalStatus", executive.getApprovalStatus());
         profile.put("online", executive.isOnline());
         profile.put("totalDeliveries", this.orderService.getDeliveredOrderCount(executiveId));
         profile.put("totalEarnings", this.orderService.getTotalEarnings(executiveId));
@@ -224,6 +224,6 @@ public class DeliveryExecutiveService {
             // empty if block
         }
         this.deliveryExecutiveRepository.save(executive);
-        logger.info("Updated profile for executive: {}", (Object)executiveId);
+        logger.info("Updated profile for executive: {}", executiveId);
     }
 }

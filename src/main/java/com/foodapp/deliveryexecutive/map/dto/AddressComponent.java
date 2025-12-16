@@ -65,7 +65,7 @@ public class AddressComponent {
         }
         List<String> this$types = this.getTypes();
         List<String> other$types = other.getTypes();
-        if (this$types == null ? other$types != null : !((Object)this$types).equals(other$types)) {
+        if (this$types == null ? other$types != null : !(this$types).equals(other$types)) {
             return false;
         }
         String this$short_name = this.getShort_name();

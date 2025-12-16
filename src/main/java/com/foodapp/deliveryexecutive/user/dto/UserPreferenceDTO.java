@@ -235,77 +235,77 @@ public class UserPreferenceDTO {
         }
         Long this$id = this.getId();
         Long other$id = other.getId();
-        if (this$id == null ? other$id != null : !((Object)this$id).equals(other$id)) {
+        if (this$id == null ? other$id != null : !(this$id).equals(other$id)) {
             return false;
         }
         Long this$userId = this.getUserId();
         Long other$userId = other.getUserId();
-        if (this$userId == null ? other$userId != null : !((Object)this$userId).equals(other$userId)) {
+        if (this$userId == null ? other$userId != null : !(this$userId).equals(other$userId)) {
             return false;
         }
         Boolean this$vegetarianPreference = this.getVegetarianPreference();
         Boolean other$vegetarianPreference = other.getVegetarianPreference();
-        if (this$vegetarianPreference == null ? other$vegetarianPreference != null : !((Object)this$vegetarianPreference).equals(other$vegetarianPreference)) {
+        if (this$vegetarianPreference == null ? other$vegetarianPreference != null : !(this$vegetarianPreference).equals(other$vegetarianPreference)) {
             return false;
         }
         Boolean this$spicyPreference = this.getSpicyPreference();
         Boolean other$spicyPreference = other.getSpicyPreference();
-        if (this$spicyPreference == null ? other$spicyPreference != null : !((Object)this$spicyPreference).equals(other$spicyPreference)) {
+        if (this$spicyPreference == null ? other$spicyPreference != null : !(this$spicyPreference).equals(other$spicyPreference)) {
             return false;
         }
         Boolean this$dairyFreePreference = this.getDairyFreePreference();
         Boolean other$dairyFreePreference = other.getDairyFreePreference();
-        if (this$dairyFreePreference == null ? other$dairyFreePreference != null : !((Object)this$dairyFreePreference).equals(other$dairyFreePreference)) {
+        if (this$dairyFreePreference == null ? other$dairyFreePreference != null : !(this$dairyFreePreference).equals(other$dairyFreePreference)) {
             return false;
         }
         Boolean this$glutenFreePreference = this.getGlutenFreePreference();
         Boolean other$glutenFreePreference = other.getGlutenFreePreference();
-        if (this$glutenFreePreference == null ? other$glutenFreePreference != null : !((Object)this$glutenFreePreference).equals(other$glutenFreePreference)) {
+        if (this$glutenFreePreference == null ? other$glutenFreePreference != null : !(this$glutenFreePreference).equals(other$glutenFreePreference)) {
             return false;
         }
         Boolean this$isNutAllergy = this.getIsNutAllergy();
         Boolean other$isNutAllergy = other.getIsNutAllergy();
-        if (this$isNutAllergy == null ? other$isNutAllergy != null : !((Object)this$isNutAllergy).equals(other$isNutAllergy)) {
+        if (this$isNutAllergy == null ? other$isNutAllergy != null : !(this$isNutAllergy).equals(other$isNutAllergy)) {
             return false;
         }
         Boolean this$isDairyAllergy = this.getIsDairyAllergy();
         Boolean other$isDairyAllergy = other.getIsDairyAllergy();
-        if (this$isDairyAllergy == null ? other$isDairyAllergy != null : !((Object)this$isDairyAllergy).equals(other$isDairyAllergy)) {
+        if (this$isDairyAllergy == null ? other$isDairyAllergy != null : !(this$isDairyAllergy).equals(other$isDairyAllergy)) {
             return false;
         }
         Boolean this$isSeafoodAllergy = this.getIsSeafoodAllergy();
         Boolean other$isSeafoodAllergy = other.getIsSeafoodAllergy();
-        if (this$isSeafoodAllergy == null ? other$isSeafoodAllergy != null : !((Object)this$isSeafoodAllergy).equals(other$isSeafoodAllergy)) {
+        if (this$isSeafoodAllergy == null ? other$isSeafoodAllergy != null : !(this$isSeafoodAllergy).equals(other$isSeafoodAllergy)) {
             return false;
         }
         Boolean this$isPeanutAllergy = this.getIsPeanutAllergy();
         Boolean other$isPeanutAllergy = other.getIsPeanutAllergy();
-        if (this$isPeanutAllergy == null ? other$isPeanutAllergy != null : !((Object)this$isPeanutAllergy).equals(other$isPeanutAllergy)) {
+        if (this$isPeanutAllergy == null ? other$isPeanutAllergy != null : !(this$isPeanutAllergy).equals(other$isPeanutAllergy)) {
             return false;
         }
         Boolean this$receiveOrderReminders = this.getReceiveOrderReminders();
         Boolean other$receiveOrderReminders = other.getReceiveOrderReminders();
-        if (this$receiveOrderReminders == null ? other$receiveOrderReminders != null : !((Object)this$receiveOrderReminders).equals(other$receiveOrderReminders)) {
+        if (this$receiveOrderReminders == null ? other$receiveOrderReminders != null : !(this$receiveOrderReminders).equals(other$receiveOrderReminders)) {
             return false;
         }
         Boolean this$receiveNewHomemakerNotifications = this.getReceiveNewHomemakerNotifications();
         Boolean other$receiveNewHomemakerNotifications = other.getReceiveNewHomemakerNotifications();
-        if (this$receiveNewHomemakerNotifications == null ? other$receiveNewHomemakerNotifications != null : !((Object)this$receiveNewHomemakerNotifications).equals(other$receiveNewHomemakerNotifications)) {
+        if (this$receiveNewHomemakerNotifications == null ? other$receiveNewHomemakerNotifications != null : !(this$receiveNewHomemakerNotifications).equals(other$receiveNewHomemakerNotifications)) {
             return false;
         }
         Boolean this$receiveDealsAndOffers = this.getReceiveDealsAndOffers();
         Boolean other$receiveDealsAndOffers = other.getReceiveDealsAndOffers();
-        if (this$receiveDealsAndOffers == null ? other$receiveDealsAndOffers != null : !((Object)this$receiveDealsAndOffers).equals(other$receiveDealsAndOffers)) {
+        if (this$receiveDealsAndOffers == null ? other$receiveDealsAndOffers != null : !(this$receiveDealsAndOffers).equals(other$receiveDealsAndOffers)) {
             return false;
         }
         List<String> this$preferredCuisines = this.getPreferredCuisines();
         List<String> other$preferredCuisines = other.getPreferredCuisines();
-        if (this$preferredCuisines == null ? other$preferredCuisines != null : !((Object)this$preferredCuisines).equals(other$preferredCuisines)) {
+        if (this$preferredCuisines == null ? other$preferredCuisines != null : !(this$preferredCuisines).equals(other$preferredCuisines)) {
             return false;
         }
         List<String> this$allergies = this.getAllergies();
         List<String> other$allergies = other.getAllergies();
-        if (this$allergies == null ? other$allergies != null : !((Object)this$allergies).equals(other$allergies)) {
+        if (this$allergies == null ? other$allergies != null : !(this$allergies).equals(other$allergies)) {
             return false;
         }
         String this$dietaryRestrictions = this.getDietaryRestrictions();
@@ -320,12 +320,12 @@ public class UserPreferenceDTO {
         }
         LocalDateTime this$createdAt = this.getCreatedAt();
         LocalDateTime other$createdAt = other.getCreatedAt();
-        if (this$createdAt == null ? other$createdAt != null : !((Object)this$createdAt).equals(other$createdAt)) {
+        if (this$createdAt == null ? other$createdAt != null : !(this$createdAt).equals(other$createdAt)) {
             return false;
         }
         LocalDateTime this$updatedAt = this.getUpdatedAt();
         LocalDateTime other$updatedAt = other.getUpdatedAt();
-        return !(this$updatedAt == null ? other$updatedAt != null : !((Object)this$updatedAt).equals(other$updatedAt));
+        return !(this$updatedAt == null ? other$updatedAt != null : !(this$updatedAt).equals(other$updatedAt));
     }
 
     @Generated

@@ -50,13 +50,13 @@ public class RatingController {
     @GetMapping(value={"/{customerId}/average"})
     public ResponseEntity<Double> getAverageRating(@PathVariable Long customerId, @RequestParam Actor.Role role) {
         Double average = this.ratingService.getAverageRating(customerId, role);
-        return ResponseEntity.ok((Object)average);
+        return ResponseEntity.ok(average);
     }
 
     @GetMapping(value={"/{customerId}/count"})
     public ResponseEntity<Long> getRatingCount(@PathVariable Long customerId, @RequestParam Actor.Role role) {
         Long count = this.ratingService.getRatingCount(customerId, role);
-        return ResponseEntity.ok((Object)count);
+        return ResponseEntity.ok(count);
     }
 
     @GetMapping(value={"/{customerId}/stars/{stars}"})
@@ -81,10 +81,10 @@ public class RatingController {
     public ResponseEntity<Rating> createRating(@RequestParam Long customerId, @RequestParam Actor.Role role, @RequestParam int stars, @RequestParam(required=false) String comment) {
         try {
             Rating rating = this.ratingService.createRating(customerId, role, stars, comment);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.CREATED).body((Object)rating);
+            return ResponseEntity.status(HttpStatus.CREATED).body(rating);
         }
         catch (IllegalArgumentException e) {
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
@@ -92,10 +92,10 @@ public class RatingController {
     public ResponseEntity<Rating> updateRating(@PathVariable Long ratingId, @RequestParam int stars, @RequestParam(required=false) String comment) {
         try {
             Rating rating = this.ratingService.updateRating(ratingId, stars, comment);
-            return ResponseEntity.ok((Object)rating);
+            return ResponseEntity.ok(rating);
         }
         catch (Exception e) {
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
@@ -106,7 +106,7 @@ public class RatingController {
             return ResponseEntity.noContent().build();
         }
         catch (Exception e) {
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.NOT_FOUND).build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 }

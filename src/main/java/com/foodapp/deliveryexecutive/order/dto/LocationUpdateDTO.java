@@ -68,22 +68,22 @@ public class LocationUpdateDTO {
         }
         Long this$orderId = this.getOrderId();
         Long other$orderId = other.getOrderId();
-        if (this$orderId == null ? other$orderId != null : !((Object)this$orderId).equals(other$orderId)) {
+        if (this$orderId == null ? other$orderId != null : !(this$orderId).equals(other$orderId)) {
             return false;
         }
         Long this$executiveId = this.getExecutiveId();
         Long other$executiveId = other.getExecutiveId();
-        if (this$executiveId == null ? other$executiveId != null : !((Object)this$executiveId).equals(other$executiveId)) {
+        if (this$executiveId == null ? other$executiveId != null : !(this$executiveId).equals(other$executiveId)) {
             return false;
         }
         Double this$latitude = this.getLatitude();
         Double other$latitude = other.getLatitude();
-        if (this$latitude == null ? other$latitude != null : !((Object)this$latitude).equals(other$latitude)) {
+        if (this$latitude == null ? other$latitude != null : !(this$latitude).equals(other$latitude)) {
             return false;
         }
         Double this$longitude = this.getLongitude();
         Double other$longitude = other.getLongitude();
-        return !(this$longitude == null ? other$longitude != null : !((Object)this$longitude).equals(other$longitude));
+        return !(this$longitude == null ? other$longitude != null : !(this$longitude).equals(other$longitude));
     }
 
     @Generated

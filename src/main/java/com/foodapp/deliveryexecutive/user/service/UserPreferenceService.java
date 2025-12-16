@@ -31,13 +31,13 @@ public class UserPreferenceService {
     private UserPreferenceRepository userPreferenceRepository;
 
     public UserPreferenceDTO getOrCreatePreferences(Long userId) {
-        log.debug("Fetching preferences for user: {}", (Object)userId);
+        log.debug("Fetching preferences for user: {}", userId);
         UserPreference preference = this.userPreferenceRepository.findByUserId(userId).orElseGet(() -> this.createDefaultPreferences(userId));
         return this.convertToDTO(preference);
     }
 
     private UserPreference createDefaultPreferences(Long userId) {
-        log.info("Creating default preferences for user: {}", (Object)userId);
+        log.info("Creating default preferences for user: {}", userId);
         UserPreference preference = new UserPreference();
         preference.setUserId(userId);
         preference.setVegetarianPreference(false);
@@ -53,7 +53,7 @@ public class UserPreferenceService {
     }
 
     public UserPreferenceDTO updatePreferences(Long userId, UserPreferenceDTO preferenceDTO) {
-        log.info("Updating preferences for user: {}", (Object)userId);
+        log.info("Updating preferences for user: {}", userId);
         UserPreference preference = this.userPreferenceRepository.findByUserId(userId).orElseGet(() -> this.createDefaultPreferences(userId));
         if (preferenceDTO.getVegetarianPreference() != null) {
             preference.setVegetarianPreference(preferenceDTO.getVegetarianPreference());
@@ -88,7 +88,7 @@ public class UserPreferenceService {
     }
 
     public UserPreferenceDTO addAllergy(Long userId, String allergy) {
-        log.info("Adding allergy for user: {} - {}", (Object)userId, (Object)allergy);
+        log.info("Adding allergy for user: {} - {}", userId, allergy);
         UserPreference preference = this.userPreferenceRepository.findByUserId(userId).orElseGet(() -> this.createDefaultPreferences(userId));
         if (preference.getAllergies() == null) {
             preference.setAllergies(new ArrayList<String>());
@@ -102,7 +102,7 @@ public class UserPreferenceService {
     }
 
     public UserPreferenceDTO removeAllergy(Long userId, String allergy) {
-        log.info("Removing allergy for user: {} - {}", (Object)userId, (Object)allergy);
+        log.info("Removing allergy for user: {} - {}", userId, allergy);
         UserPreference preference = this.userPreferenceRepository.findByUserId(userId).orElseGet(() -> this.createDefaultPreferences(userId));
         if (preference.getAllergies() != null) {
             preference.getAllergies().remove(allergy);

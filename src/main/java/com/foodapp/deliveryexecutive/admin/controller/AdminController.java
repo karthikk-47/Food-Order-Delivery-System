@@ -50,105 +50,105 @@ public class AdminController {
 
     @PostMapping(value={"/create"})
     public ResponseEntity<AdminDTO> createAdmin(@RequestBody AdminDTO adminDTO) {
-        log.info("Creating new admin: {}", (Object)adminDTO.getUsername());
+        log.info("Creating new admin: {}", adminDTO.getUsername());
         try {
             AdminDTO createdAdmin = this.adminService.createAdmin(adminDTO);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.CREATED).body((Object)createdAdmin);
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdAdmin);
         }
         catch (Exception e) {
-            log.error("Error creating admin", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).build();
+            log.error("Error creating admin", e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
     @GetMapping(value={"/{id}"})
     public ResponseEntity<AdminDTO> getAdmin(@PathVariable Long id) {
-        log.info("Fetching admin with ID: {}", (Object)id);
+        log.info("Fetching admin with ID: {}", id);
         try {
             AdminDTO admin = this.adminService.getAdminById(id);
-            return ResponseEntity.ok((Object)admin);
+            return ResponseEntity.ok(admin);
         }
         catch (Exception e) {
-            log.error("Error fetching admin", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.NOT_FOUND).build();
+            log.error("Error fetching admin", e);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 
     @GetMapping(value={"/username/{username}"})
     public ResponseEntity<AdminDTO> getAdminByUsername(@PathVariable String username) {
-        log.info("Fetching admin with username: {}", (Object)username);
+        log.info("Fetching admin with username: {}", username);
         try {
             AdminDTO admin = this.adminService.getAdminByUsername(username);
-            return ResponseEntity.ok((Object)admin);
+            return ResponseEntity.ok(admin);
         }
         catch (Exception e) {
-            log.error("Error fetching admin", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.NOT_FOUND).build();
+            log.error("Error fetching admin", e);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 
     @PutMapping(value={"/{id}"})
     public ResponseEntity<AdminDTO> updateAdmin(@PathVariable Long id, @RequestBody AdminDTO adminDTO) {
-        log.info("Updating admin with ID: {}", (Object)id);
+        log.info("Updating admin with ID: {}", id);
         try {
             AdminDTO updatedAdmin = this.adminService.updateAdmin(id, adminDTO);
-            return ResponseEntity.ok((Object)updatedAdmin);
+            return ResponseEntity.ok(updatedAdmin);
         }
         catch (Exception e) {
-            log.error("Error updating admin", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).build();
+            log.error("Error updating admin", e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
     @DeleteMapping(value={"/{id}"})
     public ResponseEntity<Void> deleteAdmin(@PathVariable Long id) {
-        log.info("Deleting admin with ID: {}", (Object)id);
+        log.info("Deleting admin with ID: {}", id);
         try {
             this.adminService.deleteAdmin(id);
             return ResponseEntity.noContent().build();
         }
         catch (Exception e) {
-            log.error("Error deleting admin", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).build();
+            log.error("Error deleting admin", e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
     @PostMapping(value={"/{id}/suspend"})
     public ResponseEntity<AdminDTO> suspendAdmin(@PathVariable Long id) {
-        log.info("Suspending admin with ID: {}", (Object)id);
+        log.info("Suspending admin with ID: {}", id);
         try {
             AdminDTO suspendedAdmin = this.adminService.suspendAdmin(id);
-            return ResponseEntity.ok((Object)suspendedAdmin);
+            return ResponseEntity.ok(suspendedAdmin);
         }
         catch (Exception e) {
-            log.error("Error suspending admin", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).build();
+            log.error("Error suspending admin", e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
     @PostMapping(value={"/{id}/activate"})
     public ResponseEntity<AdminDTO> activateAdmin(@PathVariable Long id) {
-        log.info("Activating admin with ID: {}", (Object)id);
+        log.info("Activating admin with ID: {}", id);
         try {
             AdminDTO activatedAdmin = this.adminService.activateAdmin(id);
-            return ResponseEntity.ok((Object)activatedAdmin);
+            return ResponseEntity.ok(activatedAdmin);
         }
         catch (Exception e) {
-            log.error("Error activating admin", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).build();
+            log.error("Error activating admin", e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
     @GetMapping(value={"/role/{role}"})
     public ResponseEntity<List<AdminDTO>> getAdminsByRole(@PathVariable Admin.AdminRole role) {
-        log.info("Fetching admins by role: {}", (Object)role);
+        log.info("Fetching admins by role: {}", role);
         try {
             List<AdminDTO> admins = this.adminService.getAdminsByRole(role);
             return ResponseEntity.ok(admins);
         }
         catch (Exception e) {
-            log.error("Error fetching admins by role", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).build();
+            log.error("Error fetching admins by role", e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
@@ -160,8 +160,8 @@ public class AdminController {
             return ResponseEntity.ok(admins);
         }
         catch (Exception e) {
-            log.error("Error fetching active admins", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).build();
+            log.error("Error fetching active admins", e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 }

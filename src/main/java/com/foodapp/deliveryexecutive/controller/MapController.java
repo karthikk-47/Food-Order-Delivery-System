@@ -42,7 +42,7 @@ public class MapController {
     public ResponseEntity<?> getAddress(@RequestBody String body) {
         Object location;
         block6: {
-            logger.info("Received /getAddress request body: {}", (Object)body);
+            logger.info("Received /getAddress request body: {}", body);
             location = null;
             try {
                 if (body != null) {
@@ -52,7 +52,7 @@ public class MapController {
                 }
             }
             catch (Exception e) {
-                logger.warn("Failed to parse getAddress request body, falling back to raw value", (Throwable)e);
+                logger.warn("Failed to parse getAddress request body, falling back to raw value", e);
                 if (body == null) break block6;
                 location = body.replace("\"", "").trim();
             }
@@ -61,11 +61,11 @@ public class MapController {
         if (location == null || ((String)location).isEmpty()) {
             HashMap<String, String> err = new HashMap<String, String>();
             err.put("error", "Location must be provided in request body");
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).body(err);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
         }
         try {
             ReverseGeocodeResponseDTO dto = this.mapService.getAddress((String)location);
-            return ResponseEntity.ok((Object)dto);
+            return ResponseEntity.ok(dto);
         }
         catch (Exception ex) {
             logger.error("Error while reverse geocoding location {}: {}", new Object[]{location, ex.getMessage(), ex});
@@ -73,7 +73,7 @@ public class MapController {
             err.put("error", "Failed to get address");
             err.put("message", ex.getMessage());
             err.put("exception", ex.getClass().getName());
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.INTERNAL_SERVER_ERROR).body(err);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(err);
         }
     }
 }

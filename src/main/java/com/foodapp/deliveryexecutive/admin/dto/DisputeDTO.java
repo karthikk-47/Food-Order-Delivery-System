@@ -224,37 +224,37 @@ public class DisputeDTO {
         }
         Long this$id = this.getId();
         Long other$id = other.getId();
-        if (this$id == null ? other$id != null : !((Object)this$id).equals(other$id)) {
+        if (this$id == null ? other$id != null : !(this$id).equals(other$id)) {
             return false;
         }
         Long this$orderId = this.getOrderId();
         Long other$orderId = other.getOrderId();
-        if (this$orderId == null ? other$orderId != null : !((Object)this$orderId).equals(other$orderId)) {
+        if (this$orderId == null ? other$orderId != null : !(this$orderId).equals(other$orderId)) {
             return false;
         }
         Long this$complainantId = this.getComplainantId();
         Long other$complainantId = other.getComplainantId();
-        if (this$complainantId == null ? other$complainantId != null : !((Object)this$complainantId).equals(other$complainantId)) {
+        if (this$complainantId == null ? other$complainantId != null : !(this$complainantId).equals(other$complainantId)) {
             return false;
         }
         Long this$respondentId = this.getRespondentId();
         Long other$respondentId = other.getRespondentId();
-        if (this$respondentId == null ? other$respondentId != null : !((Object)this$respondentId).equals(other$respondentId)) {
+        if (this$respondentId == null ? other$respondentId != null : !(this$respondentId).equals(other$respondentId)) {
             return false;
         }
         Double this$refundAmount = this.getRefundAmount();
         Double other$refundAmount = other.getRefundAmount();
-        if (this$refundAmount == null ? other$refundAmount != null : !((Object)this$refundAmount).equals(other$refundAmount)) {
+        if (this$refundAmount == null ? other$refundAmount != null : !(this$refundAmount).equals(other$refundAmount)) {
             return false;
         }
         Long this$assignedAdminId = this.getAssignedAdminId();
         Long other$assignedAdminId = other.getAssignedAdminId();
-        if (this$assignedAdminId == null ? other$assignedAdminId != null : !((Object)this$assignedAdminId).equals(other$assignedAdminId)) {
+        if (this$assignedAdminId == null ? other$assignedAdminId != null : !(this$assignedAdminId).equals(other$assignedAdminId)) {
             return false;
         }
         Integer this$escalationLevel = this.getEscalationLevel();
         Integer other$escalationLevel = other.getEscalationLevel();
-        if (this$escalationLevel == null ? other$escalationLevel != null : !((Object)this$escalationLevel).equals(other$escalationLevel)) {
+        if (this$escalationLevel == null ? other$escalationLevel != null : !(this$escalationLevel).equals(other$escalationLevel)) {
             return false;
         }
         String this$complainantType = this.getComplainantType();
@@ -269,7 +269,7 @@ public class DisputeDTO {
         }
         Dispute.DisputeCategory this$category = this.getCategory();
         Dispute.DisputeCategory other$category = other.getCategory();
-        if (this$category == null ? other$category != null : !((Object)((Object)this$category)).equals((Object)other$category)) {
+        if (this$category == null ? other$category != null : !((Object)(this$category)).equals(other$category)) {
             return false;
         }
         String this$description = this.getDescription();
@@ -279,12 +279,12 @@ public class DisputeDTO {
         }
         Dispute.DisputeStatus this$status = this.getStatus();
         Dispute.DisputeStatus other$status = other.getStatus();
-        if (this$status == null ? other$status != null : !((Object)((Object)this$status)).equals((Object)other$status)) {
+        if (this$status == null ? other$status != null : !((Object)(this$status)).equals(other$status)) {
             return false;
         }
         Dispute.DisputeResolution this$resolution = this.getResolution();
         Dispute.DisputeResolution other$resolution = other.getResolution();
-        if (this$resolution == null ? other$resolution != null : !((Object)((Object)this$resolution)).equals((Object)other$resolution)) {
+        if (this$resolution == null ? other$resolution != null : !((Object)(this$resolution)).equals(other$resolution)) {
             return false;
         }
         String this$resolutionNotes = this.getResolutionNotes();
@@ -294,22 +294,22 @@ public class DisputeDTO {
         }
         LocalDateTime this$createdAt = this.getCreatedAt();
         LocalDateTime other$createdAt = other.getCreatedAt();
-        if (this$createdAt == null ? other$createdAt != null : !((Object)this$createdAt).equals(other$createdAt)) {
+        if (this$createdAt == null ? other$createdAt != null : !(this$createdAt).equals(other$createdAt)) {
             return false;
         }
         LocalDateTime this$updatedAt = this.getUpdatedAt();
         LocalDateTime other$updatedAt = other.getUpdatedAt();
-        if (this$updatedAt == null ? other$updatedAt != null : !((Object)this$updatedAt).equals(other$updatedAt)) {
+        if (this$updatedAt == null ? other$updatedAt != null : !(this$updatedAt).equals(other$updatedAt)) {
             return false;
         }
         LocalDateTime this$resolvedAt = this.getResolvedAt();
         LocalDateTime other$resolvedAt = other.getResolvedAt();
-        if (this$resolvedAt == null ? other$resolvedAt != null : !((Object)this$resolvedAt).equals(other$resolvedAt)) {
+        if (this$resolvedAt == null ? other$resolvedAt != null : !(this$resolvedAt).equals(other$resolvedAt)) {
             return false;
         }
         LocalDateTime this$assignedAt = this.getAssignedAt();
         LocalDateTime other$assignedAt = other.getAssignedAt();
-        return !(this$assignedAt == null ? other$assignedAt != null : !((Object)this$assignedAt).equals(other$assignedAt));
+        return !(this$assignedAt == null ? other$assignedAt != null : !(this$assignedAt).equals(other$assignedAt));
     }
 
     @Generated
@@ -362,7 +362,7 @@ public class DisputeDTO {
 
     @Generated
     public String toString() {
-        return "DisputeDTO(id=" + this.getId() + ", orderId=" + this.getOrderId() + ", complainantId=" + this.getComplainantId() + ", respondentId=" + this.getRespondentId() + ", complainantType=" + this.getComplainantType() + ", respondentType=" + this.getRespondentType() + ", category=" + String.valueOf((Object)this.getCategory()) + ", description=" + this.getDescription() + ", status=" + String.valueOf((Object)this.getStatus()) + ", resolution=" + String.valueOf((Object)this.getResolution()) + ", refundAmount=" + this.getRefundAmount() + ", resolutionNotes=" + this.getResolutionNotes() + ", createdAt=" + String.valueOf(this.getCreatedAt()) + ", updatedAt=" + String.valueOf(this.getUpdatedAt()) + ", resolvedAt=" + String.valueOf(this.getResolvedAt()) + ", assignedAdminId=" + this.getAssignedAdminId() + ", assignedAt=" + String.valueOf(this.getAssignedAt()) + ", escalationLevel=" + this.getEscalationLevel() + ")";
+        return "DisputeDTO(id=" + this.getId() + ", orderId=" + this.getOrderId() + ", complainantId=" + this.getComplainantId() + ", respondentId=" + this.getRespondentId() + ", complainantType=" + this.getComplainantType() + ", respondentType=" + this.getRespondentType() + ", category=" + String.valueOf(this.getCategory()) + ", description=" + this.getDescription() + ", status=" + String.valueOf(this.getStatus()) + ", resolution=" + String.valueOf(this.getResolution()) + ", refundAmount=" + this.getRefundAmount() + ", resolutionNotes=" + this.getResolutionNotes() + ", createdAt=" + String.valueOf(this.getCreatedAt()) + ", updatedAt=" + String.valueOf(this.getUpdatedAt()) + ", resolvedAt=" + String.valueOf(this.getResolvedAt()) + ", assignedAdminId=" + this.getAssignedAdminId() + ", assignedAt=" + String.valueOf(this.getAssignedAt()) + ", escalationLevel=" + this.getEscalationLevel() + ")";
     }
 
     @Generated

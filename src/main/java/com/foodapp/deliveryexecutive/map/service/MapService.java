@@ -55,12 +55,12 @@ public class MapService {
             }
             String url = String.format("https://api.olamaps.io/places/v1/reverse-geocode?api_key=%s&latlng=%s", this.apiKey, latlng);
             String maskedKey = this.apiKey.length() > 6 ? this.apiKey.substring(0, 4) + "..." + this.apiKey.substring(this.apiKey.length() - 2) : "***";
-            logger.info("Calling reverse-geocode: url={} (api_key={})", (Object)url, (Object)maskedKey);
+            logger.info("Calling reverse-geocode: url={} (api_key={})", url, maskedKey);
             HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).GET().timeout(Duration.ofSeconds(10L)).build();
             HttpResponse<String> response = this.httpClient.send(request, HttpResponse.BodyHandlers.ofString());
             int status = response.statusCode();
             String body = response.body();
-            logger.debug("Reverse geocode response status={} body={}", (Object)status, (Object)body);
+            logger.debug("Reverse geocode response status={} body={}", status, body);
             if (status != 200) {
                 logger.error("Reverse geocode API failed with status: {} for location: {}. Response body: {}", new Object[]{status, latlng, body});
                 throw new RuntimeException("Failed to get address for location: " + latlng + "; status=" + status + "; body=" + body);
@@ -74,7 +74,7 @@ public class MapService {
             }
         }
         catch (IOException | InterruptedException e) {
-            logger.error("Error calling reverse geocode API for location: {}", (Object)latlng, (Object)e);
+            logger.error("Error calling reverse geocode API for location: {}", latlng, e);
             throw new RuntimeException("Failed to get address", e);
         }
     }
@@ -124,11 +124,11 @@ public class MapService {
                 }
                 ++i;
             }
-            logger.info("Found {} nearby orders within {} meters", (Object)result.size(), (Object)5000);
+            logger.info("Found {} nearby orders within {} meters", result.size(), (Object)5000);
             return result;
         }
         catch (Exception e) {
-            logger.error("Error calculating distances to orders", (Throwable)e);
+            logger.error("Error calculating distances to orders", e);
             return new HashMap<Long, Integer>();
         }
     }
@@ -139,13 +139,13 @@ public class MapService {
             HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).GET().timeout(Duration.ofSeconds(10L)).build();
             HttpResponse<String> response = this.httpClient.send(request, HttpResponse.BodyHandlers.ofString());
             if (response.statusCode() != 200) {
-                logger.error("Distance matrix API failed with status: {}", (Object)response.statusCode());
+                logger.error("Distance matrix API failed with status: {}", response.statusCode());
                 throw new RuntimeException("Failed to get distance matrix");
             }
             return (DistanceMatrixResponseDTO)this.objectMapper.readValue(response.body(), DistanceMatrixResponseDTO.class);
         }
         catch (IOException | InterruptedException e) {
-            logger.error("Error calling distance matrix API", (Throwable)e);
+            logger.error("Error calling distance matrix API", e);
             throw new RuntimeException("Failed to get distance matrix", e);
         }
     }
@@ -158,7 +158,7 @@ public class MapService {
             return matrix.getRows().stream().flatMap(row -> row.getElements().stream()).findFirst().map(el -> el.getDistance()).orElse(0);
         }
         catch (Exception e) {
-            logger.error("Error calculating distance between points", (Throwable)e);
+            logger.error("Error calculating distance between points", e);
             return 0;
         }
     }

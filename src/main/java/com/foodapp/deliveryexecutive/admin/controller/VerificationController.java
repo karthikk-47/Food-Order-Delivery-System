@@ -48,66 +48,66 @@ public class VerificationController {
 
     @PostMapping(value={"/submit"})
     public ResponseEntity<VerificationDTO> submitVerification(@RequestBody VerificationDTO verificationDTO) {
-        log.info("Submitting verification for user: {}", (Object)verificationDTO.getUserId());
+        log.info("Submitting verification for user: {}", verificationDTO.getUserId());
         try {
             VerificationDTO submitted = this.verificationService.submitVerification(verificationDTO);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.CREATED).body((Object)submitted);
+            return ResponseEntity.status(HttpStatus.CREATED).body(submitted);
         }
         catch (Exception e) {
-            log.error("Error submitting verification", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).build();
+            log.error("Error submitting verification", e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
     @GetMapping(value={"/{id}"})
     public ResponseEntity<VerificationDTO> getVerification(@PathVariable Long id) {
-        log.info("Fetching verification with ID: {}", (Object)id);
+        log.info("Fetching verification with ID: {}", id);
         try {
             VerificationDTO verification = this.verificationService.getVerificationById(id);
-            return ResponseEntity.ok((Object)verification);
+            return ResponseEntity.ok(verification);
         }
         catch (Exception e) {
-            log.error("Error fetching verification", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.NOT_FOUND).build();
+            log.error("Error fetching verification", e);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 
     @PostMapping(value={"/{id}/approve"})
     public ResponseEntity<VerificationDTO> approveVerification(@PathVariable Long id, @RequestParam Long adminId) {
-        log.info("Approving verification with ID: {} by admin: {}", (Object)id, (Object)adminId);
+        log.info("Approving verification with ID: {} by admin: {}", id, adminId);
         try {
             VerificationDTO approved = this.verificationService.approveVerification(id, adminId);
-            return ResponseEntity.ok((Object)approved);
+            return ResponseEntity.ok(approved);
         }
         catch (Exception e) {
-            log.error("Error approving verification", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).build();
+            log.error("Error approving verification", e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
     @PostMapping(value={"/{id}/reject"})
     public ResponseEntity<VerificationDTO> rejectVerification(@PathVariable Long id, @RequestParam Long adminId, @RequestParam String reason) {
-        log.info("Rejecting verification with ID: {} by admin: {}", (Object)id, (Object)adminId);
+        log.info("Rejecting verification with ID: {} by admin: {}", id, adminId);
         try {
             VerificationDTO rejected = this.verificationService.rejectVerification(id, adminId, reason);
-            return ResponseEntity.ok((Object)rejected);
+            return ResponseEntity.ok(rejected);
         }
         catch (Exception e) {
-            log.error("Error rejecting verification", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).build();
+            log.error("Error rejecting verification", e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
     @GetMapping(value={"/user/{userId}/{userType}"})
     public ResponseEntity<List<VerificationDTO>> getUserVerifications(@PathVariable Long userId, @PathVariable String userType) {
-        log.info("Fetching verifications for user: {} of type: {}", (Object)userId, (Object)userType);
+        log.info("Fetching verifications for user: {} of type: {}", userId, userType);
         try {
             List<VerificationDTO> verifications = this.verificationService.getUserVerifications(userId, userType);
             return ResponseEntity.ok(verifications);
         }
         catch (Exception e) {
-            log.error("Error fetching user verifications", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).build();
+            log.error("Error fetching user verifications", e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
@@ -119,21 +119,21 @@ public class VerificationController {
             return ResponseEntity.ok(verifications);
         }
         catch (Exception e) {
-            log.error("Error fetching pending verifications", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).build();
+            log.error("Error fetching pending verifications", e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
     @GetMapping(value={"/pending/{userType}"})
     public ResponseEntity<List<VerificationDTO>> getPendingVerificationsByUserType(@PathVariable String userType) {
-        log.info("Fetching pending verifications for user type: {}", (Object)userType);
+        log.info("Fetching pending verifications for user type: {}", userType);
         try {
             List<VerificationDTO> verifications = this.verificationService.getPendingVerificationsByUserType(userType);
             return ResponseEntity.ok(verifications);
         }
         catch (Exception e) {
-            log.error("Error fetching pending verifications", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).build();
+            log.error("Error fetching pending verifications", e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
@@ -142,11 +142,11 @@ public class VerificationController {
         log.info("Checking verification for user: {} of type: {} - verification: {}", new Object[]{userId, userType, verificationType});
         try {
             boolean hasVerification = this.verificationService.hasRequiredVerification(userId, userType, verificationType);
-            return ResponseEntity.ok((Object)hasVerification);
+            return ResponseEntity.ok(hasVerification);
         }
         catch (Exception e) {
-            log.error("Error checking verification", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).build();
+            log.error("Error checking verification", e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 }

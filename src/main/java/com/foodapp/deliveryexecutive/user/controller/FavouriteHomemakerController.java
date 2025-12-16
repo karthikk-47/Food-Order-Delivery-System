@@ -45,53 +45,53 @@ public class FavouriteHomemakerController {
 
     @PostMapping(value={"/add"})
     public ResponseEntity<FavouriteHomemakerDTO> addToFavourites(@RequestParam Long userId, @RequestParam Long homemakerId) {
-        log.info("Adding homemaker {} to favourites for user: {}", (Object)homemakerId, (Object)userId);
+        log.info("Adding homemaker {} to favourites for user: {}", homemakerId, userId);
         try {
             FavouriteHomemakerDTO favourite = this.favouriteHomemakerService.addToFavourites(userId, homemakerId);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.CREATED).body((Object)favourite);
+            return ResponseEntity.status(HttpStatus.CREATED).body(favourite);
         }
         catch (Exception e) {
-            log.error("Error adding to favourites", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).build();
+            log.error("Error adding to favourites", e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
     @PostMapping(value={"/remove"})
     public ResponseEntity<Void> removeFromFavourites(@RequestParam Long userId, @RequestParam Long homemakerId) {
-        log.info("Removing homemaker {} from favourites for user: {}", (Object)homemakerId, (Object)userId);
+        log.info("Removing homemaker {} from favourites for user: {}", homemakerId, userId);
         try {
             this.favouriteHomemakerService.removeFromFavourites(userId, homemakerId);
             return ResponseEntity.ok().build();
         }
         catch (Exception e) {
-            log.error("Error removing from favourites", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).build();
+            log.error("Error removing from favourites", e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
     @GetMapping(value={"/user/{userId}"})
     public ResponseEntity<List<FavouriteHomemakerDTO>> getFavouriteHomemakers(@PathVariable Long userId) {
-        log.info("Fetching favourite homemakers for user: {}", (Object)userId);
+        log.info("Fetching favourite homemakers for user: {}", userId);
         try {
             List<FavouriteHomemakerDTO> favourites = this.favouriteHomemakerService.getFavouriteHomemakers(userId);
             return ResponseEntity.ok(favourites);
         }
         catch (Exception e) {
-            log.error("Error fetching favourite homemakers", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).build();
+            log.error("Error fetching favourite homemakers", e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
     @GetMapping(value={"/check"})
     public ResponseEntity<Boolean> isFavourited(@RequestParam Long userId, @RequestParam Long homemakerId) {
-        log.info("Checking if homemaker {} is favourited by user: {}", (Object)homemakerId, (Object)userId);
+        log.info("Checking if homemaker {} is favourited by user: {}", homemakerId, userId);
         try {
             boolean isFavourited = this.favouriteHomemakerService.isFavourited(userId, homemakerId);
-            return ResponseEntity.ok((Object)isFavourited);
+            return ResponseEntity.ok(isFavourited);
         }
         catch (Exception e) {
-            log.error("Error checking favourite status", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).build();
+            log.error("Error checking favourite status", e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 }

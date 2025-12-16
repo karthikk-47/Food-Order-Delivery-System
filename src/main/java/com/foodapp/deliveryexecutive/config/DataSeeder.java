@@ -111,17 +111,17 @@ implements CommandLineRunner {
         supportAdmin.setCanManageAdmins(false);
         admins.add(supportAdmin);
         this.adminRepository.saveAll(admins);
-        log.info("Created {} admins", (Object)admins.size());
+        log.info("Created {} admins", admins.size());
     }
 
     private void seedUsers() {
         long existingCount = this.userRepository.count();
         if (existingCount >= 500L) {
-            log.info("Users already exist ({}), skipping user seeding", (Object)existingCount);
+            log.info("Users already exist ({}), skipping user seeding", existingCount);
             return;
         }
         int usersToCreate = 500 - (int)existingCount;
-        log.info("Creating {} users...", (Object)usersToCreate);
+        log.info("Creating {} users...", usersToCreate);
         ArrayList<User> users = new ArrayList<User>();
         for (int i = 0; i < usersToCreate; ++i) {
             User user = new User();
@@ -135,24 +135,24 @@ implements CommandLineRunner {
             users.add(user);
             if (users.size() < 100) continue;
             this.userRepository.saveAll(users);
-            log.info("Saved batch of {} users", (Object)users.size());
+            log.info("Saved batch of {} users", users.size());
             users.clear();
         }
         if (!users.isEmpty()) {
             this.userRepository.saveAll(users);
-            log.info("Saved final batch of {} users", (Object)users.size());
+            log.info("Saved final batch of {} users", users.size());
         }
-        log.info("Created {} total users", (Object)usersToCreate);
+        log.info("Created {} total users", usersToCreate);
     }
 
     private void seedHomemakers() {
         long existingCount = this.homeMakerRepository.count();
         if (existingCount >= 30L) {
-            log.info("Homemakers already exist ({}), skipping homemaker seeding", (Object)existingCount);
+            log.info("Homemakers already exist ({}), skipping homemaker seeding", existingCount);
             return;
         }
         int homemakersToCreate = 30 - (int)existingCount;
-        log.info("Creating {} homemakers...", (Object)homemakersToCreate);
+        log.info("Creating {} homemakers...", homemakersToCreate);
         ArrayList<HomeMaker> homemakers = new ArrayList<HomeMaker>();
         for (int i = 0; i < homemakersToCreate; ++i) {
             HomeMaker hm = new HomeMaker();
@@ -174,17 +174,17 @@ implements CommandLineRunner {
             homemakers.add(hm);
         }
         this.homeMakerRepository.saveAll(homemakers);
-        log.info("Created {} homemakers", (Object)homemakersToCreate);
+        log.info("Created {} homemakers", homemakersToCreate);
     }
 
     private void seedDeliveryExecutives() {
         long existingCount = this.deliveryExecutiveRepository.count();
         if (existingCount >= 50L) {
-            log.info("Delivery executives already exist ({}), skipping executive seeding", (Object)existingCount);
+            log.info("Delivery executives already exist ({}), skipping executive seeding", existingCount);
             return;
         }
         int executivesToCreate = 50 - (int)existingCount;
-        log.info("Creating {} delivery executives...", (Object)executivesToCreate);
+        log.info("Creating {} delivery executives...", executivesToCreate);
         ArrayList<DeliveryExecutive> executives = new ArrayList<DeliveryExecutive>();
         for (int i = 0; i < executivesToCreate; ++i) {
             DeliveryExecutive de = new DeliveryExecutive();
@@ -208,7 +208,7 @@ implements CommandLineRunner {
             executives.add(de);
         }
         this.deliveryExecutiveRepository.saveAll(executives);
-        log.info("Created {} delivery executives", (Object)executivesToCreate);
+        log.info("Created {} delivery executives", executivesToCreate);
     }
 
     private String randomAddress() {

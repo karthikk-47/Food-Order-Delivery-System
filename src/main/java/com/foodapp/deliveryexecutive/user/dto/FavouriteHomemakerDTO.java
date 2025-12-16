@@ -125,22 +125,22 @@ public class FavouriteHomemakerDTO {
         }
         Long this$id = this.getId();
         Long other$id = other.getId();
-        if (this$id == null ? other$id != null : !((Object)this$id).equals(other$id)) {
+        if (this$id == null ? other$id != null : !(this$id).equals(other$id)) {
             return false;
         }
         Long this$userId = this.getUserId();
         Long other$userId = other.getUserId();
-        if (this$userId == null ? other$userId != null : !((Object)this$userId).equals(other$userId)) {
+        if (this$userId == null ? other$userId != null : !(this$userId).equals(other$userId)) {
             return false;
         }
         Long this$homemakerId = this.getHomemakerId();
         Long other$homemakerId = other.getHomemakerId();
-        if (this$homemakerId == null ? other$homemakerId != null : !((Object)this$homemakerId).equals(other$homemakerId)) {
+        if (this$homemakerId == null ? other$homemakerId != null : !(this$homemakerId).equals(other$homemakerId)) {
             return false;
         }
         Double this$homemakerRating = this.getHomemakerRating();
         Double other$homemakerRating = other.getHomemakerRating();
-        if (this$homemakerRating == null ? other$homemakerRating != null : !((Object)this$homemakerRating).equals(other$homemakerRating)) {
+        if (this$homemakerRating == null ? other$homemakerRating != null : !(this$homemakerRating).equals(other$homemakerRating)) {
             return false;
         }
         String this$homemakerName = this.getHomemakerName();
@@ -155,17 +155,17 @@ public class FavouriteHomemakerDTO {
         }
         LocalDateTime this$addedAt = this.getAddedAt();
         LocalDateTime other$addedAt = other.getAddedAt();
-        if (this$addedAt == null ? other$addedAt != null : !((Object)this$addedAt).equals(other$addedAt)) {
+        if (this$addedAt == null ? other$addedAt != null : !(this$addedAt).equals(other$addedAt)) {
             return false;
         }
         LocalDateTime this$removedAt = this.getRemovedAt();
         LocalDateTime other$removedAt = other.getRemovedAt();
-        if (this$removedAt == null ? other$removedAt != null : !((Object)this$removedAt).equals(other$removedAt)) {
+        if (this$removedAt == null ? other$removedAt != null : !(this$removedAt).equals(other$removedAt)) {
             return false;
         }
         FavouriteHomemaker.FavouriteStatus this$status = this.getStatus();
         FavouriteHomemaker.FavouriteStatus other$status = other.getStatus();
-        return !(this$status == null ? other$status != null : !((Object)((Object)this$status)).equals((Object)other$status));
+        return !(this$status == null ? other$status != null : !((Object)(this$status)).equals(other$status));
     }
 
     @Generated
@@ -200,7 +200,7 @@ public class FavouriteHomemakerDTO {
 
     @Generated
     public String toString() {
-        return "FavouriteHomemakerDTO(id=" + this.getId() + ", userId=" + this.getUserId() + ", homemakerId=" + this.getHomemakerId() + ", homemakerName=" + this.getHomemakerName() + ", homemakerRating=" + this.getHomemakerRating() + ", homemakerImage=" + this.getHomemakerImage() + ", addedAt=" + String.valueOf(this.getAddedAt()) + ", removedAt=" + String.valueOf(this.getRemovedAt()) + ", status=" + String.valueOf((Object)this.getStatus()) + ")";
+        return "FavouriteHomemakerDTO(id=" + this.getId() + ", userId=" + this.getUserId() + ", homemakerId=" + this.getHomemakerId() + ", homemakerName=" + this.getHomemakerName() + ", homemakerRating=" + this.getHomemakerRating() + ", homemakerImage=" + this.getHomemakerImage() + ", addedAt=" + String.valueOf(this.getAddedAt()) + ", removedAt=" + String.valueOf(this.getRemovedAt()) + ", status=" + String.valueOf(this.getStatus()) + ")";
     }
 
     @Generated

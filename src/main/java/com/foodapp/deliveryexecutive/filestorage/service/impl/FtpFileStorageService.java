@@ -145,7 +145,7 @@ implements FileStorageService {
                 this.fileStorageRepository.deleteById(fileId);
             }
             catch (IOException e) {
-                log.error("Error deleting file from FTP server: {}", (Object)e.getMessage(), (Object)e);
+                log.error("Error deleting file from FTP server: {}", e.getMessage(), e);
             }
             finally {
                 this.disconnectFtp(ftpClient);
@@ -188,7 +188,7 @@ implements FileStorageService {
             }
         }
         catch (IOException e) {
-            log.error("Error disconnecting from FTP server: {}", (Object)e.getMessage(), (Object)e);
+            log.error("Error disconnecting from FTP server: {}", e.getMessage(), e);
         }
     }
 

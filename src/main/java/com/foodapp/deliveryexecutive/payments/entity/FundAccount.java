@@ -145,17 +145,17 @@ public class FundAccount {
         }
         BankAccount this$bank_account = this.getBank_account();
         BankAccount other$bank_account = other.getBank_account();
-        if (this$bank_account == null ? other$bank_account != null : !((Object)this$bank_account).equals(other$bank_account)) {
+        if (this$bank_account == null ? other$bank_account != null : !(this$bank_account).equals(other$bank_account)) {
             return false;
         }
         Vpa this$vpa = this.getVpa();
         Vpa other$vpa = other.getVpa();
-        if (this$vpa == null ? other$vpa != null : !((Object)this$vpa).equals(other$vpa)) {
+        if (this$vpa == null ? other$vpa != null : !(this$vpa).equals(other$vpa)) {
             return false;
         }
         Card this$card = this.getCard();
         Card other$card = other.getCard();
-        return !(this$card == null ? other$card != null : !((Object)this$card).equals(other$card));
+        return !(this$card == null ? other$card != null : !(this$card).equals(other$card));
     }
 
     @Generated

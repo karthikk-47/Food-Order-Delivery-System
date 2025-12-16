@@ -40,7 +40,7 @@ public class MenuItemService {
     private static final String UPLOAD_DIR = "uploads/menu-items";
 
     public MenuItemDTO createMenuItem(MenuItemDTO menuItemDTO) {
-        log.info("Creating menu item: {}", (Object)menuItemDTO.getItemName());
+        log.info("Creating menu item: {}", menuItemDTO.getItemName());
         MenuItem item = new MenuItem(menuItemDTO.getItemName(), menuItemDTO.getPrice());
         item.setDescription(menuItemDTO.getDescription());
         item.setPrimaryPhotoUrl(menuItemDTO.getItemImage());
@@ -58,12 +58,12 @@ public class MenuItemService {
         item.setIsAvailable(menuItemDTO.getIsAvailable() != null ? menuItemDTO.getIsAvailable() : true);
         item.setSoldCount(menuItemDTO.getSoldCount() != null ? menuItemDTO.getSoldCount() : 0);
         MenuItem savedItem = (MenuItem)this.menuItemRepository.save(item);
-        log.info("Menu item created successfully with ID: {}", (Object)savedItem.getId());
+        log.info("Menu item created successfully with ID: {}", savedItem.getId());
         return this.convertToDTO(savedItem);
     }
 
     public MenuItemDTO createMenuItemWithPhoto(String itemName, String description, Double price, Double estimatedPrepTime, Boolean isAvailable, MultipartFile photo) {
-        log.info("Creating menu item with photo: {}", (Object)itemName);
+        log.info("Creating menu item with photo: {}", itemName);
         MenuItem item = new MenuItem(itemName, price);
         item.setDescription(description);
         item.setEstimatedPrepTime(estimatedPrepTime);
@@ -75,23 +75,23 @@ public class MenuItemService {
                 item.setPrimaryPhotoUrl(photoUrl);
             }
             catch (IOException e) {
-                log.error("Error saving photo", (Throwable)e);
+                log.error("Error saving photo", e);
                 throw new RuntimeException("Failed to save photo", e);
             }
         }
         MenuItem savedItem = (MenuItem)this.menuItemRepository.save(item);
-        log.info("Menu item with photo created successfully with ID: {}", (Object)savedItem.getId());
+        log.info("Menu item with photo created successfully with ID: {}", savedItem.getId());
         return this.convertToDTO(savedItem);
     }
 
     public MenuItemDTO getMenuItemById(Long id) {
-        log.debug("Fetching menu item with ID: {}", (Object)id);
+        log.debug("Fetching menu item with ID: {}", id);
         MenuItem item = (MenuItem)this.menuItemRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Menu item not found"));
         return this.convertToDTO(item);
     }
 
     public MenuItemDTO updateMenuItem(Long id, MenuItemDTO menuItemDTO) {
-        log.info("Updating menu item with ID: {}", (Object)id);
+        log.info("Updating menu item with ID: {}", id);
         MenuItem item = (MenuItem)this.menuItemRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Menu item not found"));
         if (menuItemDTO.getItemName() != null) {
             item.setItemName(menuItemDTO.getItemName());
@@ -123,7 +123,7 @@ public class MenuItemService {
     }
 
     public MenuItemDTO updateMenuItemWithPhoto(Long id, String itemName, String description, Double price, Double estimatedPrepTime, Boolean isAvailable, MultipartFile photo) {
-        log.info("Updating menu item with photo: {}", (Object)id);
+        log.info("Updating menu item with photo: {}", id);
         MenuItem item = (MenuItem)this.menuItemRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Menu item not found"));
         item.setItemName(itemName);
         item.setDescription(description);
@@ -139,7 +139,7 @@ public class MenuItemService {
                 item.setPrimaryPhotoUrl(photoUrl);
             }
             catch (IOException e) {
-                log.error("Error saving photo", (Throwable)e);
+                log.error("Error saving photo", e);
                 throw new RuntimeException("Failed to save photo", e);
             }
         }
@@ -149,7 +149,7 @@ public class MenuItemService {
     }
 
     public MenuItemDTO toggleAvailability(Long id) {
-        log.info("Toggling availability for menu item: {}", (Object)id);
+        log.info("Toggling availability for menu item: {}", id);
         MenuItem item = (MenuItem)this.menuItemRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Menu item not found"));
         item.setIsAvailable(item.getIsAvailable() == false);
         MenuItem updatedItem = (MenuItem)this.menuItemRepository.save(item);
@@ -158,7 +158,7 @@ public class MenuItemService {
     }
 
     public List<MenuItemDTO> getMenuItems(Long menuId) {
-        log.debug("Fetching items for menu: {}", (Object)menuId);
+        log.debug("Fetching items for menu: {}", menuId);
         return this.menuItemRepository.findByMenuId(menuId).stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
@@ -168,14 +168,14 @@ public class MenuItemService {
     }
 
     public void deleteMenuItem(Long id) {
-        log.info("Deleting menu item with ID: {}", (Object)id);
+        log.info("Deleting menu item with ID: {}", id);
         MenuItem item = this.menuItemRepository.findById(id).orElse(null);
         if (item != null && item.getPrimaryPhotoUrl() != null) {
             try {
                 this.deletePhoto(item.getPrimaryPhotoUrl());
             }
             catch (IOException e) {
-                log.error("Error deleting photo", (Throwable)e);
+                log.error("Error deleting photo", e);
             }
         }
         this.menuItemRepository.deleteById(id);
@@ -193,7 +193,7 @@ public class MenuItemService {
         String filename = UUID.randomUUID().toString() + "_" + photo.getOriginalFilename();
         Path filePath = uploadPath.resolve(filename);
         Files.write(filePath, photo.getBytes(), new OpenOption[0]);
-        log.info("Photo saved: {}", (Object)filePath);
+        log.info("Photo saved: {}", filePath);
         return filePath.toString();
     }
 
@@ -201,7 +201,7 @@ public class MenuItemService {
         Path path;
         if (photoPath != null && !photoPath.isEmpty() && Files.exists(path = Paths.get(photoPath, new String[0]), new LinkOption[0])) {
             Files.delete(path);
-            log.info("Photo deleted: {}", (Object)photoPath);
+            log.info("Photo deleted: {}", photoPath);
         }
     }
 

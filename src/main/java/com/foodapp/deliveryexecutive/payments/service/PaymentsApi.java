@@ -44,11 +44,11 @@ public class PaymentsApi {
 
     public CreateContactResponse createContact(CreateContactRequest req) throws Exception {
         String url = "https://api.razorpay.com/v1/contacts";
-        String contactReq = this.mapper.writeValueAsString((Object)req);
+        String contactReq = this.mapper.writeValueAsString(req);
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).header("Content-Type", "application/json").header("Authorization", this.getAuthHeader()).POST(HttpRequest.BodyPublishers.ofString(contactReq)).build();
         HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
         if (response.statusCode() != 200) {
-            logger.error("Contact creation failed with status code: {} and response: {}", (Object)response.statusCode(), (Object)response.body());
+            logger.error("Contact creation failed with status code: {} and response: {}", response.statusCode(), response.body());
             return null;
         }
         return (CreateContactResponse)this.mapper.readValue(response.body(), CreateContactResponse.class);
@@ -56,36 +56,36 @@ public class PaymentsApi {
 
     public CreateFundAccountResponse createFundAccount(CreateFundAccountRequest req) throws Exception {
         String url = "https://api.razorpay.com/v1/fund_accounts";
-        String fundAccReq = this.mapper.writeValueAsString((Object)req);
+        String fundAccReq = this.mapper.writeValueAsString(req);
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).header("Content-Type", "application/json").header("Authorization", this.getAuthHeader()).POST(HttpRequest.BodyPublishers.ofString(fundAccReq)).build();
         HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
         if (response.statusCode() != 200) {
-            logger.error("Fund account creation failed with status code: {} and response: {}", (Object)response.statusCode(), (Object)response.body());
+            logger.error("Fund account creation failed with status code: {} and response: {}", response.statusCode(), response.body());
             return null;
         }
         try {
             return (CreateFundAccountResponse)this.mapper.readValue(response.body(), CreateFundAccountResponse.class);
         }
         catch (Exception e) {
-            logger.error("Json parse exception while parsing fund account response: {}", (Object)e.getMessage(), (Object)e);
+            logger.error("Json parse exception while parsing fund account response: {}", e.getMessage(), e);
             return null;
         }
     }
 
     public PayoutResponse makePayout(PayoutRequest req) throws Exception {
         String url = "https://api.razorpay.com/v1/payouts";
-        String payoutReq = this.mapper.writeValueAsString((Object)req);
+        String payoutReq = this.mapper.writeValueAsString(req);
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).header("Content-Type", "application/json").header("Authorization", this.getAuthHeader()).POST(HttpRequest.BodyPublishers.ofString(payoutReq)).build();
         HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
         if (response.statusCode() != 200) {
-            logger.error("Payout failed with status code: {} and response: {}", (Object)response.statusCode(), (Object)response.body());
+            logger.error("Payout failed with status code: {} and response: {}", response.statusCode(), response.body());
             return null;
         }
         try {
             return (PayoutResponse)this.mapper.readValue(response.body(), PayoutResponse.class);
         }
         catch (Exception e) {
-            logger.error("Json parse exception while parsing payout response: {}", (Object)e.getMessage(), (Object)e);
+            logger.error("Json parse exception while parsing payout response: {}", e.getMessage(), e);
             return null;
         }
     }
@@ -96,7 +96,7 @@ public class PaymentsApi {
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).header("Content-Type", "application/json").header("Authorization", this.getAuthHeader()).POST(HttpRequest.BodyPublishers.ofString(requestBody)).build();
         HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
         if (response.statusCode() != 200) {
-            logger.error("Razorpay order creation failed with status code: {} and response: {}", (Object)response.statusCode(), (Object)response.body());
+            logger.error("Razorpay order creation failed with status code: {} and response: {}", response.statusCode(), response.body());
             throw new RuntimeException("Failed to create Razorpay order: " + response.body());
         }
         return response.body();
@@ -107,14 +107,14 @@ public class PaymentsApi {
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).header("Authorization", this.getAuthHeader()).GET().build();
         HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
         if (response.statusCode() != 200) {
-            logger.error("Get payout status failed with status code: {} and response: {}", (Object)response.statusCode(), (Object)response.body());
+            logger.error("Get payout status failed with status code: {} and response: {}", response.statusCode(), response.body());
             return null;
         }
         try {
             return (PayoutStatusResponse)this.mapper.readValue(response.body(), PayoutStatusResponse.class);
         }
         catch (Exception e) {
-            logger.error("Json parse exception while parsing payout status response: {}", (Object)e.getMessage(), (Object)e);
+            logger.error("Json parse exception while parsing payout status response: {}", e.getMessage(), e);
             return null;
         }
     }
@@ -124,7 +124,7 @@ public class PaymentsApi {
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).header("Authorization", this.getAuthHeader()).POST(HttpRequest.BodyPublishers.noBody()).build();
         HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
         if (response.statusCode() != 200) {
-            logger.error("Cancel payout failed with status code: {} and response: {}", (Object)response.statusCode(), (Object)response.body());
+            logger.error("Cancel payout failed with status code: {} and response: {}", response.statusCode(), response.body());
             return null;
         }
         return response.body();
@@ -135,7 +135,7 @@ public class PaymentsApi {
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).header("Authorization", this.getAuthHeader()).GET().build();
         HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
         if (response.statusCode() != 200) {
-            logger.error("Fetch payment details failed with status code: {} and response: {}", (Object)response.statusCode(), (Object)response.body());
+            logger.error("Fetch payment details failed with status code: {} and response: {}", response.statusCode(), response.body());
             return null;
         }
         return response.body();
@@ -147,7 +147,7 @@ public class PaymentsApi {
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).header("Content-Type", "application/json").header("Authorization", this.getAuthHeader()).POST(HttpRequest.BodyPublishers.ofString(requestBody)).build();
         HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
         if (response.statusCode() != 200) {
-            logger.error("Refund initiation failed with status code: {} and response: {}", (Object)response.statusCode(), (Object)response.body());
+            logger.error("Refund initiation failed with status code: {} and response: {}", response.statusCode(), response.body());
             throw new RuntimeException("Failed to initiate refund: " + response.body());
         }
         return response.body();

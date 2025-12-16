@@ -63,12 +63,12 @@ public class Geometry {
         }
         Viewport this$viewport = this.getViewport();
         Viewport other$viewport = other.getViewport();
-        if (this$viewport == null ? other$viewport != null : !((Object)this$viewport).equals(other$viewport)) {
+        if (this$viewport == null ? other$viewport != null : !(this$viewport).equals(other$viewport)) {
             return false;
         }
         Location this$location = this.getLocation();
         Location other$location = other.getLocation();
-        if (this$location == null ? other$location != null : !((Object)this$location).equals(other$location)) {
+        if (this$location == null ? other$location != null : !(this$location).equals(other$location)) {
             return false;
         }
         String this$location_type = this.getLocation_type();

@@ -52,7 +52,7 @@ public class FileStorageController {
             return ResponseEntity.notFound().build();
         }
         InputStreamResource resource = new InputStreamResource(this.fileStorageService.getFileAsStream(fileId));
-        return ((ResponseEntity.BodyBuilder)ResponseEntity.ok().header("Content-Disposition", new String[]{"attachment; filename=" + fileInfo.getOriginalFilename()})).contentType(MediaType.parseMediaType((String)fileInfo.getFileType())).contentLength(fileInfo.getSize()).body((Object)resource);
+        return ((ResponseEntity.BodyBuilder)ResponseEntity.ok().header("Content-Disposition", new String[]{"attachment; filename=" + fileInfo.getOriginalFilename()})).contentType(MediaType.parseMediaType((String)fileInfo.getFileType())).contentLength(fileInfo.getSize()).body(resource);
     }
 
     @GetMapping(value={"/entity/{entityType}/{entityId}"})

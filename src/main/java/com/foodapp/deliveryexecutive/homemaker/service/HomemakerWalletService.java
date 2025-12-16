@@ -36,13 +36,13 @@ public class HomemakerWalletService {
     private static final Double MAXIMUM_WITHDRAWAL_AMOUNT = 100000.0;
 
     public HomemakerWalletDTO getWallet(Long homemakerId) {
-        log.info("Fetching wallet for homemaker: {}", (Object)homemakerId);
+        log.info("Fetching wallet for homemaker: {}", homemakerId);
         HomemakerWallet wallet = this.homemakerWalletRepository.findByHomemakerId(homemakerId).orElseGet(() -> this.createWallet(homemakerId));
         return this.convertToDTO(wallet);
     }
 
     public HomemakerWallet createWallet(Long homemakerId) {
-        log.info("Creating wallet for homemaker: {}", (Object)homemakerId);
+        log.info("Creating wallet for homemaker: {}", homemakerId);
         if (this.homemakerWalletRepository.existsByHomemakerId(homemakerId)) {
             throw new RuntimeException("Wallet already exists for homemaker: " + homemakerId);
         }
@@ -52,12 +52,12 @@ public class HomemakerWalletService {
         wallet.setTotalEarnings(0.0);
         wallet.setTotalWithdrawn(0.0);
         HomemakerWallet savedWallet = (HomemakerWallet)this.homemakerWalletRepository.save(wallet);
-        log.info("Wallet created for homemaker: {}", (Object)homemakerId);
+        log.info("Wallet created for homemaker: {}", homemakerId);
         return savedWallet;
     }
 
     public HomemakerWalletDTO addBalance(Long homemakerId, Double amount) {
-        log.info("Adding \u20b9{} to wallet for homemaker: {}", (Object)amount, (Object)homemakerId);
+        log.info("Adding \u20b9{} to wallet for homemaker: {}", amount, homemakerId);
         if (amount <= 0.0) {
             throw new IllegalArgumentException("Amount must be positive");
         }
@@ -65,12 +65,12 @@ public class HomemakerWalletService {
         wallet.setBalance(wallet.getBalance() + amount);
         wallet.setTotalEarnings(wallet.getTotalEarnings() + amount);
         HomemakerWallet updatedWallet = (HomemakerWallet)this.homemakerWalletRepository.save(wallet);
-        log.info("Balance updated. New balance: \u20b9{}", (Object)updatedWallet.getBalance());
+        log.info("Balance updated. New balance: \u20b9{}", updatedWallet.getBalance());
         return this.convertToDTO(updatedWallet);
     }
 
     public HomemakerWithdrawalDTO requestWithdrawal(Long homemakerId, HomemakerWithdrawalDTO withdrawalDTO) {
-        log.info("Processing withdrawal request for homemaker: {}, amount: \u20b9{}", (Object)homemakerId, (Object)withdrawalDTO.getAmount());
+        log.info("Processing withdrawal request for homemaker: {}, amount: \u20b9{}", homemakerId, withdrawalDTO.getAmount());
         if (withdrawalDTO.getAmount() < MINIMUM_WITHDRAWAL_AMOUNT) {
             throw new IllegalArgumentException("Minimum withdrawal amount is \u20b9" + MINIMUM_WITHDRAWAL_AMOUNT);
         }
@@ -95,12 +95,12 @@ public class HomemakerWalletService {
             withdrawal.setChequeNumber(withdrawalDTO.getChequeNumber());
         }
         HomemakerWithdrawal savedWithdrawal = (HomemakerWithdrawal)this.homemakerWithdrawalRepository.save(withdrawal);
-        log.info("Withdrawal request created: {}", (Object)savedWithdrawal.getId());
+        log.info("Withdrawal request created: {}", savedWithdrawal.getId());
         return this.convertToDTO(savedWithdrawal);
     }
 
     public HomemakerWithdrawalDTO approveWithdrawal(Long withdrawalId, String transactionId) {
-        log.info("Approving withdrawal: {}", (Object)withdrawalId);
+        log.info("Approving withdrawal: {}", withdrawalId);
         HomemakerWithdrawal withdrawal = (HomemakerWithdrawal)this.homemakerWithdrawalRepository.findById(withdrawalId).orElseThrow(() -> new RuntimeException("Withdrawal not found"));
         if (withdrawal.getStatus() != HomemakerWithdrawal.WithdrawalStatus.PENDING) {
             throw new RuntimeException("Only pending withdrawals can be approved");
@@ -109,12 +109,12 @@ public class HomemakerWalletService {
         withdrawal.setProcessedDate(LocalDateTime.now());
         withdrawal.setTransactionId(transactionId);
         HomemakerWithdrawal updatedWithdrawal = (HomemakerWithdrawal)this.homemakerWithdrawalRepository.save(withdrawal);
-        log.info("Withdrawal approved: {}", (Object)withdrawalId);
+        log.info("Withdrawal approved: {}", withdrawalId);
         return this.convertToDTO(updatedWithdrawal);
     }
 
     public HomemakerWithdrawalDTO completeWithdrawal(Long withdrawalId) {
-        log.info("Completing withdrawal: {}", (Object)withdrawalId);
+        log.info("Completing withdrawal: {}", withdrawalId);
         HomemakerWithdrawal withdrawal = (HomemakerWithdrawal)this.homemakerWithdrawalRepository.findById(withdrawalId).orElseThrow(() -> new RuntimeException("Withdrawal not found"));
         if (withdrawal.getStatus() != HomemakerWithdrawal.WithdrawalStatus.APPROVED) {
             throw new RuntimeException("Only approved withdrawals can be completed");
@@ -127,12 +127,12 @@ public class HomemakerWalletService {
         withdrawal.setStatus(HomemakerWithdrawal.WithdrawalStatus.COMPLETED);
         withdrawal.setCompletedDate(LocalDateTime.now());
         HomemakerWithdrawal updatedWithdrawal = (HomemakerWithdrawal)this.homemakerWithdrawalRepository.save(withdrawal);
-        log.info("Withdrawal completed: {}", (Object)withdrawalId);
+        log.info("Withdrawal completed: {}", withdrawalId);
         return this.convertToDTO(updatedWithdrawal);
     }
 
     public HomemakerWithdrawalDTO rejectWithdrawal(Long withdrawalId, String reason) {
-        log.info("Rejecting withdrawal: {}", (Object)withdrawalId);
+        log.info("Rejecting withdrawal: {}", withdrawalId);
         HomemakerWithdrawal withdrawal = (HomemakerWithdrawal)this.homemakerWithdrawalRepository.findById(withdrawalId).orElseThrow(() -> new RuntimeException("Withdrawal not found"));
         if (withdrawal.getStatus() != HomemakerWithdrawal.WithdrawalStatus.PENDING) {
             throw new RuntimeException("Only pending withdrawals can be rejected");
@@ -141,17 +141,17 @@ public class HomemakerWalletService {
         withdrawal.setRejectionReason(reason);
         withdrawal.setProcessedDate(LocalDateTime.now());
         HomemakerWithdrawal updatedWithdrawal = (HomemakerWithdrawal)this.homemakerWithdrawalRepository.save(withdrawal);
-        log.info("Withdrawal rejected: {}", (Object)withdrawalId);
+        log.info("Withdrawal rejected: {}", withdrawalId);
         return this.convertToDTO(updatedWithdrawal);
     }
 
     public List<HomemakerWithdrawalDTO> getWithdrawalHistory(Long homemakerId) {
-        log.debug("Fetching withdrawal history for homemaker: {}", (Object)homemakerId);
+        log.debug("Fetching withdrawal history for homemaker: {}", homemakerId);
         return this.homemakerWithdrawalRepository.findRecentWithdrawals(homemakerId).stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
     public HomemakerWithdrawalDTO getWithdrawal(Long withdrawalId) {
-        log.debug("Fetching withdrawal: {}", (Object)withdrawalId);
+        log.debug("Fetching withdrawal: {}", withdrawalId);
         HomemakerWithdrawal withdrawal = (HomemakerWithdrawal)this.homemakerWithdrawalRepository.findById(withdrawalId).orElseThrow(() -> new RuntimeException("Withdrawal not found"));
         return this.convertToDTO(withdrawal);
     }

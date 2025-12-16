@@ -68,17 +68,17 @@ public class AddToCartRequest {
         }
         Long this$menuItemId = this.getMenuItemId();
         Long other$menuItemId = other.getMenuItemId();
-        if (this$menuItemId == null ? other$menuItemId != null : !((Object)this$menuItemId).equals(other$menuItemId)) {
+        if (this$menuItemId == null ? other$menuItemId != null : !(this$menuItemId).equals(other$menuItemId)) {
             return false;
         }
         Long this$homemakerId = this.getHomemakerId();
         Long other$homemakerId = other.getHomemakerId();
-        if (this$homemakerId == null ? other$homemakerId != null : !((Object)this$homemakerId).equals(other$homemakerId)) {
+        if (this$homemakerId == null ? other$homemakerId != null : !(this$homemakerId).equals(other$homemakerId)) {
             return false;
         }
         Integer this$quantity = this.getQuantity();
         Integer other$quantity = other.getQuantity();
-        if (this$quantity == null ? other$quantity != null : !((Object)this$quantity).equals(other$quantity)) {
+        if (this$quantity == null ? other$quantity != null : !(this$quantity).equals(other$quantity)) {
             return false;
         }
         String this$specialInstructions = this.getSpecialInstructions();

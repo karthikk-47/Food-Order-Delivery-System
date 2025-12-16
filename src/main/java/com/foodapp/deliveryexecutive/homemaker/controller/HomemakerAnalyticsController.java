@@ -44,53 +44,53 @@ public class HomemakerAnalyticsController {
 
     @GetMapping(value={"/{homemakerId}"})
     public ResponseEntity<HomemakerAnalyticsDTO> getAnalytics(@PathVariable Long homemakerId) {
-        log.info("Fetching analytics for homemaker: {}", (Object)homemakerId);
+        log.info("Fetching analytics for homemaker: {}", homemakerId);
         try {
             HomemakerAnalyticsDTO analytics = this.analyticsService.getAnalytics(homemakerId);
-            return ResponseEntity.ok((Object)analytics);
+            return ResponseEntity.ok(analytics);
         }
         catch (Exception e) {
-            log.error("Error fetching analytics", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.NOT_FOUND).build();
+            log.error("Error fetching analytics", e);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 
     @PostMapping(value={"/{homemakerId}/order-completed"})
     public ResponseEntity<Void> recordOrderCompletion(@PathVariable Long homemakerId, @RequestParam Double orderValue) {
-        log.info("Recording order completion for homemaker: {}", (Object)homemakerId);
+        log.info("Recording order completion for homemaker: {}", homemakerId);
         try {
             this.analyticsService.recordOrderCompletion(homemakerId, orderValue);
             return ResponseEntity.ok().build();
         }
         catch (Exception e) {
-            log.error("Error recording order completion", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).build();
+            log.error("Error recording order completion", e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
     @PostMapping(value={"/{homemakerId}/order-cancelled"})
     public ResponseEntity<Void> recordOrderCancellation(@PathVariable Long homemakerId) {
-        log.info("Recording order cancellation for homemaker: {}", (Object)homemakerId);
+        log.info("Recording order cancellation for homemaker: {}", homemakerId);
         try {
             this.analyticsService.recordOrderCancellation(homemakerId);
             return ResponseEntity.ok().build();
         }
         catch (Exception e) {
-            log.error("Error recording order cancellation", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).build();
+            log.error("Error recording order cancellation", e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
     @PostMapping(value={"/{homemakerId}/update-rating"})
     public ResponseEntity<Void> updateRatingAndReviews(@PathVariable Long homemakerId, @RequestParam Double rating, @RequestParam Boolean isPositive) {
-        log.info("Updating rating for homemaker: {} with rating: {}", (Object)homemakerId, (Object)rating);
+        log.info("Updating rating for homemaker: {} with rating: {}", homemakerId, rating);
         try {
             this.analyticsService.updateRatingAndReviews(homemakerId, rating, isPositive);
             return ResponseEntity.ok().build();
         }
         catch (Exception e) {
-            log.error("Error updating rating", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).build();
+            log.error("Error updating rating", e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 }

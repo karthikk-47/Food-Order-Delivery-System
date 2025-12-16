@@ -16,11 +16,6 @@
  */
 package com.foodapp.deliveryexecutive.homemaker.entity;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
-import org.springframework.data.geo.Point;
-
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -31,6 +26,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
+import java.time.LocalDateTime;
+import java.util.List;
 import lombok.Generated;
 
 @Entity
@@ -60,7 +57,6 @@ public class HomemakerProfile {
     private String state;
     private String zipCode;
     private String operatingHours;
-    private Point location;
     private String breakStartTime;
     private String breakEndTime;
     private Integer yearsOfExperience;
@@ -186,11 +182,6 @@ public class HomemakerProfile {
     @Generated
     public String getOperatingHours() {
         return this.operatingHours;
-    }
-
-    @Generated
-    public Point getLocation() {
-        return this.location;
     }
 
     @Generated
@@ -354,11 +345,6 @@ public class HomemakerProfile {
     }
 
     @Generated
-    public void setLocation(Point location) {
-        this.location = location;
-    }
-
-    @Generated
     public void setBreakEndTime(String breakEndTime) {
         this.breakEndTime = breakEndTime;
     }
@@ -422,57 +408,57 @@ public class HomemakerProfile {
         }
         Long this$id = this.getId();
         Long other$id = other.getId();
-        if (this$id == null ? other$id != null : !((Object)this$id).equals(other$id)) {
+        if (this$id == null ? other$id != null : !(this$id).equals(other$id)) {
             return false;
         }
         Long this$userId = this.getUserId();
         Long other$userId = other.getUserId();
-        if (this$userId == null ? other$userId != null : !((Object)this$userId).equals(other$userId)) {
+        if (this$userId == null ? other$userId != null : !(this$userId).equals(other$userId)) {
             return false;
         }
         Boolean this$isVerified = this.getIsVerified();
         Boolean other$isVerified = other.getIsVerified();
-        if (this$isVerified == null ? other$isVerified != null : !((Object)this$isVerified).equals(other$isVerified)) {
+        if (this$isVerified == null ? other$isVerified != null : !(this$isVerified).equals(other$isVerified)) {
             return false;
         }
         Double this$averageRating = this.getAverageRating();
         Double other$averageRating = other.getAverageRating();
-        if (this$averageRating == null ? other$averageRating != null : !((Object)this$averageRating).equals(other$averageRating)) {
+        if (this$averageRating == null ? other$averageRating != null : !(this$averageRating).equals(other$averageRating)) {
             return false;
         }
         Integer this$totalRatings = this.getTotalRatings();
         Integer other$totalRatings = other.getTotalRatings();
-        if (this$totalRatings == null ? other$totalRatings != null : !((Object)this$totalRatings).equals(other$totalRatings)) {
+        if (this$totalRatings == null ? other$totalRatings != null : !(this$totalRatings).equals(other$totalRatings)) {
             return false;
         }
         Integer this$totalOrders = this.getTotalOrders();
         Integer other$totalOrders = other.getTotalOrders();
-        if (this$totalOrders == null ? other$totalOrders != null : !((Object)this$totalOrders).equals(other$totalOrders)) {
+        if (this$totalOrders == null ? other$totalOrders != null : !(this$totalOrders).equals(other$totalOrders)) {
             return false;
         }
         Integer this$yearsOfExperience = this.getYearsOfExperience();
         Integer other$yearsOfExperience = other.getYearsOfExperience();
-        if (this$yearsOfExperience == null ? other$yearsOfExperience != null : !((Object)this$yearsOfExperience).equals(other$yearsOfExperience)) {
+        if (this$yearsOfExperience == null ? other$yearsOfExperience != null : !(this$yearsOfExperience).equals(other$yearsOfExperience)) {
             return false;
         }
         Double this$totalEarnings = this.getTotalEarnings();
         Double other$totalEarnings = other.getTotalEarnings();
-        if (this$totalEarnings == null ? other$totalEarnings != null : !((Object)this$totalEarnings).equals(other$totalEarnings)) {
+        if (this$totalEarnings == null ? other$totalEarnings != null : !(this$totalEarnings).equals(other$totalEarnings)) {
             return false;
         }
         Double this$walletBalance = this.getWalletBalance();
         Double other$walletBalance = other.getWalletBalance();
-        if (this$walletBalance == null ? other$walletBalance != null : !((Object)this$walletBalance).equals(other$walletBalance)) {
+        if (this$walletBalance == null ? other$walletBalance != null : !(this$walletBalance).equals(other$walletBalance)) {
             return false;
         }
         Integer this$maxCancellationsPerMonth = this.getMaxCancellationsPerMonth();
         Integer other$maxCancellationsPerMonth = other.getMaxCancellationsPerMonth();
-        if (this$maxCancellationsPerMonth == null ? other$maxCancellationsPerMonth != null : !((Object)this$maxCancellationsPerMonth).equals(other$maxCancellationsPerMonth)) {
+        if (this$maxCancellationsPerMonth == null ? other$maxCancellationsPerMonth != null : !(this$maxCancellationsPerMonth).equals(other$maxCancellationsPerMonth)) {
             return false;
         }
         Integer this$currentMonthCancellations = this.getCurrentMonthCancellations();
         Integer other$currentMonthCancellations = other.getCurrentMonthCancellations();
-        if (this$currentMonthCancellations == null ? other$currentMonthCancellations != null : !((Object)this$currentMonthCancellations).equals(other$currentMonthCancellations)) {
+        if (this$currentMonthCancellations == null ? other$currentMonthCancellations != null : !(this$currentMonthCancellations).equals(other$currentMonthCancellations)) {
             return false;
         }
         String this$fullName = this.getFullName();
@@ -502,17 +488,17 @@ public class HomemakerProfile {
         }
         AccountStatus this$accountStatus = this.getAccountStatus();
         AccountStatus other$accountStatus = other.getAccountStatus();
-        if (this$accountStatus == null ? other$accountStatus != null : !((Object)((Object)this$accountStatus)).equals((Object)other$accountStatus)) {
+        if (this$accountStatus == null ? other$accountStatus != null : !((Object)(this$accountStatus)).equals(other$accountStatus)) {
             return false;
         }
         LocalDateTime this$verifiedAt = this.getVerifiedAt();
         LocalDateTime other$verifiedAt = other.getVerifiedAt();
-        if (this$verifiedAt == null ? other$verifiedAt != null : !((Object)this$verifiedAt).equals(other$verifiedAt)) {
+        if (this$verifiedAt == null ? other$verifiedAt != null : !(this$verifiedAt).equals(other$verifiedAt)) {
             return false;
         }
         List<String> this$specialities = this.getSpecialities();
         List<String> other$specialities = other.getSpecialities();
-        if (this$specialities == null ? other$specialities != null : !((Object)this$specialities).equals(other$specialities)) {
+        if (this$specialities == null ? other$specialities != null : !(this$specialities).equals(other$specialities)) {
             return false;
         }
         String this$cuisinePreference = this.getCuisinePreference();
@@ -567,12 +553,12 @@ public class HomemakerProfile {
         }
         LocalDateTime this$createdAt = this.getCreatedAt();
         LocalDateTime other$createdAt = other.getCreatedAt();
-        if (this$createdAt == null ? other$createdAt != null : !((Object)this$createdAt).equals(other$createdAt)) {
+        if (this$createdAt == null ? other$createdAt != null : !(this$createdAt).equals(other$createdAt)) {
             return false;
         }
         LocalDateTime this$updatedAt = this.getUpdatedAt();
         LocalDateTime other$updatedAt = other.getUpdatedAt();
-        return !(this$updatedAt == null ? other$updatedAt != null : !((Object)this$updatedAt).equals(other$updatedAt));
+        return !(this$updatedAt == null ? other$updatedAt != null : !(this$updatedAt).equals(other$updatedAt));
     }
 
     @Generated
@@ -651,7 +637,7 @@ public class HomemakerProfile {
 
     @Generated
     public String toString() {
-        return "HomemakerProfile(id=" + this.getId() + ", userId=" + this.getUserId() + ", fullName=" + this.getFullName() + ", bio=" + this.getBio() + ", profileImage=" + this.getProfileImage() + ", phoneNumber=" + this.getPhoneNumber() + ", email=" + this.getEmail() + ", accountStatus=" + String.valueOf((Object)this.getAccountStatus()) + ", isVerified=" + this.getIsVerified() + ", verifiedAt=" + String.valueOf(this.getVerifiedAt()) + ", specialities=" + String.valueOf(this.getSpecialities()) + ", averageRating=" + this.getAverageRating() + ", totalRatings=" + this.getTotalRatings() + ", totalOrders=" + this.getTotalOrders() + ", cuisinePreference=" + this.getCuisinePreference() + ", businessAddress=" + this.getBusinessAddress() + ", city=" + this.getCity() + ", state=" + this.getState() + ", zipCode=" + this.getZipCode() + ", operatingHours=" + this.getOperatingHours() + ", breakStartTime=" + this.getBreakStartTime() + ", breakEndTime=" + this.getBreakEndTime() + ", yearsOfExperience=" + this.getYearsOfExperience() + ", certifications=" + this.getCertifications() + ", totalEarnings=" + this.getTotalEarnings() + ", walletBalance=" + this.getWalletBalance() + ", cancellationPolicy=" + this.getCancellationPolicy() + ", maxCancellationsPerMonth=" + this.getMaxCancellationsPerMonth() + ", currentMonthCancellations=" + this.getCurrentMonthCancellations() + ", createdAt=" + String.valueOf(this.getCreatedAt()) + ", updatedAt=" + String.valueOf(this.getUpdatedAt()) + ")";
+        return "HomemakerProfile(id=" + this.getId() + ", userId=" + this.getUserId() + ", fullName=" + this.getFullName() + ", bio=" + this.getBio() + ", profileImage=" + this.getProfileImage() + ", phoneNumber=" + this.getPhoneNumber() + ", email=" + this.getEmail() + ", accountStatus=" + String.valueOf(this.getAccountStatus()) + ", isVerified=" + this.getIsVerified() + ", verifiedAt=" + String.valueOf(this.getVerifiedAt()) + ", specialities=" + String.valueOf(this.getSpecialities()) + ", averageRating=" + this.getAverageRating() + ", totalRatings=" + this.getTotalRatings() + ", totalOrders=" + this.getTotalOrders() + ", cuisinePreference=" + this.getCuisinePreference() + ", businessAddress=" + this.getBusinessAddress() + ", city=" + this.getCity() + ", state=" + this.getState() + ", zipCode=" + this.getZipCode() + ", operatingHours=" + this.getOperatingHours() + ", breakStartTime=" + this.getBreakStartTime() + ", breakEndTime=" + this.getBreakEndTime() + ", yearsOfExperience=" + this.getYearsOfExperience() + ", certifications=" + this.getCertifications() + ", totalEarnings=" + this.getTotalEarnings() + ", walletBalance=" + this.getWalletBalance() + ", cancellationPolicy=" + this.getCancellationPolicy() + ", maxCancellationsPerMonth=" + this.getMaxCancellationsPerMonth() + ", currentMonthCancellations=" + this.getCurrentMonthCancellations() + ", createdAt=" + String.valueOf(this.getCreatedAt()) + ", updatedAt=" + String.valueOf(this.getUpdatedAt()) + ")";
     }
 
     @Generated
@@ -659,7 +645,7 @@ public class HomemakerProfile {
     }
 
     @Generated
-    public HomemakerProfile(Long id, Long userId, String fullName, String bio, String profileImage, String phoneNumber, String email, AccountStatus accountStatus, Boolean isVerified, LocalDateTime verifiedAt, List<String> specialities, Double averageRating, Integer totalRatings, Integer totalOrders, String cuisinePreference, String businessAddress, String city, String state, String zipCode, String operatingHours, String breakStartTime, String breakEndTime, Integer yearsOfExperience, String certifications, Double totalEarnings, Double walletBalance, String cancellationPolicy, Integer maxCancellationsPerMonth, Integer currentMonthCancellations, LocalDateTime createdAt, LocalDateTime updatedAt, Point location) {
+    public HomemakerProfile(Long id, Long userId, String fullName, String bio, String profileImage, String phoneNumber, String email, AccountStatus accountStatus, Boolean isVerified, LocalDateTime verifiedAt, List<String> specialities, Double averageRating, Integer totalRatings, Integer totalOrders, String cuisinePreference, String businessAddress, String city, String state, String zipCode, String operatingHours, String breakStartTime, String breakEndTime, Integer yearsOfExperience, String certifications, Double totalEarnings, Double walletBalance, String cancellationPolicy, Integer maxCancellationsPerMonth, Integer currentMonthCancellations, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.userId = userId;
         this.fullName = fullName;
@@ -691,7 +677,6 @@ public class HomemakerProfile {
         this.currentMonthCancellations = currentMonthCancellations;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        this.location = location;
     }
 
     public static enum AccountStatus {

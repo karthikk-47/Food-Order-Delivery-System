@@ -33,7 +33,7 @@ public class UserProfileService {
     private UserProfileRepository userProfileRepository;
 
     public UserProfileDTO createProfile(UserProfileDTO profileDTO) {
-        log.info("Creating user profile for user: {}", (Object)profileDTO.getUserId());
+        log.info("Creating user profile for user: {}", profileDTO.getUserId());
         UserProfile profile = new UserProfile();
         profile.setUserId(profileDTO.getUserId());
         profile.setFirstName(profileDTO.getFirstName());
@@ -46,24 +46,24 @@ public class UserProfileService {
         profile.setZipCode(profileDTO.getZipCode());
         profile.setPreferredPaymentMethod(profileDTO.getPreferredPaymentMethod());
         UserProfile savedProfile = (UserProfile)this.userProfileRepository.save(profile);
-        log.info("User profile created successfully with ID: {}", (Object)savedProfile.getId());
+        log.info("User profile created successfully with ID: {}", savedProfile.getId());
         return this.convertToDTO(savedProfile);
     }
 
     public UserProfileDTO getProfileById(Long id) {
-        log.debug("Fetching profile with ID: {}", (Object)id);
+        log.debug("Fetching profile with ID: {}", id);
         UserProfile profile = (UserProfile)this.userProfileRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Profile not found"));
         return this.convertToDTO(profile);
     }
 
     public UserProfileDTO getProfileByUserId(Long userId) {
-        log.debug("Fetching profile for user: {}", (Object)userId);
+        log.debug("Fetching profile for user: {}", userId);
         UserProfile profile = this.userProfileRepository.findByUserId(userId).orElseThrow(() -> new IllegalArgumentException("Profile not found for user"));
         return this.convertToDTO(profile);
     }
 
     public UserProfileDTO updateProfile(Long id, UserProfileDTO profileDTO) {
-        log.info("Updating profile with ID: {}", (Object)id);
+        log.info("Updating profile with ID: {}", id);
         UserProfile profile = (UserProfile)this.userProfileRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Profile not found"));
         if (profileDTO.getFirstName() != null) {
             profile.setFirstName(profileDTO.getFirstName());
@@ -86,7 +86,7 @@ public class UserProfileService {
     }
 
     public UserProfileDTO verifyEmail(Long id) {
-        log.info("Verifying email for profile: {}", (Object)id);
+        log.info("Verifying email for profile: {}", id);
         UserProfile profile = (UserProfile)this.userProfileRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Profile not found"));
         profile.setEmailVerified(true);
         profile.setEmailVerifiedAt(LocalDateTime.now());
@@ -96,7 +96,7 @@ public class UserProfileService {
     }
 
     public UserProfileDTO verifyPhone(Long id) {
-        log.info("Verifying phone for profile: {}", (Object)id);
+        log.info("Verifying phone for profile: {}", id);
         UserProfile profile = (UserProfile)this.userProfileRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Profile not found"));
         profile.setPhoneVerified(true);
         profile.setPhoneVerifiedAt(LocalDateTime.now());
@@ -106,7 +106,7 @@ public class UserProfileService {
     }
 
     public void updateLastLogin(Long id) {
-        log.debug("Updating last login for profile: {}", (Object)id);
+        log.debug("Updating last login for profile: {}", id);
         this.userProfileRepository.findById(id).ifPresent(profile -> {
             profile.setLastLogin(LocalDateTime.now());
             this.userProfileRepository.save(profile);

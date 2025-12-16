@@ -36,7 +36,7 @@ public class MenuService {
     private MenuItemRepository menuItemRepository;
 
     public MenuDTO createMenu(MenuDTO menuDTO) {
-        log.info("Creating new menu for homemaker: {}", (Object)menuDTO.getHomemakerId());
+        log.info("Creating new menu for homemaker: {}", menuDTO.getHomemakerId());
         Menu menu = new Menu();
         menu.setHomemakerId(menuDTO.getHomemakerId());
         menu.setMenuType(menuDTO.getMenuType());
@@ -50,18 +50,18 @@ public class MenuService {
         menu.setMinOrderQuantity(menuDTO.getMinOrderQuantity());
         menu.setMaxOrderQuantity(menuDTO.getMaxOrderQuantity());
         Menu savedMenu = (Menu)this.menuRepository.save(menu);
-        log.info("Menu created successfully with ID: {}", (Object)savedMenu.getId());
+        log.info("Menu created successfully with ID: {}", savedMenu.getId());
         return this.convertToDTO(savedMenu);
     }
 
     public MenuDTO getMenuById(Long id) {
-        log.debug("Fetching menu with ID: {}", (Object)id);
+        log.debug("Fetching menu with ID: {}", id);
         Menu menu = (Menu)this.menuRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Menu not found"));
         return this.convertToDTO(menu);
     }
 
     public MenuDTO updateMenu(Long id, MenuDTO menuDTO) {
-        log.info("Updating menu with ID: {}", (Object)id);
+        log.info("Updating menu with ID: {}", id);
         Menu menu = (Menu)this.menuRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Menu not found"));
         if (menuDTO.getDescription() != null) {
             menu.setDescription(menuDTO.getDescription());
@@ -90,7 +90,7 @@ public class MenuService {
     }
 
     public MenuDTO publishMenu(Long id) {
-        log.info("Publishing menu with ID: {}", (Object)id);
+        log.info("Publishing menu with ID: {}", id);
         Menu menu = (Menu)this.menuRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Menu not found"));
         menu.setStatus(Menu.MenuStatus.ACTIVE);
         menu.setPublishedDate(LocalDateTime.now());
@@ -100,7 +100,7 @@ public class MenuService {
     }
 
     public MenuDTO archiveMenu(Long id) {
-        log.info("Archiving menu with ID: {}", (Object)id);
+        log.info("Archiving menu with ID: {}", id);
         Menu menu = (Menu)this.menuRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Menu not found"));
         menu.setStatus(Menu.MenuStatus.ARCHIVED);
         Menu archivedMenu = (Menu)this.menuRepository.save(menu);
@@ -109,17 +109,17 @@ public class MenuService {
     }
 
     public List<MenuDTO> getHomemakerMenus(Long homemakerId) {
-        log.debug("Fetching all menus for homemaker: {}", (Object)homemakerId);
+        log.debug("Fetching all menus for homemaker: {}", homemakerId);
         return this.menuRepository.findByHomemakerId(homemakerId).stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
     public List<MenuDTO> getActiveMenus(Long homemakerId) {
-        log.debug("Fetching active menus for homemaker: {}", (Object)homemakerId);
+        log.debug("Fetching active menus for homemaker: {}", homemakerId);
         return this.menuRepository.findActiveMenusForHomemaker(homemakerId, LocalDateTime.now()).stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
     public void deleteMenu(Long id) {
-        log.info("Deleting menu with ID: {}", (Object)id);
+        log.info("Deleting menu with ID: {}", id);
         this.menuRepository.deleteById(id);
         log.info("Menu deleted successfully");
     }

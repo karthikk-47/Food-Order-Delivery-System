@@ -53,7 +53,7 @@ public class PayoutService {
             payout.setNarration(response.getNarration());
             payout.setCreatedAt(response.getCreated_at());
             this.payoutRepository.save(payout);
-            logger.info("Payout saved successfully with ID: {}", (Object)payout.getId());
+            logger.info("Payout saved successfully with ID: {}", payout.getId());
         }
         return response;
     }
@@ -104,7 +104,7 @@ public class PayoutService {
         Payout payout = (Payout)this.payoutRepository.findById(payoutId).orElseThrow(() -> new ResourceNotFoundException("Payout not found with ID: " + payoutId));
         payout.setStatus(status);
         this.payoutRepository.save(payout);
-        logger.info("Payout status updated: {} -> {}", (Object)payoutId, (Object)status);
+        logger.info("Payout status updated: {} -> {}", payoutId, status);
     }
 
     @Transactional
@@ -112,7 +112,7 @@ public class PayoutService {
         Payout payout = (Payout)this.payoutRepository.findById(payoutId).orElseThrow(() -> new ResourceNotFoundException("Payout not found with ID: " + payoutId));
         payout.setUtr(utr);
         this.payoutRepository.save(payout);
-        logger.info("Payout UTR updated: {} -> {}", (Object)payoutId, (Object)utr);
+        logger.info("Payout UTR updated: {} -> {}", payoutId, utr);
     }
 
     public List<Payout> getAllPayouts() {

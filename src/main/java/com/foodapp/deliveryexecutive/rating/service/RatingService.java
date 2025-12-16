@@ -52,7 +52,7 @@ public class RatingService {
         rating.setStars(stars);
         rating.setComment(comment);
         this.ratingRepository.save(rating);
-        logger.info("Created rating for customer: {} with {} stars", (Object)customerId, (Object)stars);
+        logger.info("Created rating for customer: {} with {} stars", customerId, stars);
         return rating;
     }
 
@@ -65,7 +65,7 @@ public class RatingService {
         rating.setStars(stars);
         rating.setComment(comment);
         this.ratingRepository.save(rating);
-        logger.info("Updated rating: {} with {} stars", (Object)ratingId, (Object)stars);
+        logger.info("Updated rating: {} with {} stars", ratingId, stars);
         return rating;
     }
 
@@ -75,7 +75,7 @@ public class RatingService {
             throw new ResourceNotFoundException("Rating not found with ID: " + ratingId);
         }
         this.ratingRepository.deleteById(ratingId);
-        logger.info("Deleted rating: {}", (Object)ratingId);
+        logger.info("Deleted rating: {}", ratingId);
     }
 
     public Double getAverageRating(Long customerId, Actor.Role role) {

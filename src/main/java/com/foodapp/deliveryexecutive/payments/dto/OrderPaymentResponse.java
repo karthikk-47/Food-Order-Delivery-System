@@ -191,22 +191,22 @@ public class OrderPaymentResponse {
         }
         Long this$id = this.getId();
         Long other$id = other.getId();
-        if (this$id == null ? other$id != null : !((Object)this$id).equals(other$id)) {
+        if (this$id == null ? other$id != null : !(this$id).equals(other$id)) {
             return false;
         }
         Long this$orderId = this.getOrderId();
         Long other$orderId = other.getOrderId();
-        if (this$orderId == null ? other$orderId != null : !((Object)this$orderId).equals(other$orderId)) {
+        if (this$orderId == null ? other$orderId != null : !(this$orderId).equals(other$orderId)) {
             return false;
         }
         Long this$userId = this.getUserId();
         Long other$userId = other.getUserId();
-        if (this$userId == null ? other$userId != null : !((Object)this$userId).equals(other$userId)) {
+        if (this$userId == null ? other$userId != null : !(this$userId).equals(other$userId)) {
             return false;
         }
         Double this$amount = this.getAmount();
         Double other$amount = other.getAmount();
-        if (this$amount == null ? other$amount != null : !((Object)this$amount).equals(other$amount)) {
+        if (this$amount == null ? other$amount != null : !(this$amount).equals(other$amount)) {
             return false;
         }
         String this$currency = this.getCurrency();
@@ -226,7 +226,7 @@ public class OrderPaymentResponse {
         }
         OrderPayment.PaymentStatus this$status = this.getStatus();
         OrderPayment.PaymentStatus other$status = other.getStatus();
-        if (this$status == null ? other$status != null : !((Object)((Object)this$status)).equals((Object)other$status)) {
+        if (this$status == null ? other$status != null : !((Object)(this$status)).equals(other$status)) {
             return false;
         }
         String this$method = this.getMethod();
@@ -236,12 +236,12 @@ public class OrderPaymentResponse {
         }
         LocalDateTime this$createdAt = this.getCreatedAt();
         LocalDateTime other$createdAt = other.getCreatedAt();
-        if (this$createdAt == null ? other$createdAt != null : !((Object)this$createdAt).equals(other$createdAt)) {
+        if (this$createdAt == null ? other$createdAt != null : !(this$createdAt).equals(other$createdAt)) {
             return false;
         }
         LocalDateTime this$paidAt = this.getPaidAt();
         LocalDateTime other$paidAt = other.getPaidAt();
-        if (this$paidAt == null ? other$paidAt != null : !((Object)this$paidAt).equals(other$paidAt)) {
+        if (this$paidAt == null ? other$paidAt != null : !(this$paidAt).equals(other$paidAt)) {
             return false;
         }
         String this$failureReason = this.getFailureReason();
@@ -308,7 +308,7 @@ public class OrderPaymentResponse {
 
     @Generated
     public String toString() {
-        return "OrderPaymentResponse(id=" + this.getId() + ", orderId=" + this.getOrderId() + ", userId=" + this.getUserId() + ", amount=" + this.getAmount() + ", currency=" + this.getCurrency() + ", razorpayOrderId=" + this.getRazorpayOrderId() + ", razorpayPaymentId=" + this.getRazorpayPaymentId() + ", status=" + String.valueOf((Object)this.getStatus()) + ", method=" + this.getMethod() + ", createdAt=" + String.valueOf(this.getCreatedAt()) + ", paidAt=" + String.valueOf(this.getPaidAt()) + ", failureReason=" + this.getFailureReason() + ", razorpayKey=" + this.getRazorpayKey() + ", customerEmail=" + this.getCustomerEmail() + ", customerPhone=" + this.getCustomerPhone() + ")";
+        return "OrderPaymentResponse(id=" + this.getId() + ", orderId=" + this.getOrderId() + ", userId=" + this.getUserId() + ", amount=" + this.getAmount() + ", currency=" + this.getCurrency() + ", razorpayOrderId=" + this.getRazorpayOrderId() + ", razorpayPaymentId=" + this.getRazorpayPaymentId() + ", status=" + String.valueOf(this.getStatus()) + ", method=" + this.getMethod() + ", createdAt=" + String.valueOf(this.getCreatedAt()) + ", paidAt=" + String.valueOf(this.getPaidAt()) + ", failureReason=" + this.getFailureReason() + ", razorpayKey=" + this.getRazorpayKey() + ", customerEmail=" + this.getCustomerEmail() + ", customerPhone=" + this.getCustomerPhone() + ")";
     }
 
     @Generated

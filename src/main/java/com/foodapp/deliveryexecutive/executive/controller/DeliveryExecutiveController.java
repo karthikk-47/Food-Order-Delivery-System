@@ -63,13 +63,13 @@ public class DeliveryExecutiveController {
     @PostMapping(value={"/register"})
     public ResponseEntity<DeliveryRegisterResponse> register(@RequestBody DeliveryRegisterRequest request) {
         DeliveryRegisterResponse response = this.deliveryExecutiveService.register(request);
-        return ResponseEntity.status((HttpStatusCode)HttpStatus.CREATED).body((Object)response);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PostMapping(value={"/login"})
     public ResponseEntity<DeliveryLoginResponse> login(@RequestBody DeliveryLoginRequest request) {
         DeliveryLoginResponse response = this.deliveryExecutiveService.login(request);
-        return ResponseEntity.ok((Object)response);
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping(value={"/{id}/status"})
@@ -114,10 +114,10 @@ public class DeliveryExecutiveController {
         try {
             Order order = this.orderService.acceptOrder(id, orderId);
             DirectionResponseDTO direction = this.mapService.getRoute(order.getPickupLocation(), order.getDeliveryLocation());
-            return ResponseEntity.ok((Object)direction);
+            return ResponseEntity.ok(direction);
         }
         catch (RuntimeException e) {
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
@@ -125,10 +125,10 @@ public class DeliveryExecutiveController {
     public ResponseEntity<OrderDetailsDTO> confirmPickup(@PathVariable Long id, @PathVariable Long orderId) {
         try {
             Order order = this.orderService.confirmPickup(id, orderId);
-            return ResponseEntity.ok((Object)this.orderService.getOrderDetails(order.getId()));
+            return ResponseEntity.ok(this.orderService.getOrderDetails(order.getId()));
         }
         catch (RuntimeException e) {
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
@@ -137,17 +137,17 @@ public class DeliveryExecutiveController {
         try {
             Order order = this.orderService.confirmDelivery(id, orderId, proof.getCustomerOtp());
             this.deliveryExecutiveService.processDeliveryPayment(id, orderId);
-            return ResponseEntity.ok((Object)this.orderService.getOrderDetails(order.getId()));
+            return ResponseEntity.ok(this.orderService.getOrderDetails(order.getId()));
         }
         catch (RuntimeException e) {
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
     @GetMapping(value={"/{id}/wallet"})
     public ResponseEntity<WalletDTO> getWallet(@PathVariable Long id) {
         WalletDTO wallet = this.deliveryExecutiveService.getWallet(id);
-        return ResponseEntity.ok((Object)wallet);
+        return ResponseEntity.ok(wallet);
     }
 
     @GetMapping(value={"/{id}/ratings"})
@@ -159,19 +159,19 @@ public class DeliveryExecutiveController {
     @GetMapping(value={"/{id}/ratings/average"})
     public ResponseEntity<Double> getAverageRating(@PathVariable Long id) {
         Double average = this.deliveryExecutiveService.getAverageRating(id);
-        return ResponseEntity.ok((Object)average);
+        return ResponseEntity.ok(average);
     }
 
     @GetMapping(value={"/{id}/stats/delivered-count"})
     public ResponseEntity<Long> getDeliveredCount(@PathVariable Long id) {
         Long count = this.orderService.getDeliveredOrderCount(id);
-        return ResponseEntity.ok((Object)count);
+        return ResponseEntity.ok(count);
     }
 
     @GetMapping(value={"/{id}/stats/total-earnings"})
     public ResponseEntity<Double> getTotalEarnings(@PathVariable Long id) {
         Double earnings = this.orderService.getTotalEarnings(id);
-        return ResponseEntity.ok((Object)earnings);
+        return ResponseEntity.ok(earnings);
     }
 
     @GetMapping(value={"/{id}/profile"})

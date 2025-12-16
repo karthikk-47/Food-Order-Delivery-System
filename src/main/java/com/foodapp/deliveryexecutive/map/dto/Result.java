@@ -128,7 +128,7 @@ public class Result {
         }
         List<String> this$types = this.getTypes();
         List<String> other$types = other.getTypes();
-        if (this$types == null ? other$types != null : !((Object)this$types).equals(other$types)) {
+        if (this$types == null ? other$types != null : !(this$types).equals(other$types)) {
             return false;
         }
         String this$name = this.getName();
@@ -138,17 +138,17 @@ public class Result {
         }
         Geometry this$geometry = this.getGeometry();
         Geometry other$geometry = other.getGeometry();
-        if (this$geometry == null ? other$geometry != null : !((Object)this$geometry).equals(other$geometry)) {
+        if (this$geometry == null ? other$geometry != null : !(this$geometry).equals(other$geometry)) {
             return false;
         }
         List<AddressComponent> this$address_components = this.getAddress_components();
         List<AddressComponent> other$address_components = other.getAddress_components();
-        if (this$address_components == null ? other$address_components != null : !((Object)this$address_components).equals(other$address_components)) {
+        if (this$address_components == null ? other$address_components != null : !(this$address_components).equals(other$address_components)) {
             return false;
         }
         PlusCode this$plus_code = this.getPlus_code();
         PlusCode other$plus_code = other.getPlus_code();
-        if (this$plus_code == null ? other$plus_code != null : !((Object)this$plus_code).equals(other$plus_code)) {
+        if (this$plus_code == null ? other$plus_code != null : !(this$plus_code).equals(other$plus_code)) {
             return false;
         }
         String this$place_id = this.getPlace_id();
@@ -158,7 +158,7 @@ public class Result {
         }
         List<String> this$layer = this.getLayer();
         List<String> other$layer = other.getLayer();
-        return !(this$layer == null ? other$layer != null : !((Object)this$layer).equals(other$layer));
+        return !(this$layer == null ? other$layer != null : !(this$layer).equals(other$layer));
     }
 
     @Generated

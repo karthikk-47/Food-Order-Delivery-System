@@ -103,37 +103,37 @@ public class CartDTO {
         }
         Long this$id = this.getId();
         Long other$id = other.getId();
-        if (this$id == null ? other$id != null : !((Object)this$id).equals(other$id)) {
+        if (this$id == null ? other$id != null : !(this$id).equals(other$id)) {
             return false;
         }
         Long this$userId = this.getUserId();
         Long other$userId = other.getUserId();
-        if (this$userId == null ? other$userId != null : !((Object)this$userId).equals(other$userId)) {
+        if (this$userId == null ? other$userId != null : !(this$userId).equals(other$userId)) {
             return false;
         }
         Double this$totalAmount = this.getTotalAmount();
         Double other$totalAmount = other.getTotalAmount();
-        if (this$totalAmount == null ? other$totalAmount != null : !((Object)this$totalAmount).equals(other$totalAmount)) {
+        if (this$totalAmount == null ? other$totalAmount != null : !(this$totalAmount).equals(other$totalAmount)) {
             return false;
         }
         Integer this$itemCount = this.getItemCount();
         Integer other$itemCount = other.getItemCount();
-        if (this$itemCount == null ? other$itemCount != null : !((Object)this$itemCount).equals(other$itemCount)) {
+        if (this$itemCount == null ? other$itemCount != null : !(this$itemCount).equals(other$itemCount)) {
             return false;
         }
         Double this$deliveryFee = this.getDeliveryFee();
         Double other$deliveryFee = other.getDeliveryFee();
-        if (this$deliveryFee == null ? other$deliveryFee != null : !((Object)this$deliveryFee).equals(other$deliveryFee)) {
+        if (this$deliveryFee == null ? other$deliveryFee != null : !(this$deliveryFee).equals(other$deliveryFee)) {
             return false;
         }
         Double this$grandTotal = this.getGrandTotal();
         Double other$grandTotal = other.getGrandTotal();
-        if (this$grandTotal == null ? other$grandTotal != null : !((Object)this$grandTotal).equals(other$grandTotal)) {
+        if (this$grandTotal == null ? other$grandTotal != null : !(this$grandTotal).equals(other$grandTotal)) {
             return false;
         }
         List<CartItemDTO> this$items = this.getItems();
         List<CartItemDTO> other$items = other.getItems();
-        return !(this$items == null ? other$items != null : !((Object)this$items).equals(other$items));
+        return !(this$items == null ? other$items != null : !(this$items).equals(other$items));
     }
 
     @Generated

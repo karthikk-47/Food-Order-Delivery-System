@@ -33,7 +33,7 @@ public class FavouriteHomemakerService {
     private FavouriteHomemakerRepository favouriteHomemakerRepository;
 
     public FavouriteHomemakerDTO addToFavourites(Long userId, Long homemakerId) {
-        log.info("Adding homemaker {} to favourites for user: {}", (Object)homemakerId, (Object)userId);
+        log.info("Adding homemaker {} to favourites for user: {}", homemakerId, userId);
         FavouriteHomemaker existing = this.favouriteHomemakerRepository.findByUserIdAndHomemakerId(userId, homemakerId).orElse(null);
         if (existing != null) {
             if (existing.getStatus() == FavouriteHomemaker.FavouriteStatus.REMOVED) {
@@ -55,7 +55,7 @@ public class FavouriteHomemakerService {
     }
 
     public void removeFromFavourites(Long userId, Long homemakerId) {
-        log.info("Removing homemaker {} from favourites for user: {}", (Object)homemakerId, (Object)userId);
+        log.info("Removing homemaker {} from favourites for user: {}", homemakerId, userId);
         FavouriteHomemaker favourite = this.favouriteHomemakerRepository.findByUserIdAndHomemakerId(userId, homemakerId).orElseThrow(() -> new IllegalArgumentException("Favourite not found"));
         favourite.setStatus(FavouriteHomemaker.FavouriteStatus.REMOVED);
         favourite.setRemovedAt(LocalDateTime.now());
@@ -64,12 +64,12 @@ public class FavouriteHomemakerService {
     }
 
     public List<FavouriteHomemakerDTO> getFavouriteHomemakers(Long userId) {
-        log.debug("Fetching favourite homemakers for user: {}", (Object)userId);
+        log.debug("Fetching favourite homemakers for user: {}", userId);
         return this.favouriteHomemakerRepository.findByUserIdAndStatus(userId, FavouriteHomemaker.FavouriteStatus.ACTIVE).stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
     public boolean isFavourited(Long userId, Long homemakerId) {
-        log.debug("Checking if homemaker {} is favourited by user: {}", (Object)homemakerId, (Object)userId);
+        log.debug("Checking if homemaker {} is favourited by user: {}", homemakerId, userId);
         return this.favouriteHomemakerRepository.findByUserIdAndHomemakerId(userId, homemakerId).filter(fav -> fav.getStatus() == FavouriteHomemaker.FavouriteStatus.ACTIVE).isPresent();
     }
 

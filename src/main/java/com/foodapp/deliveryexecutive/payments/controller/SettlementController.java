@@ -38,7 +38,7 @@ public class SettlementController {
 
     @PostMapping(value={"/homemaker/{id}/settle"})
     public ResponseEntity<SettlementDTO> settleForHomemaker(@PathVariable(value="id") Long id, @RequestBody SettlementDTO dto) {
-        return ResponseEntity.ok((Object)this.settlementService.settleHomemaker(id, dto));
+        return ResponseEntity.ok(this.settlementService.settleHomemaker(id, dto));
     }
 
     @GetMapping(value={"/admin/pending"})

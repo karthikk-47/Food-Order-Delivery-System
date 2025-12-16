@@ -51,79 +51,79 @@ public class UserAddressController {
 
     @PostMapping(value={"/add"})
     public ResponseEntity<UserAddressDTO> addAddress(@RequestBody UserAddressDTO addressDTO) {
-        log.info("Adding address for user: {}", (Object)addressDTO.getUserId());
+        log.info("Adding address for user: {}", addressDTO.getUserId());
         try {
             UserAddressDTO createdAddress = this.userAddressService.addAddress(addressDTO);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.CREATED).body((Object)createdAddress);
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdAddress);
         }
         catch (Exception e) {
-            log.error("Error adding address", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).build();
+            log.error("Error adding address", e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
     @GetMapping(value={"/{id}"})
     public ResponseEntity<UserAddressDTO> getAddress(@PathVariable Long id) {
-        log.info("Fetching address with ID: {}", (Object)id);
+        log.info("Fetching address with ID: {}", id);
         try {
             UserAddressDTO address = this.userAddressService.getAddressById(id);
-            return ResponseEntity.ok((Object)address);
+            return ResponseEntity.ok(address);
         }
         catch (Exception e) {
-            log.error("Error fetching address", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.NOT_FOUND).build();
+            log.error("Error fetching address", e);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 
     @PutMapping(value={"/{id}"})
     public ResponseEntity<UserAddressDTO> updateAddress(@PathVariable Long id, @RequestBody UserAddressDTO addressDTO) {
-        log.info("Updating address with ID: {}", (Object)id);
+        log.info("Updating address with ID: {}", id);
         try {
             UserAddressDTO updatedAddress = this.userAddressService.updateAddress(id, addressDTO);
-            return ResponseEntity.ok((Object)updatedAddress);
+            return ResponseEntity.ok(updatedAddress);
         }
         catch (Exception e) {
-            log.error("Error updating address", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).build();
+            log.error("Error updating address", e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
     @PostMapping(value={"/{addressId}/set-default"})
     public ResponseEntity<Void> setAsDefault(@PathVariable Long addressId, @RequestParam Long userId) {
-        log.info("Setting address {} as default for user: {}", (Object)addressId, (Object)userId);
+        log.info("Setting address {} as default for user: {}", addressId, userId);
         try {
             this.userAddressService.setAsDefault(userId, addressId);
             return ResponseEntity.ok().build();
         }
         catch (Exception e) {
-            log.error("Error setting default address", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).build();
+            log.error("Error setting default address", e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
     @GetMapping(value={"/user/{userId}/all"})
     public ResponseEntity<List<UserAddressDTO>> getUserAddresses(@PathVariable Long userId) {
-        log.info("Fetching all addresses for user: {}", (Object)userId);
+        log.info("Fetching all addresses for user: {}", userId);
         try {
             List<UserAddressDTO> addresses = this.userAddressService.getUserAddresses(userId);
             return ResponseEntity.ok(addresses);
         }
         catch (Exception e) {
-            log.error("Error fetching user addresses", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).build();
+            log.error("Error fetching user addresses", e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
     @DeleteMapping(value={"/{id}"})
     public ResponseEntity<Void> deleteAddress(@PathVariable Long id) {
-        log.info("Deleting address with ID: {}", (Object)id);
+        log.info("Deleting address with ID: {}", id);
         try {
             this.userAddressService.deleteAddress(id);
             return ResponseEntity.noContent().build();
         }
         catch (Exception e) {
-            log.error("Error deleting address", (Throwable)e);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).build();
+            log.error("Error deleting address", e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 }

@@ -53,124 +53,124 @@ public class OrderPaymentController {
     @PostMapping(value={"/create"})
     public ResponseEntity<?> createPayment(@Valid @RequestBody CreateOrderPaymentRequest request) {
         try {
-            logger.info("Creating payment for order: {}", (Object)request.getOrderId());
+            logger.info("Creating payment for order: {}", request.getOrderId());
             OrderPaymentResponse response = this.orderPaymentService.createPayment(request);
-            return ResponseEntity.ok((Object)response);
+            return ResponseEntity.ok(response);
         }
         catch (Exception e) {
-            logger.error("Error creating payment: {}", (Object)e.getMessage(), (Object)e);
+            logger.error("Error creating payment: {}", e.getMessage(), e);
             HashMap<String, String> error = new HashMap<String, String>();
             error.put("error", e.getMessage());
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).body(error);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
         }
     }
 
     @PostMapping(value={"/verify"})
     public ResponseEntity<?> verifyPayment(@Valid @RequestBody VerifyPaymentRequest request) {
         try {
-            logger.info("Verifying payment for Razorpay order: {}", (Object)request.getRazorpayOrderId());
+            logger.info("Verifying payment for Razorpay order: {}", request.getRazorpayOrderId());
             OrderPaymentResponse response = this.orderPaymentService.verifyPayment(request);
-            return ResponseEntity.ok((Object)response);
+            return ResponseEntity.ok(response);
         }
         catch (Exception e) {
-            logger.error("Error verifying payment: {}", (Object)e.getMessage(), (Object)e);
+            logger.error("Error verifying payment: {}", e.getMessage(), e);
             HashMap<String, String> error = new HashMap<String, String>();
             error.put("error", e.getMessage());
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).body(error);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
         }
     }
 
     @GetMapping(value={"/order/{orderId}"})
     public ResponseEntity<?> getPaymentByOrderId(@PathVariable Long orderId) {
         try {
-            logger.info("Fetching payment for order: {}", (Object)orderId);
+            logger.info("Fetching payment for order: {}", orderId);
             OrderPaymentResponse response = this.orderPaymentService.getPaymentByOrderId(orderId);
-            return ResponseEntity.ok((Object)response);
+            return ResponseEntity.ok(response);
         }
         catch (Exception e) {
-            logger.error("Error fetching payment: {}", (Object)e.getMessage(), (Object)e);
+            logger.error("Error fetching payment: {}", e.getMessage(), e);
             HashMap<String, String> error = new HashMap<String, String>();
             error.put("error", e.getMessage());
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.NOT_FOUND).body(error);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         }
     }
 
     @GetMapping(value={"/user/{userId}"})
     public ResponseEntity<?> getUserPaymentHistory(@PathVariable Long userId) {
         try {
-            logger.info("Fetching payment history for user: {}", (Object)userId);
+            logger.info("Fetching payment history for user: {}", userId);
             List<OrderPaymentResponse> payments = this.orderPaymentService.getUserPaymentHistory(userId);
             return ResponseEntity.ok(payments);
         }
         catch (Exception e) {
-            logger.error("Error fetching payment history: {}", (Object)e.getMessage(), (Object)e);
+            logger.error("Error fetching payment history: {}", e.getMessage(), e);
             HashMap<String, String> error = new HashMap<String, String>();
             error.put("error", e.getMessage());
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
         }
     }
 
     @GetMapping(value={"/user/{userId}/successful"})
     public ResponseEntity<?> getSuccessfulPayments(@PathVariable Long userId) {
         try {
-            logger.info("Fetching successful payments for user: {}", (Object)userId);
+            logger.info("Fetching successful payments for user: {}", userId);
             List<OrderPaymentResponse> payments = this.orderPaymentService.getSuccessfulPaymentsByUser(userId);
             return ResponseEntity.ok(payments);
         }
         catch (Exception e) {
-            logger.error("Error fetching successful payments: {}", (Object)e.getMessage(), (Object)e);
+            logger.error("Error fetching successful payments: {}", e.getMessage(), e);
             HashMap<String, String> error = new HashMap<String, String>();
             error.put("error", e.getMessage());
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
         }
     }
 
     @PostMapping(value={"/{paymentId}/refund"})
     public ResponseEntity<?> initiateRefund(@PathVariable Long paymentId, @RequestParam(required=false, defaultValue="Customer requested refund") String reason) {
         try {
-            logger.info("Initiating refund for payment: {}", (Object)paymentId);
+            logger.info("Initiating refund for payment: {}", paymentId);
             OrderPaymentResponse response = this.orderPaymentService.initiateRefund(paymentId, reason);
-            return ResponseEntity.ok((Object)response);
+            return ResponseEntity.ok(response);
         }
         catch (Exception e) {
-            logger.error("Error initiating refund: {}", (Object)e.getMessage(), (Object)e);
+            logger.error("Error initiating refund: {}", e.getMessage(), e);
             HashMap<String, String> error = new HashMap<String, String>();
             error.put("error", e.getMessage());
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).body(error);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
         }
     }
 
     @PostMapping(value={"/failure"})
     public ResponseEntity<?> handlePaymentFailure(@RequestParam String razorpayOrderId, @RequestParam String reason, @RequestParam(required=false) String errorCode) {
         try {
-            logger.info("Handling payment failure for Razorpay order: {}", (Object)razorpayOrderId);
+            logger.info("Handling payment failure for Razorpay order: {}", razorpayOrderId);
             this.orderPaymentService.handlePaymentFailure(razorpayOrderId, reason, errorCode);
             HashMap<String, String> response = new HashMap<String, String>();
             response.put("message", "Payment failure recorded successfully");
             return ResponseEntity.ok(response);
         }
         catch (Exception e) {
-            logger.error("Error handling payment failure: {}", (Object)e.getMessage(), (Object)e);
+            logger.error("Error handling payment failure: {}", e.getMessage(), e);
             HashMap<String, String> error = new HashMap<String, String>();
             error.put("error", e.getMessage());
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
         }
     }
 
     @GetMapping(value={"/user/{userId}/stats"})
     public ResponseEntity<?> getUserPaymentStats(@PathVariable Long userId) {
         try {
-            logger.info("Fetching payment stats for user: {}", (Object)userId);
+            logger.info("Fetching payment stats for user: {}", userId);
             HashMap<String, Number> stats = new HashMap<String, Number>();
             stats.put("totalAmountPaid", this.orderPaymentService.getTotalAmountPaidByUser(userId));
             stats.put("successfulPaymentCount", this.orderPaymentService.getSuccessfulPaymentCount(userId));
             return ResponseEntity.ok(stats);
         }
         catch (Exception e) {
-            logger.error("Error fetching payment stats: {}", (Object)e.getMessage(), (Object)e);
+            logger.error("Error fetching payment stats: {}", e.getMessage(), e);
             HashMap<String, String> error = new HashMap<String, String>();
             error.put("error", e.getMessage());
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
         }
     }
 
@@ -184,10 +184,10 @@ public class OrderPaymentController {
             return ResponseEntity.ok(response);
         }
         catch (Exception e) {
-            logger.error("Error processing expired payments: {}", (Object)e.getMessage(), (Object)e);
+            logger.error("Error processing expired payments: {}", e.getMessage(), e);
             HashMap<String, String> error = new HashMap<String, String>();
             error.put("error", e.getMessage());
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
         }
     }
 }

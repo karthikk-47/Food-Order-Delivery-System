@@ -52,13 +52,13 @@ public class ExecutiveProfileController {
     @GetMapping(value={"/{executiveId}"})
     public ResponseEntity<ExecutiveProfileDTO> getProfile(@PathVariable Long executiveId) {
         ExecutiveProfileDTO profile = this.profileService.getProfile(executiveId);
-        return ResponseEntity.ok((Object)profile);
+        return ResponseEntity.ok(profile);
     }
 
     @PutMapping(value={"/{executiveId}"})
     public ResponseEntity<ExecutiveProfileDTO> updateProfile(@PathVariable Long executiveId, @Valid @RequestBody UpdateProfileRequest request) {
         ExecutiveProfileDTO profile = this.profileService.updateProfile(executiveId, request);
-        return ResponseEntity.ok((Object)profile);
+        return ResponseEntity.ok(profile);
     }
 
     @PostMapping(value={"/{executiveId}/change-password"})
@@ -68,7 +68,7 @@ public class ExecutiveProfileController {
             return ResponseEntity.ok().build();
         }
         catch (RuntimeException e) {
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
@@ -84,17 +84,17 @@ public class ExecutiveProfileController {
         if (account == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok((Object)account);
+        return ResponseEntity.ok(account);
     }
 
     @PostMapping(value={"/{executiveId}/bank-accounts"})
     public ResponseEntity<BankAccountDTO> addBankAccount(@PathVariable Long executiveId, @Valid @RequestBody AddBankAccountRequest request) {
         try {
             BankAccountDTO account = this.profileService.addBankAccount(executiveId, request);
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.CREATED).body((Object)account);
+            return ResponseEntity.status(HttpStatus.CREATED).body(account);
         }
         catch (RuntimeException e) {
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
@@ -102,10 +102,10 @@ public class ExecutiveProfileController {
     public ResponseEntity<BankAccountDTO> setPrimaryBankAccount(@PathVariable Long executiveId, @PathVariable Long bankAccountId) {
         try {
             BankAccountDTO account = this.profileService.setPrimaryBankAccount(executiveId, bankAccountId);
-            return ResponseEntity.ok((Object)account);
+            return ResponseEntity.ok(account);
         }
         catch (RuntimeException e) {
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
@@ -116,7 +116,7 @@ public class ExecutiveProfileController {
             return ResponseEntity.noContent().build();
         }
         catch (RuntimeException e) {
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.BAD_REQUEST).build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 }
