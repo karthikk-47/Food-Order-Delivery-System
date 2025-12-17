@@ -4,6 +4,8 @@ import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { DeliveryExecutiveService, OrderSummary } from '../services/delivery-executive.service';
 import { NavbarComponent } from '../../../shared/components/navbar/navbar.component';
+import { WebSocketService, NewOrderMessage } from '../../../core/services/websocket.service';
+import { AuthService } from '../../../core/services/auth.service';
 import { interval, Subscription } from 'rxjs';
 
 @Component({
@@ -21,7 +23,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   sortBy = 'optimal';
   currentLocation = { latitude: 0, longitude: 0 };
   executiveId: number = 0;
+  newOrderAlert: NewOrderMessage | null = null;
   locationSubscription?: Subscription;
+  wsSubscriptions: Subscription[] = [];
 
   sortOptions = [
     { value: 'optimal', label: 'Optimal (Recommended)' },
@@ -31,20 +35,60 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ];
 
   constructor(
-    private deliveryService: DeliveryExecutiveService
+    private deliveryService: DeliveryExecutiveService,
+    private wsService: WebSocketService,
+    private authService: AuthService
   ) {
-    // Executive id will be set from auth storage or another mechanism; ensure it is set before API calls.
+    const user = this.authService.currentUserValue;
+    if (user) {
+      this.executiveId = user.id;
+    }
   }
 
   ngOnInit() {
     this.getCurrentLocation();
     this.startLocationTracking();
+    this.setupWebSocket();
   }
 
   ngOnDestroy() {
     if (this.locationSubscription) {
       this.locationSubscription.unsubscribe();
     }
+    this.wsSubscriptions.forEach(sub => sub.unsubscribe());
+    this.wsService.disconnect();
+  }
+
+  private setupWebSocket(): void {
+    this.wsService.connect();
+    
+    this.wsSubscriptions.push(
+      this.wsService.newOrders$.subscribe((newOrder: NewOrderMessage) => {
+        this.newOrderAlert = newOrder;
+        this.playNotificationSound();
+        // Auto-refresh orders list
+        if (this.isOnline) {
+          this.loadNearbyOrders();
+        }
+        // Auto-dismiss after 10 seconds
+        setTimeout(() => {
+          if (this.newOrderAlert?.orderId === newOrder.orderId) {
+            this.newOrderAlert = null;
+          }
+        }, 10000);
+      })
+    );
+  }
+
+  private playNotificationSound(): void {
+    try {
+      const audio = new Audio('assets/sounds/notification.mp3');
+      audio.play().catch(() => {});
+    } catch (e) {}
+  }
+
+  dismissNewOrderAlert(): void {
+    this.newOrderAlert = null;
   }
 
   getCurrentLocation() {
@@ -84,6 +128,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.currentLocation.latitude,
         this.currentLocation.longitude
       ).subscribe();
+      
+      // Also send via WebSocket for active deliveries
+      const activeOrder = this.orders.find(o => o.orderStatus === 'OUTFORDELIVERY');
+      if (activeOrder) {
+        this.wsService.sendLocationUpdate(
+          activeOrder.orderId,
+          this.currentLocation.latitude,
+          this.currentLocation.longitude
+        );
+      }
     }
   }
 

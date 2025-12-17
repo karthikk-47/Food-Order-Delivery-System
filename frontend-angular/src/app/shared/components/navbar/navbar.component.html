@@ -107,7 +107,7 @@
       <!-- User Info (Mobile) -->
       <div class="navbar-user-info" *ngIf="currentUser">
         <div class="user-profile-card">
-          <div class="user-avatar">{{ currentUser.mobile?.charAt(0)?.toUpperCase() }}</div>
+          <div class="user-avatar">{{ currentUser.mobile ? currentUser.mobile.charAt(0).toUpperCase() : '?' }}</div>
           <div class="user-details">
             <p class="user-mobile">{{ currentUser.mobile }}</p>
             <p class="user-role">{{ getRoleLabel() }}</p>
@@ -160,7 +160,7 @@
 
       <!-- User Info -->
       <div class="user-info">
-        <span class="user-avatar">{{ currentUser.mobile?.charAt(0)?.toUpperCase() }}</span>
+        <span class="user-avatar">{{ currentUser.mobile ? currentUser.mobile.charAt(0).toUpperCase() : '?' }}</span>
         <span class="user-role">{{ getRoleLabel() }}</span>
       </div>
       <button 

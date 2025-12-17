@@ -7,23 +7,19 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-import jakarta.servlet.Filter;
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity(prePostEnabled=true, securedEnabled=true)
+@EnableMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class SecurityConfig {
+    
     private final JwtTokenProvider tokenProvider;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
@@ -49,20 +45,57 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.cors(cors -> cors.configurationSource((CorsConfigurationSource)this.corsConfigurationSource())).csrf(csrf -> csrf.disable()).exceptionHandling(exception -> exception.authenticationEntryPoint((AuthenticationEntryPoint)this.jwtAuthenticationEntryPoint)).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)).authorizeHttpRequests(auth -> ((AuthorizeHttpRequestsConfigurer.AuthorizedUrl)((AuthorizeHttpRequestsConfigurer.AuthorizedUrl)((AuthorizeHttpRequestsConfigurer.AuthorizedUrl)((AuthorizeHttpRequestsConfigurer.AuthorizedUrl)((AuthorizeHttpRequestsConfigurer.AuthorizedUrl)((AuthorizeHttpRequestsConfigurer.AuthorizedUrl)((AuthorizeHttpRequestsConfigurer.AuthorizedUrl)((AuthorizeHttpRequestsConfigurer.AuthorizedUrl)((AuthorizeHttpRequestsConfigurer.AuthorizedUrl)((AuthorizeHttpRequestsConfigurer.AuthorizedUrl)((AuthorizeHttpRequestsConfigurer.AuthorizedUrl)((AuthorizeHttpRequestsConfigurer.AuthorizedUrl)((AuthorizeHttpRequestsConfigurer.AuthorizedUrl)((AuthorizeHttpRequestsConfigurer.AuthorizedUrl)((AuthorizeHttpRequestsConfigurer.AuthorizedUrl)((AuthorizeHttpRequestsConfigurer.AuthorizedUrl)((AuthorizeHttpRequestsConfigurer.AuthorizedUrl)((AuthorizeHttpRequestsConfigurer.AuthorizedUrl)((AuthorizeHttpRequestsConfigurer.AuthorizedUrl)((AuthorizeHttpRequestsConfigurer.AuthorizedUrl)((AuthorizeHttpRequestsConfigurer.AuthorizedUrl)((AuthorizeHttpRequestsConfigurer.AuthorizedUrl)((AuthorizeHttpRequestsConfigurer.AuthorizedUrl)auth.requestMatchers(new String[]{"/api/auth/**"})).permitAll().requestMatchers(new String[]{"/api/getAddress"})).permitAll().requestMatchers(new String[]{"/api/delivery-executive/register", "/api/delivery-executive/login"})).permitAll().requestMatchers(new String[]{"/api/homemaker/register", "/api/homemaker/login"})).permitAll().requestMatchers(new String[]{"/api/user/register", "/api/user/login"})).permitAll().requestMatchers(new String[]{"/api/admin/login"})).permitAll().requestMatchers(new String[]{"/api/webhooks/**"})).permitAll().requestMatchers(new String[]{"/api/payments/webhook/**"})).permitAll().requestMatchers(new String[]{"/api/order-payments/**"})).hasAnyRole(new String[]{"USER", "ADMIN"}).requestMatchers(new String[]{"/api/withdrawals/**"})).hasAnyRole(new String[]{"DELIVERYEXECUTIVE", "HOMEMAKER"}).requestMatchers(new String[]{"/api/delivery-executive/**"})).hasRole("DELIVERYEXECUTIVE").requestMatchers(new String[]{"/api/homemaker/**"})).hasRole("HOMEMAKER").requestMatchers(new String[]{"/api/homemakers/**"})).hasAnyRole(new String[]{"USER", "ADMIN", "HOMEMAKER"}).requestMatchers(new String[]{"/api/user/**"})).hasRole("USER").requestMatchers(new String[]{"/api/users/**"})).hasAnyRole(new String[]{"USER", "ADMIN"}).requestMatchers(new String[]{"/api/admin/**"})).hasRole("ADMIN").requestMatchers(new String[]{"/api/orders/**"})).hasAnyRole(new String[]{"DELIVERYEXECUTIVE", "HOMEMAKER", "USER", "ADMIN"}).requestMatchers(new String[]{"/api/menu-items/**"})).hasAnyRole(new String[]{"HOMEMAKER", "USER", "ADMIN"}).requestMatchers(new String[]{"/api/cart/**"})).hasRole("USER").requestMatchers(new String[]{"/api/wallet/**"})).hasAnyRole(new String[]{"DELIVERYEXECUTIVE", "HOMEMAKER"}).requestMatchers(new String[]{"/api/ratings/**"})).hasAnyRole(new String[]{"DELIVERYEXECUTIVE", "HOMEMAKER", "USER"}).requestMatchers(new String[]{"/api/profile/**"})).hasAnyRole(new String[]{"DELIVERYEXECUTIVE", "HOMEMAKER", "USER"}).anyRequest()).authenticated());
-        http.addFilterBefore((Filter)this.authenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-        return (SecurityFilterChain)http.build();
+        http
+            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+            .csrf(csrf -> csrf.disable())
+            .exceptionHandling(ex -> ex.authenticationEntryPoint(jwtAuthenticationEntryPoint))
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .authorizeHttpRequests(auth -> auth
+                // WebSocket endpoints
+                .requestMatchers("/ws/**").permitAll()
+                // Auth endpoints
+                .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers("/api/getAddress").permitAll()
+                .requestMatchers("/api/delivery-executive/register", "/api/delivery-executive/login").permitAll()
+                .requestMatchers("/api/homemaker/register", "/api/homemaker/login").permitAll()
+                .requestMatchers("/api/user/register", "/api/user/login").permitAll()
+                .requestMatchers("/api/admin/login").permitAll()
+                // Webhooks
+                .requestMatchers("/api/webhooks/**").permitAll()
+                .requestMatchers("/api/payments/webhook/**").permitAll()
+                // Role-based access
+                .requestMatchers("/api/order-payments/**").hasAnyRole("USER", "ADMIN")
+                .requestMatchers("/api/withdrawals/**").hasAnyRole("DELIVERYEXECUTIVE", "HOMEMAKER")
+                .requestMatchers("/api/delivery-executive/**").hasRole("DELIVERYEXECUTIVE")
+                .requestMatchers("/api/homemaker/**").hasRole("HOMEMAKER")
+                .requestMatchers("/api/homemakers/**").hasAnyRole("USER", "ADMIN", "HOMEMAKER")
+                .requestMatchers("/api/user/**").hasRole("USER")
+                .requestMatchers("/api/users/**").hasAnyRole("USER", "ADMIN")
+                .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                .requestMatchers("/api/orders/**").hasAnyRole("DELIVERYEXECUTIVE", "HOMEMAKER", "USER", "ADMIN")
+                .requestMatchers("/api/menu-items/**").hasAnyRole("HOMEMAKER", "USER", "ADMIN")
+                .requestMatchers("/api/cart/**").hasRole("USER")
+                .requestMatchers("/api/wallet/**").hasAnyRole("DELIVERYEXECUTIVE", "HOMEMAKER")
+                .requestMatchers("/api/bank-accounts/**").hasAnyRole("DELIVERYEXECUTIVE", "HOMEMAKER")
+                .requestMatchers("/api/ratings/**").hasAnyRole("DELIVERYEXECUTIVE", "HOMEMAKER", "USER")
+                .requestMatchers("/api/profile/**").hasAnyRole("DELIVERYEXECUTIVE", "HOMEMAKER", "USER")
+                .requestMatchers("/api/notifications/**").authenticated()
+                .anyRequest().authenticated()
+            );
+        
+        http.addFilterBefore(authenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+        return http.build();
     }
 
     @Bean
     public UrlBasedCorsConfigurationSource corsConfigurationSource() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowCredentials(Boolean.valueOf(true));
+        config.setAllowCredentials(true);
         config.addAllowedOriginPattern("*");
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
-        config.setMaxAge(Long.valueOf(3600L));
+        config.setMaxAge(3600L);
         source.registerCorsConfiguration("/**", config);
         return source;
     }

@@ -89,6 +89,10 @@ export class AuthService {
     return localStorage.getItem('token');
   }
 
+  public getToken(): string | null {
+    return this.token;
+  }
+
   login(mobile: string, password: string): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.apiUrl}/auth/login`, { mobile, password })
       .pipe(

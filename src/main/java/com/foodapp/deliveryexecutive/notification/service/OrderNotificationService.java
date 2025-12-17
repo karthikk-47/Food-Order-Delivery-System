@@ -6,6 +6,9 @@ import com.foodapp.deliveryexecutive.executive.repository.DeliveryExecutiveRepos
 import com.foodapp.deliveryexecutive.notification.dto.PushNotificationRequest;
 import com.foodapp.deliveryexecutive.notification.entity.Notification.NotificationType;
 import com.foodapp.deliveryexecutive.order.entity.Order;
+import com.foodapp.deliveryexecutive.websocket.dto.NewOrderMessage;
+import com.foodapp.deliveryexecutive.websocket.dto.OrderStatusMessage;
+import com.foodapp.deliveryexecutive.websocket.service.WebSocketService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,6 +24,7 @@ public class OrderNotificationService {
 
     private final NotificationService notificationService;
     private final DeliveryExecutiveRepository deliveryExecutiveRepository;
+    private final WebSocketService webSocketService;
 
     // ==================== USER NOTIFICATIONS ====================
 
@@ -34,6 +38,9 @@ public class OrderNotificationService {
                 .build();
 
         notificationService.sendNotification(order.getUser().getId(), Actor.Role.USER, request);
+        
+        // Send WebSocket notification
+        sendOrderStatusWebSocket(order, "PENDING", "Order placed successfully");
         log.info("Sent order placed notification to user {}", order.getUser().getId());
     }
 
@@ -47,6 +54,9 @@ public class OrderNotificationService {
                 .build();
 
         notificationService.sendNotification(order.getUser().getId(), Actor.Role.USER, request);
+        
+        // Send WebSocket notification
+        sendOrderStatusWebSocket(order, "CONFIRMED", "Order confirmed by " + order.getHomeMaker().getName());
     }
 
     public void notifyUserOrderPreparing(Order order) {
@@ -60,6 +70,9 @@ public class OrderNotificationService {
                 .build();
 
         notificationService.sendNotification(order.getUser().getId(), Actor.Role.USER, request);
+        
+        // Send WebSocket notification
+        sendOrderStatusWebSocket(order, "PREPARING", "Food is being prepared");
     }
 
     public void notifyUserOrderReady(Order order) {
@@ -72,6 +85,9 @@ public class OrderNotificationService {
                 .build();
 
         notificationService.sendNotification(order.getUser().getId(), Actor.Role.USER, request);
+        
+        // Send WebSocket notification
+        sendOrderStatusWebSocket(order, "PREPARED", "Food is ready for pickup");
     }
 
     public void notifyUserOrderPickedUp(Order order) {
@@ -85,6 +101,15 @@ public class OrderNotificationService {
                 .build();
 
         notificationService.sendNotification(order.getUser().getId(), Actor.Role.USER, request);
+        
+        // Send WebSocket notification with executive info
+        OrderStatusMessage wsMessage = buildOrderStatusMessage(order, "PICKED_UP", executiveName + " has picked up your order");
+        if (order.getExecutive() != null) {
+            wsMessage.setExecutiveId(order.getExecutive().getId());
+            wsMessage.setExecutiveName(executiveName);
+        }
+        webSocketService.notifyCustomer(order.getUser().getId(), wsMessage);
+        webSocketService.broadcastOrderStatus(order.getId(), wsMessage);
     }
 
     public void notifyUserOrderOutForDelivery(Order order) {
@@ -98,6 +123,18 @@ public class OrderNotificationService {
                 .build();
 
         notificationService.sendNotification(order.getUser().getId(), Actor.Role.USER, request);
+        
+        // Send WebSocket notification with executive info
+        OrderStatusMessage wsMessage = buildOrderStatusMessage(order, "OUTFORDELIVERY", "Your order is on the way!");
+        if (order.getExecutive() != null) {
+            wsMessage.setExecutiveId(order.getExecutive().getId());
+            wsMessage.setExecutiveName(order.getExecutive().getName());
+        }
+        if (order.getEstimatedDeliveryTime() != null) {
+            wsMessage.setEstimatedTime(order.getEstimatedDeliveryTime() + " mins");
+        }
+        webSocketService.notifyCustomer(order.getUser().getId(), wsMessage);
+        webSocketService.broadcastOrderStatus(order.getId(), wsMessage);
     }
 
     public void notifyUserOrderDelivered(Order order) {
@@ -110,6 +147,9 @@ public class OrderNotificationService {
                 .build();
 
         notificationService.sendNotification(order.getUser().getId(), Actor.Role.USER, request);
+        
+        // Send WebSocket notification
+        sendOrderStatusWebSocket(order, "DELIVERED", "Order delivered successfully!");
     }
 
     public void notifyUserOrderCancelled(Order order, String reason) {
@@ -123,6 +163,9 @@ public class OrderNotificationService {
                 .build();
 
         notificationService.sendNotification(order.getUser().getId(), Actor.Role.USER, request);
+        
+        // Send WebSocket notification
+        sendOrderStatusWebSocket(order, "CANCELLED", reason != null ? reason : "Order cancelled");
     }
 
     // ==================== HOMEMAKER NOTIFICATIONS ====================
@@ -137,6 +180,11 @@ public class OrderNotificationService {
                 .build();
 
         notificationService.sendNotification(order.getHomeMaker().getId(), Actor.Role.HOMEMAKER, request);
+        
+        // Send WebSocket notification to homemaker
+        OrderStatusMessage wsMessage = buildOrderStatusMessage(order, "NEW_ORDER", "New order received worth ₹" + order.getAmount());
+        webSocketService.notifyHomemaker(order.getHomeMaker().getId(), wsMessage);
+        
         log.info("Sent new order notification to homemaker {}", order.getHomeMaker().getId());
     }
 
@@ -150,6 +198,10 @@ public class OrderNotificationService {
                 .build();
 
         notificationService.sendNotification(order.getHomeMaker().getId(), Actor.Role.HOMEMAKER, request);
+        
+        // Send WebSocket notification
+        OrderStatusMessage wsMessage = buildOrderStatusMessage(order, "CANCELLED", "Order cancelled by customer");
+        webSocketService.notifyHomemaker(order.getHomeMaker().getId(), wsMessage);
     }
 
     // ==================== DELIVERY EXECUTIVE NOTIFICATIONS ====================
@@ -167,8 +219,31 @@ public class OrderNotificationService {
                 .data(buildOrderData(order))
                 .build();
 
+        // Build WebSocket message for new order
+        NewOrderMessage newOrderMessage = NewOrderMessage.builder()
+                .orderId(order.getId())
+                .homemakerId(order.getHomeMaker().getId())
+                .homemakerName(order.getHomeMaker().getName())
+                .pickupLatitude(pickupLat)
+                .pickupLongitude(pickupLng)
+                .deliveryFee(order.getDeliveryFee())
+                .priority(order.getPriority() != null ? order.getPriority().name() : "MEDIUM")
+                .build();
+        
+        // Set delivery location if available
+        if (order.getDeliveryLocation() != null) {
+            newOrderMessage.setDeliveryLatitude(order.getDeliveryLocation().getX());
+            newOrderMessage.setDeliveryLongitude(order.getDeliveryLocation().getY());
+        }
+        newOrderMessage.setDistance(order.getDistance());
+
+        // Broadcast to all executives via WebSocket
+        webSocketService.broadcastNewOrderToExecutives(newOrderMessage);
+
         for (DeliveryExecutive executive : nearbyExecutives) {
             notificationService.sendNotification(executive.getId(), Actor.Role.DELIVERYEXECUTIVE, request);
+            // Also send targeted WebSocket notification
+            webSocketService.sendNewOrderToExecutive(executive.getId(), newOrderMessage);
         }
         log.info("Notified {} nearby executives about order {}", nearbyExecutives.size(), order.getId());
     }
@@ -186,6 +261,10 @@ public class OrderNotificationService {
                 .build();
 
         notificationService.sendNotification(order.getExecutive().getId(), Actor.Role.DELIVERYEXECUTIVE, request);
+        
+        // Send WebSocket notification
+        OrderStatusMessage wsMessage = buildOrderStatusMessage(order, "ASSIGNED", "Order assigned - Pickup from " + order.getHomeMaker().getName());
+        webSocketService.sendOrderStatusToUser(order.getExecutive().getId(), "DELIVERYEXECUTIVE", wsMessage);
     }
 
     public void notifyExecutiveOrderReady(Order order) {
@@ -200,14 +279,33 @@ public class OrderNotificationService {
                 .build();
 
         notificationService.sendNotification(order.getExecutive().getId(), Actor.Role.DELIVERYEXECUTIVE, request);
+        
+        // Send WebSocket notification
+        OrderStatusMessage wsMessage = buildOrderStatusMessage(order, "PREPARED", "Order ready for pickup at " + order.getHomeMaker().getName());
+        webSocketService.sendOrderStatusToUser(order.getExecutive().getId(), "DELIVERYEXECUTIVE", wsMessage);
     }
 
     // ==================== HELPER METHODS ====================
 
+    private void sendOrderStatusWebSocket(Order order, String status, String message) {
+        OrderStatusMessage wsMessage = buildOrderStatusMessage(order, status, message);
+        webSocketService.notifyCustomer(order.getUser().getId(), wsMessage);
+        webSocketService.broadcastOrderStatus(order.getId(), wsMessage);
+    }
+
+    private OrderStatusMessage buildOrderStatusMessage(Order order, String status, String message) {
+        return OrderStatusMessage.builder()
+                .orderId(order.getId())
+                .status(status)
+                .previousStatus(order.getOrderStatus() != null ? order.getOrderStatus().name() : null)
+                .message(message)
+                .build();
+    }
+
     private Map<String, String> buildOrderData(Order order) {
         Map<String, String> data = new HashMap<>();
         data.put("orderId", order.getId().toString());
-        data.put("status", order.getOrderStatus().name());
+        data.put("status", order.getOrderStatus() != null ? order.getOrderStatus().name() : "PENDING");
         data.put("amount", String.valueOf(order.getAmount()));
         return data;
     }
@@ -223,8 +321,6 @@ public class OrderNotificationService {
     }
 
     private String calculateDistance(double lat, double lng, Order order) {
-        // Simplified distance calculation
-        // TODO: Implement proper distance calculation using order pickup location
         if (order.getPickupLocation() != null) {
             double pickupLat = order.getPickupLocation().getX();
             double pickupLng = order.getPickupLocation().getY();
