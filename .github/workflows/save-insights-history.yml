@@ -3,8 +3,6 @@ name: Save Insights History
 permissions:
   contents: write
   actions: read
-  metadata: read
-
 on:
   schedule:
     - cron: "0 0 * * *"
@@ -36,6 +34,9 @@ jobs:
             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
             https://api.github.com/repos/${{ github.repository }}/traffic/views)
 
+          TOTAL_VIEWS=$(echo "$VIEWS" | jq '.count // 0')
+          UNIQUE_VISITORS=$(echo "$VIEWS" | jq '.uniques // 0')
+
           # -----------------------------
           # TRAFFIC: CLONES
           # -----------------------------
@@ -44,21 +45,36 @@ jobs:
             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
             https://api.github.com/repos/${{ github.repository }}/traffic/clones)
 
+          TOTAL_CLONES=$(echo "$CLONES" | jq '.count // 0')
+          UNIQUE_CLONERS=$(echo "$CLONES" | jq '.uniques // 0')
+
           # -----------------------------
-          # TRAFFIC: REFERRERS
+          # REFERRERS (top 2)
           # -----------------------------
           REFERRERS=$(curl -s \
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
             https://api.github.com/repos/${{ github.repository }}/traffic/popular/referrers)
 
+          REF1=$(echo "$REFERRERS" | jq -r '.[0].referrer // ""')
+          REF1_COUNT=$(echo "$REFERRERS" | jq -r '.[0].count // 0')
+
+          REF2=$(echo "$REFERRERS" | jq -r '.[1].referrer // ""')
+          REF2_COUNT=$(echo "$REFERRERS" | jq -r '.[1].count // 0')
+
           # -----------------------------
-          # TRAFFIC: PATHS
+          # PATHS (top 2)
           # -----------------------------
           PATHS=$(curl -s \
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
             https://api.github.com/repos/${{ github.repository }}/traffic/popular/paths)
+
+          PATH1=$(echo "$PATHS" | jq -r '.[0].path // ""')
+          PATH1_VIEWS=$(echo "$PATHS" | jq -r '.[0].count // 0')
+
+          PATH2=$(echo "$PATHS" | jq -r '.[1].path // ""')
+          PATH2_VIEWS=$(echo "$PATHS" | jq -r '.[1].count // 0')
 
           # -----------------------------
           # REPO METADATA
@@ -68,92 +84,59 @@ jobs:
             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
             https://api.github.com/repos/${{ github.repository }})
 
+          STARS=$(echo "$REPO" | jq '.stargazers_count // 0')
+          FORKS=$(echo "$REPO" | jq '.forks_count // 0')
+          WATCHERS=$(echo "$REPO" | jq '.watchers_count // 0')
+          SUBSCRIBERS=$(echo "$REPO" | jq '.subscribers_count // 0')
+          OPEN_ISSUES=$(echo "$REPO" | jq '.open_issues_count // 0')
+          OPEN_PRS=$(echo "$REPO" | jq '.open_issues // 0')
+
           # -----------------------------
-          # STATS: CONTRIBUTORS
+          # CONTRIBUTORS COUNT
           # -----------------------------
           CONTRIBUTORS=$(curl -s \
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
             https://api.github.com/repos/${{ github.repository }}/stats/contributors)
 
+          CONTRIBUTORS_COUNT=$(echo "$CONTRIBUTORS" | jq 'length // 0')
+
           # -----------------------------
-          # STATS: COMMIT ACTIVITY
+          # COMMIT ACTIVITY (last week)
           # -----------------------------
           COMMIT_ACTIVITY=$(curl -s \
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
             https://api.github.com/repos/${{ github.repository }}/stats/commit_activity)
 
+          WEEKLY_COMMITS=$(echo "$COMMIT_ACTIVITY" | jq '.[-1].total // 0')
+
           # -----------------------------
-          # STATS: CODE FREQUENCY
+          # CODE FREQUENCY (last week)
           # -----------------------------
           CODE_FREQUENCY=$(curl -s \
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
             https://api.github.com/repos/${{ github.repository }}/stats/code_frequency)
 
-          # -----------------------------
-          # STATS: PUNCH CARD
-          # -----------------------------
-          PUNCH_CARD=$(curl -s \
-            -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-            https://api.github.com/repos/${{ github.repository }}/stats/punch_card)
+          WEEKLY_ADDITIONS=$(echo "$CODE_FREQUENCY" | jq '.[-1][1] // 0')
+          WEEKLY_DELETIONS=$(echo "$CODE_FREQUENCY" | jq '.[-1][2] // 0')
 
           # -----------------------------
-          # BUILD JSON OBJECT FOR TODAY
+          # WRITE CSV
           # -----------------------------
-          TODAY_JSON=$(jq -n \
-            --arg date "$DATE" \
-            --argjson views "$VIEWS" \
-            --argjson clones "$CLONES" \
-            --argjson referrers "$REFERRERS" \
-            --argjson paths "$PATHS" \
-            --argjson repo "$REPO" \
-            --argjson contributors "$CONTRIBUTORS" \
-            --argjson commit_activity "$COMMIT_ACTIVITY" \
-            --argjson code_frequency "$CODE_FREQUENCY" \
-            --argjson punch_card "$PUNCH_CARD" \
-            '
-            {
-              date: $date,
-              traffic: {
-                views: $views,
-                clones: $clones,
-                referrers: $referrers,
-                paths: $paths
-              },
-              repo: {
-                stars: $repo.stargazers_count,
-                forks: $repo.forks_count,
-                watchers: $repo.watchers_count,
-                subscribers: $repo.subscribers_count,
-                open_issues: $repo.open_issues_count,
-                open_prs: ($repo.open_issues_count - $repo.open_issues)
-              },
-              stats: {
-                contributors: $contributors,
-                commit_activity: $commit_activity,
-                code_frequency: $code_frequency,
-                punch_card: $punch_card
-              }
-            }
-            ')
+          FILE=insights/history.csv
 
-          # -----------------------------
-          # APPEND TO insights/history.json
-          # -----------------------------
-          if [ ! -f insights/history.json ]; then
-            echo "[]" > insights/history.json
+          if [ ! -f "$FILE" ]; then
+            echo "date,total_views,unique_visitors,total_clones,unique_cloners,stars,forks,watchers,subscribers,open_issues,open_prs,referrer_1,referrer_1_count,referrer_2,referrer_2_count,path_1,path_1_views,path_2,path_2_views,contributors_count,weekly_commits,weekly_additions,weekly_deletions" > "$FILE"
           fi
 
-          jq ". += [ $TODAY_JSON ]" insights/history.json > insights/tmp.json
-          mv insights/tmp.json insights/history.json
+          echo "$DATE,$TOTAL_VIEWS,$UNIQUE_VISITORS,$TOTAL_CLONES,$UNIQUE_CLONERS,$STARS,$FORKS,$WATCHERS,$SUBSCRIBERS,$OPEN_ISSUES,$OPEN_PRS,\"$REF1\",$REF1_COUNT,\"$REF2\",$REF2_COUNT,\"$PATH1\",$PATH1_VIEWS,\"$PATH2\",$PATH2_VIEWS,$CONTRIBUTORS_COUNT,$WEEKLY_COMMITS,$WEEKLY_ADDITIONS,$WEEKLY_DELETIONS" >> "$FILE"
 
       - name: Commit results
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
-          git add insights/history.json
+          git add insights/history.csv
           git commit -m "Update insights history: $(date -u)" || echo "No changes to commit"
           git push
