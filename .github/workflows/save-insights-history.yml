@@ -2,6 +2,8 @@ name: Save Insights History
 
 permissions:
   contents: write
+  actions: read
+  metadata: read
 
 on:
   schedule:
