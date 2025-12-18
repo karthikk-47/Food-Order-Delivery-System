@@ -1,0 +1,157 @@
+name: Save Insights History
+
+permissions:
+  contents: write
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+jobs:
+  save-insights:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Install jq
+        run: sudo apt-get install jq -y
+
+      - name: Fetch all insights
+        run: |
+          mkdir -p insights
+          DATE=$(date -u +"%Y-%m-%d")
+
+          # -----------------------------
+          # TRAFFIC: VIEWS
+          # -----------------------------
+          VIEWS=$(curl -s \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/repos/${{ github.repository }}/traffic/views)
+
+          # -----------------------------
+          # TRAFFIC: CLONES
+          # -----------------------------
+          CLONES=$(curl -s \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/repos/${{ github.repository }}/traffic/clones)
+
+          # -----------------------------
+          # TRAFFIC: REFERRERS
+          # -----------------------------
+          REFERRERS=$(curl -s \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/repos/${{ github.repository }}/traffic/popular/referrers)
+
+          # -----------------------------
+          # TRAFFIC: PATHS
+          # -----------------------------
+          PATHS=$(curl -s \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/repos/${{ github.repository }}/traffic/popular/paths)
+
+          # -----------------------------
+          # REPO METADATA
+          # -----------------------------
+          REPO=$(curl -s \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/repos/${{ github.repository }})
+
+          # -----------------------------
+          # STATS: CONTRIBUTORS
+          # -----------------------------
+          CONTRIBUTORS=$(curl -s \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/repos/${{ github.repository }}/stats/contributors)
+
+          # -----------------------------
+          # STATS: COMMIT ACTIVITY
+          # -----------------------------
+          COMMIT_ACTIVITY=$(curl -s \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/repos/${{ github.repository }}/stats/commit_activity)
+
+          # -----------------------------
+          # STATS: CODE FREQUENCY
+          # -----------------------------
+          CODE_FREQUENCY=$(curl -s \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/repos/${{ github.repository }}/stats/code_frequency)
+
+          # -----------------------------
+          # STATS: PUNCH CARD
+          # -----------------------------
+          PUNCH_CARD=$(curl -s \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/repos/${{ github.repository }}/stats/punch_card)
+
+          # -----------------------------
+          # BUILD JSON OBJECT FOR TODAY
+          # -----------------------------
+          TODAY_JSON=$(jq -n \
+            --arg date "$DATE" \
+            --argjson views "$VIEWS" \
+            --argjson clones "$CLONES" \
+            --argjson referrers "$REFERRERS" \
+            --argjson paths "$PATHS" \
+            --argjson repo "$REPO" \
+            --argjson contributors "$CONTRIBUTORS" \
+            --argjson commit_activity "$COMMIT_ACTIVITY" \
+            --argjson code_frequency "$CODE_FREQUENCY" \
+            --argjson punch_card "$PUNCH_CARD" \
+            '
+            {
+              date: $date,
+              traffic: {
+                views: $views,
+                clones: $clones,
+                referrers: $referrers,
+                paths: $paths
+              },
+              repo: {
+                stars: $repo.stargazers_count,
+                forks: $repo.forks_count,
+                watchers: $repo.watchers_count,
+                subscribers: $repo.subscribers_count,
+                open_issues: $repo.open_issues_count,
+                open_prs: ($repo.open_issues_count - $repo.open_issues)
+              },
+              stats: {
+                contributors: $contributors,
+                commit_activity: $commit_activity,
+                code_frequency: $code_frequency,
+                punch_card: $punch_card
+              }
+            }
+            ')
+
+          # -----------------------------
+          # APPEND TO insights/history.json
+          # -----------------------------
+          if [ ! -f insights/history.json ]; then
+            echo "[]" > insights/history.json
+          fi
+
+          jq ". += [ $TODAY_JSON ]" insights/history.json > insights/tmp.json
+          mv insights/tmp.json insights/history.json
+
+      - name: Commit results
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add insights/history.json
+          git commit -m "Update insights history: $(date -u)" || echo "No changes to commit"
+          git push
