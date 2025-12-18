@@ -1,0 +1,76 @@
+name: Save Repo History
+
+on:
+  schedule:
+    - cron: "0 0 * * *"   # Runs daily at midnight UTC
+  workflow_dispatch:
+
+jobs:
+  save-history:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      # -----------------------------
+      # 1. SAVE CLONE HISTORY
+      # -----------------------------
+      - name: Fetch clone stats
+        run: |
+          mkdir -p traffic
+          DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
+          RESPONSE=$(curl -s \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/repos/${{ github.repository }}/traffic/clones)
+
+          COUNT=$(echo "$RESPONSE" | jq '.count')
+          UNIQUES=$(echo "$RESPONSE" | jq '.uniques')
+
+          # Create file if missing
+          if [ ! -f traffic/clone-history.csv ]; then
+            echo "timestamp,total_clones,unique_cloners" > traffic/clone-history.csv
+          fi
+
+          echo "$DATE,$COUNT,$UNIQUES" >> traffic/clone-history.csv
+
+      # -----------------------------
+      # 2. SAVE VISIBILITY HISTORY
+      # -----------------------------
+      - name: Fetch visibility
+        run: |
+          mkdir -p visibility
+          DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
+          RESPONSE=$(curl -s \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/repos/${{ github.repository }})
+
+          VISIBILITY=$(echo "$RESPONSE" | jq -r '.private')
+
+          # Create file if missing
+          if [ ! -f visibility/visibility-history.csv ]; then
+            echo "timestamp,private" > visibility/visibility-history.csv
+          fi
+
+          LAST=$(tail -n 1 visibility/visibility-history.csv | cut -d',' -f2)
+
+          if [ "$LAST" != "$VISIBILITY" ]; then
+            echo "$DATE,$VISIBILITY" >> visibility/visibility-history.csv
+          else
+            echo "No visibility change"
+          fi
+
+      # -----------------------------
+      # 3. COMMIT CHANGES
+      # -----------------------------
+      - name: Commit results
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add traffic/clone-history.csv visibility/visibility-history.csv
+          git commit -m "Update repo history: $(date -u)" || echo "No changes to commit"
+          git push
