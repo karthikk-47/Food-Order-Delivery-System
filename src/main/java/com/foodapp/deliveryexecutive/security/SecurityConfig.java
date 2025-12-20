@@ -19,7 +19,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class SecurityConfig {
-    
+
     private final JwtTokenProvider tokenProvider;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
@@ -46,43 +46,44 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-            .csrf(csrf -> csrf.disable())
-            .exceptionHandling(ex -> ex.authenticationEntryPoint(jwtAuthenticationEntryPoint))
-            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .authorizeHttpRequests(auth -> auth
-                // WebSocket endpoints
-                .requestMatchers("/ws/**").permitAll()
-                // Auth endpoints
-                .requestMatchers("/api/auth/**").permitAll()
-                .requestMatchers("/api/getAddress").permitAll()
-                .requestMatchers("/api/delivery-executive/register", "/api/delivery-executive/login").permitAll()
-                .requestMatchers("/api/homemaker/register", "/api/homemaker/login").permitAll()
-                .requestMatchers("/api/user/register", "/api/user/login").permitAll()
-                .requestMatchers("/api/admin/login").permitAll()
-                // Webhooks
-                .requestMatchers("/api/webhooks/**").permitAll()
-                .requestMatchers("/api/payments/webhook/**").permitAll()
-                // Role-based access
-                .requestMatchers("/api/order-payments/**").hasAnyRole("USER", "ADMIN")
-                .requestMatchers("/api/withdrawals/**").hasAnyRole("DELIVERYEXECUTIVE", "HOMEMAKER")
-                .requestMatchers("/api/delivery-executive/**").hasRole("DELIVERYEXECUTIVE")
-                .requestMatchers("/api/homemaker/**").hasRole("HOMEMAKER")
-                .requestMatchers("/api/homemakers/**").hasAnyRole("USER", "ADMIN", "HOMEMAKER")
-                .requestMatchers("/api/user/**").hasRole("USER")
-                .requestMatchers("/api/users/**").hasAnyRole("USER", "ADMIN")
-                .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                .requestMatchers("/api/orders/**").hasAnyRole("DELIVERYEXECUTIVE", "HOMEMAKER", "USER", "ADMIN")
-                .requestMatchers("/api/menu-items/**").hasAnyRole("HOMEMAKER", "USER", "ADMIN")
-                .requestMatchers("/api/cart/**").hasRole("USER")
-                .requestMatchers("/api/wallet/**").hasAnyRole("DELIVERYEXECUTIVE", "HOMEMAKER")
-                .requestMatchers("/api/bank-accounts/**").hasAnyRole("DELIVERYEXECUTIVE", "HOMEMAKER")
-                .requestMatchers("/api/ratings/**").hasAnyRole("DELIVERYEXECUTIVE", "HOMEMAKER", "USER")
-                .requestMatchers("/api/profile/**").hasAnyRole("DELIVERYEXECUTIVE", "HOMEMAKER", "USER")
-                .requestMatchers("/api/notifications/**").authenticated()
-                .anyRequest().authenticated()
-            );
-        
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .csrf(csrf -> csrf.disable())
+                .exceptionHandling(ex -> ex.authenticationEntryPoint(jwtAuthenticationEntryPoint))
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(auth -> auth
+                        // WebSocket endpoints
+                        .requestMatchers("/ws/**").permitAll()
+                        // Auth endpoints
+                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/api/getAddress").permitAll()
+                        .requestMatchers("/api/delivery-executive/register", "/api/delivery-executive/login")
+                        .permitAll()
+                        .requestMatchers("/api/homemaker/register", "/api/homemaker/login").permitAll()
+                        .requestMatchers("/api/user/register", "/api/user/login").permitAll()
+                        .requestMatchers("/api/admin/login").permitAll()
+                        // Webhooks
+                        .requestMatchers("/api/webhooks/**").permitAll()
+                        .requestMatchers("/api/payments/webhook/**").permitAll()
+                        // Role-based access
+                        .requestMatchers("/api/order-payments/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/api/withdrawals/**").hasAnyRole("DELIVERYEXECUTIVE", "HOMEMAKER")
+                        .requestMatchers("/api/delivery-executive/**").hasRole("DELIVERYEXECUTIVE")
+                        .requestMatchers("/api/homemaker/**").hasRole("HOMEMAKER")
+                        .requestMatchers("/api/homemakers/**").hasAnyRole("USER", "ADMIN", "HOMEMAKER")
+                        .requestMatchers("/api/user/**").hasRole("USER")
+                        .requestMatchers("/api/users/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/orders/**").hasAnyRole("DELIVERYEXECUTIVE", "HOMEMAKER", "USER", "ADMIN")
+                        .requestMatchers("/api/menu-items/**").hasAnyRole("HOMEMAKER", "USER", "ADMIN")
+                        .requestMatchers("/api/cart/**").hasRole("USER")
+                        .requestMatchers("/api/wallet/**").hasAnyRole("DELIVERYEXECUTIVE", "HOMEMAKER")
+                        .requestMatchers("/api/bank-accounts/**").hasAnyRole("DELIVERYEXECUTIVE", "HOMEMAKER")
+                        .requestMatchers("/api/ratings/**").hasAnyRole("DELIVERYEXECUTIVE", "HOMEMAKER", "USER")
+                        .requestMatchers("/api/profile/**").hasAnyRole("DELIVERYEXECUTIVE", "HOMEMAKER", "USER")
+                        .requestMatchers("/api/external/restaurants/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/api/notifications/**").authenticated()
+                        .anyRequest().authenticated());
+
         http.addFilterBefore(authenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }

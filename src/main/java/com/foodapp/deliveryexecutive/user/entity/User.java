@@ -9,7 +9,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
-import org.springframework.data.geo.Point;
 
 import java.util.List;
 
@@ -25,8 +24,9 @@ public class User extends Actor {
     private String password;
     private String email;
     private String address;
-    private Point location;
-    
+    private Double latitude;
+    private Double longitude;
+
     @OneToMany
     private List<Order> orders;
 }

@@ -12,6 +12,8 @@ import com.foodapp.deliveryexecutive.security.service.PasswordResetService;
 import com.foodapp.deliveryexecutive.user.entity.User;
 import com.foodapp.deliveryexecutive.user.repository.UserRepository;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +31,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value={"/api/auth"})
+@RequestMapping(value = { "/api/auth" })
 public class AuthController {
     private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
     @Autowired
@@ -47,31 +49,35 @@ public class AuthController {
     @Autowired
     private PasswordResetService passwordResetService;
 
-    @PostMapping(value={"/login"})
+    @PostMapping(value = { "/login" })
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
         try {
-            Authentication authentication = this.authenticationManager.authenticate((Authentication)new UsernamePasswordAuthenticationToken(loginRequest.getMobile(), loginRequest.getPassword()));
+            Authentication authentication = this.authenticationManager
+                    .authenticate((Authentication) new UsernamePasswordAuthenticationToken(loginRequest.getMobile(),
+                            loginRequest.getPassword()));
             SecurityContextHolder.getContext().setAuthentication(authentication);
             String jwt = this.tokenProvider.createToken(authentication);
-            UserPrincipal userPrincipal = (UserPrincipal)authentication.getPrincipal();
-            return ResponseEntity.ok(new JwtAuthenticationResponse(jwt, userPrincipal.getId(), userPrincipal.getMobile(), userPrincipal.getRole()));
-        }
-        catch (Exception e) {
+            UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+            return ResponseEntity.ok(new JwtAuthenticationResponse(jwt, userPrincipal.getId(),
+                    userPrincipal.getMobile(), userPrincipal.getRole()));
+        } catch (Exception e) {
             logger.error("Authentication failed for mobile: {}", loginRequest.getMobile(), e);
             return ResponseEntity.badRequest().body(new ApiResponse(false, "Invalid mobile or password"));
         }
     }
 
-    @PostMapping(value={"/register"})
+    @PostMapping(value = { "/register" })
     public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterRequest registerRequest) {
         try {
             String role = registerRequest.getRole();
             String mobile = registerRequest.getMobile();
-            if (this.userRepository.findByMobile(mobile).isPresent() || this.homeMakerRepository.findByMobile(mobile).isPresent() || this.deliveryExecutiveRepository.findByMobile(mobile).isPresent()) {
+            if (this.userRepository.findByMobile(mobile).isPresent()
+                    || this.homeMakerRepository.findByMobile(mobile).isPresent()
+                    || this.deliveryExecutiveRepository.findByMobile(mobile).isPresent()) {
                 return ResponseEntity.badRequest().body(new ApiResponse(false, "Mobile number already registered"));
             }
-            String encodedPassword = this.passwordEncoder.encode((CharSequence)registerRequest.getPassword());
-            if ("USER".equals(role)) {
+            String encodedPassword = this.passwordEncoder.encode((CharSequence) registerRequest.getPassword());
+            if ("USER".equalsIgnoreCase(role)) {
                 User user = new User();
                 user.setName(registerRequest.getName());
                 user.setMobile(mobile);
@@ -82,7 +88,7 @@ public class AuthController {
                 this.userRepository.save(user);
                 return this.authenticateAndRespond(mobile, registerRequest.getPassword());
             }
-            if ("HOMEMAKER".equals(role)) {
+            if ("HOMEMAKER".equalsIgnoreCase(role)) {
                 HomeMaker homeMaker = new HomeMaker();
                 homeMaker.setName(registerRequest.getName());
                 homeMaker.setMobile(mobile);
@@ -91,9 +97,10 @@ public class AuthController {
                 homeMaker.setRole(Actor.Role.HOMEMAKER);
                 homeMaker.setApprovalStatus(HomeMaker.ApprovalStatus.PENDING);
                 this.homeMakerRepository.save(homeMaker);
-                return ResponseEntity.ok(new ApiResponse(true, "Registration successful! Your account is pending admin approval. You will be able to login once approved."));
+                return ResponseEntity.ok(new ApiResponse(true,
+                        "Registration successful! Your account is pending admin approval. You will be able to login once approved."));
             }
-            if ("DELIVERYEXECUTIVE".equals(role)) {
+            if ("DELIVERYEXECUTIVE".equalsIgnoreCase(role)) {
                 DeliveryExecutive executive = new DeliveryExecutive();
                 executive.setName(registerRequest.getName());
                 executive.setMobile(mobile);
@@ -103,44 +110,47 @@ public class AuthController {
                 executive.setRole(Actor.Role.DELIVERYEXECUTIVE);
                 executive.setApprovalStatus(DeliveryExecutive.ApprovalStatus.PENDING);
                 this.deliveryExecutiveRepository.save(executive);
-                return ResponseEntity.ok(new ApiResponse(true, "Registration successful! Your account is pending admin approval. You will be able to login once approved."));
+                return ResponseEntity.ok(new ApiResponse(true,
+                        "Registration successful! Your account is pending admin approval. You will be able to login once approved."));
             }
             return ResponseEntity.badRequest().body(new ApiResponse(false, "Invalid role specified"));
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             logger.error("Registration failed for mobile: {}", registerRequest.getMobile(), e);
             return ResponseEntity.badRequest().body(new ApiResponse(false, "Registration failed: " + e.getMessage()));
         }
     }
 
     private ResponseEntity<?> authenticateAndRespond(String mobile, String password) {
-        Authentication authentication = this.authenticationManager.authenticate((Authentication)new UsernamePasswordAuthenticationToken(mobile, password));
+        Authentication authentication = this.authenticationManager
+                .authenticate((Authentication) new UsernamePasswordAuthenticationToken(mobile, password));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = this.tokenProvider.createToken(authentication);
-        UserPrincipal userPrincipal = (UserPrincipal)authentication.getPrincipal();
-        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt, userPrincipal.getId(), userPrincipal.getMobile(), userPrincipal.getRole()));
+        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt, userPrincipal.getId(), userPrincipal.getMobile(),
+                userPrincipal.getRole()));
     }
 
-    @GetMapping(value={"/validate"})
-    public ResponseEntity<?> validateToken(@RequestHeader(value="Authorization") String token) {
+    @GetMapping(value = { "/validate" })
+    public ResponseEntity<?> validateToken(@RequestHeader(value = "Authorization") String token) {
         try {
             String jwt;
-            if (token != null && token.startsWith("Bearer ") && this.tokenProvider.validateToken(jwt = token.substring(7))) {
+            if (token != null && token.startsWith("Bearer ")
+                    && this.tokenProvider.validateToken(jwt = token.substring(7))) {
                 String username = this.tokenProvider.getUsernameFromJWT(jwt);
                 return ResponseEntity.ok(new ApiResponse(true, "Token is valid for user: " + username));
             }
             return ResponseEntity.badRequest().body(new ApiResponse(false, "Invalid token"));
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             return ResponseEntity.badRequest().body(new ApiResponse(false, "Token validation failed"));
         }
     }
 
-    @PostMapping(value={"/forgot-password"})
+    @PostMapping(value = { "/forgot-password" })
     public ResponseEntity<?> forgotPassword(@Valid @RequestBody ForgotPasswordRequest request) {
         logger.info("Forgot password request for mobile: {}", request.getMobile());
-        PasswordResetService.PasswordResetResult result = passwordResetService.requestPasswordReset(request.getMobile());
-        
+        PasswordResetService.PasswordResetResult result = passwordResetService
+                .requestPasswordReset(request.getMobile());
+
         if (result.success()) {
             // In development, return OTP for testing. In production, remove this.
             return ResponseEntity.ok(new ForgotPasswordResponse(true, result.message(), result.token()));
@@ -148,23 +158,24 @@ public class AuthController {
         return ResponseEntity.badRequest().body(new ApiResponse(false, result.message()));
     }
 
-    @PostMapping(value={"/verify-otp"})
+    @PostMapping(value = { "/verify-otp" })
     public ResponseEntity<?> verifyOTP(@Valid @RequestBody VerifyOTPRequest request) {
         logger.info("Verify OTP request for mobile: {}", request.getMobile());
-        PasswordResetService.PasswordResetResult result = passwordResetService.verifyOTP(request.getMobile(), request.getOtp());
-        
+        PasswordResetService.PasswordResetResult result = passwordResetService.verifyOTP(request.getMobile(),
+                request.getOtp());
+
         if (result.success()) {
             return ResponseEntity.ok(new ApiResponse(true, result.message()));
         }
         return ResponseEntity.badRequest().body(new ApiResponse(false, result.message()));
     }
 
-    @PostMapping(value={"/reset-password"})
+    @PostMapping(value = { "/reset-password" })
     public ResponseEntity<?> resetPassword(@Valid @RequestBody ResetPasswordRequest request) {
         logger.info("Reset password request for mobile: {}", request.getMobile());
         PasswordResetService.PasswordResetResult result = passwordResetService.verifyOTPAndResetPassword(
                 request.getMobile(), request.getOtp(), request.getNewPassword());
-        
+
         if (result.success()) {
             return ResponseEntity.ok(new ApiResponse(true, result.message()));
         }
@@ -182,12 +193,29 @@ public class AuthController {
             this.otp = otp;
         }
 
-        public Boolean getSuccess() { return success; }
-        public void setSuccess(Boolean success) { this.success = success; }
-        public String getMessage() { return message; }
-        public void setMessage(String message) { this.message = message; }
-        public String getOtp() { return otp; }
-        public void setOtp(String otp) { this.otp = otp; }
+        public Boolean getSuccess() {
+            return success;
+        }
+
+        public void setSuccess(Boolean success) {
+            this.success = success;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public void setMessage(String message) {
+            this.message = message;
+        }
+
+        public String getOtp() {
+            return otp;
+        }
+
+        public void setOtp(String otp) {
+            this.otp = otp;
+        }
     }
 
     public static class LoginRequest {
@@ -293,10 +321,15 @@ public class AuthController {
     }
 
     public static class RegisterRequest {
+        @NotBlank
         private String name;
+        @Email
         private String email;
+        @NotBlank
         private String mobile;
+        @NotBlank
         private String password;
+        @NotBlank
         private String role;
         private String address;
         private String aadharNo;
