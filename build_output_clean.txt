@@ -1,0 +1,52 @@
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::staticFieldBase has been called by com.google.inject.internal.aop.HiddenClassDefiner (file:/C:/Program%20Files/Apache/maven/apache-maven-3.9.11/lib/guice-5.1.0-classes.jar)
+WARNING: Please consider reporting this to the maintainers of class com.google.inject.internal.aop.HiddenClassDefiner
+WARNING: sun.misc.Unsafe::staticFieldBase will be removed in a future release
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ---------------< com.foodapp:food_order_deliverysystem >----------------
+[INFO] Building food_order_deliverysystem 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ food_order_deliverysystem ---
+[INFO] Copying 12 resources from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.13.0:compile (default-compile) @ food_order_deliverysystem ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 265 source files with javac [debug parameters release 21] to target\classes
+[INFO] /C:/Users/Abcom/Documents/Projects/deliveryexecutive/src/main/java/com/foodapp/deliveryexecutive/filestorage/service/impl/FtpFileStorageService.java: C:\Users\Abcom\Documents\Projects\deliveryexecutive\src\main\java\com\foodapp\deliveryexecutive\filestorage\service\impl\FtpFileStorageService.java uses or overrides a deprecated API.
+[INFO] /C:/Users/Abcom/Documents/Projects/deliveryexecutive/src/main/java/com/foodapp/deliveryexecutive/filestorage/service/impl/FtpFileStorageService.java: Recompile with -Xlint:deprecation for details.
+[INFO] /C:/Users/Abcom/Documents/Projects/deliveryexecutive/src/main/java/com/foodapp/deliveryexecutive/common/exception/GlobalExceptionHandler.java: Some input files use unchecked or unsafe operations.
+[INFO] /C:/Users/Abcom/Documents/Projects/deliveryexecutive/src/main/java/com/foodapp/deliveryexecutive/common/exception/GlobalExceptionHandler.java: Recompile with -Xlint:unchecked for details.
+[INFO] -------------------------------------------------------------
+[ERROR] COMPILATION ERROR : 
+[INFO] -------------------------------------------------------------
+[ERROR] /C:/Users/Abcom/Documents/Projects/deliveryexecutive/src/main/java/com/foodapp/deliveryexecutive/integration/external/service/ExternalRestaurantService.java:[44,60] cannot find symbol
+  symbol:   method fromHttpUrl(java.lang.String)
+  location: class org.springframework.web.util.UriComponentsBuilder
+[ERROR] /C:/Users/Abcom/Documents/Projects/deliveryexecutive/src/main/java/com/foodapp/deliveryexecutive/integration/external/service/ExternalRestaurantService.java:[84,60] cannot find symbol
+  symbol:   method fromHttpUrl(java.lang.String)
+  location: class org.springframework.web.util.UriComponentsBuilder
+[INFO] 2 errors 
+[INFO] -------------------------------------------------------------
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  24.045 s
+[INFO] Finished at: 2025-12-21T01:21:36+05:30
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.13.0:compile (default-compile) on project food_order_deliverysystem: Compilation failure: Compilation failure: 
+[ERROR] /C:/Users/Abcom/Documents/Projects/deliveryexecutive/src/main/java/com/foodapp/deliveryexecutive/integration/external/service/ExternalRestaurantService.java:[44,60] cannot find symbol
+[ERROR]   symbol:   method fromHttpUrl(java.lang.String)
+[ERROR]   location: class org.springframework.web.util.UriComponentsBuilder
+[ERROR] /C:/Users/Abcom/Documents/Projects/deliveryexecutive/src/main/java/com/foodapp/deliveryexecutive/integration/external/service/ExternalRestaurantService.java:[84,60] cannot find symbol
+[ERROR]   symbol:   method fromHttpUrl(java.lang.String)
+[ERROR]   location: class org.springframework.web.util.UriComponentsBuilder
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException

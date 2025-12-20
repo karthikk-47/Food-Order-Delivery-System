@@ -41,7 +41,7 @@ public class ExternalRestaurantService {
     public RestaurantSearchResponse searchRestaurants(String query, Double lat, Double lon, Double radius) {
         String url = baseUrl + "/search";
 
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url)
+        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(url)
                 .queryParam("q", query);
 
         if (lat != null && lon != null) {
@@ -81,7 +81,7 @@ public class ExternalRestaurantService {
     public Object getRestaurantDetails(String restaurantId) {
         String url = baseUrl + "/restaurant";
 
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url)
+        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(url)
                 .queryParam("res_id", restaurantId);
 
         HttpHeaders headers = new HttpHeaders();
