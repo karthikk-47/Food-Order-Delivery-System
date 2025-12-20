@@ -1,0 +1,142 @@
+name: Save Insights History
+
+permissions:
+  contents: write
+  actions: read
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+jobs:
+  save-insights:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Install jq
+        run: sudo apt-get install jq -y
+
+      - name: Fetch all insights
+        run: |
+          mkdir -p insights
+          DATE=$(date -u +"%Y-%m-%d")
+
+          # -----------------------------
+          # TRAFFIC: VIEWS
+          # -----------------------------
+          VIEWS=$(curl -s \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/repos/${{ github.repository }}/traffic/views)
+
+          TOTAL_VIEWS=$(echo "$VIEWS" | jq '.count // 0')
+          UNIQUE_VISITORS=$(echo "$VIEWS" | jq '.uniques // 0')
+
+          # -----------------------------
+          # TRAFFIC: CLONES
+          # -----------------------------
+          CLONES=$(curl -s \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/repos/${{ github.repository }}/traffic/clones)
+
+          TOTAL_CLONES=$(echo "$CLONES" | jq '.count // 0')
+          UNIQUE_CLONERS=$(echo "$CLONES" | jq '.uniques // 0')
+
+          # -----------------------------
+          # REFERRERS (top 2)
+          # -----------------------------
+          REFERRERS=$(curl -s \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/repos/${{ github.repository }}/traffic/popular/referrers)
+
+          REF1=$(echo "$REFERRERS" | jq -r '.[0].referrer // ""')
+          REF1_COUNT=$(echo "$REFERRERS" | jq -r '.[0].count // 0')
+
+          REF2=$(echo "$REFERRERS" | jq -r '.[1].referrer // ""')
+          REF2_COUNT=$(echo "$REFERRERS" | jq -r '.[1].count // 0')
+
+          # -----------------------------
+          # PATHS (top 2)
+          # -----------------------------
+          PATHS=$(curl -s \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/repos/${{ github.repository }}/traffic/popular/paths)
+
+          PATH1=$(echo "$PATHS" | jq -r '.[0].path // ""')
+          PATH1_VIEWS=$(echo "$PATHS" | jq -r '.[0].count // 0')
+
+          PATH2=$(echo "$PATHS" | jq -r '.[1].path // ""')
+          PATH2_VIEWS=$(echo "$PATHS" | jq -r '.[1].count // 0')
+
+          # -----------------------------
+          # REPO METADATA
+          # -----------------------------
+          REPO=$(curl -s \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/repos/${{ github.repository }})
+
+          STARS=$(echo "$REPO" | jq '.stargazers_count // 0')
+          FORKS=$(echo "$REPO" | jq '.forks_count // 0')
+          WATCHERS=$(echo "$REPO" | jq '.watchers_count // 0')
+          SUBSCRIBERS=$(echo "$REPO" | jq '.subscribers_count // 0')
+          OPEN_ISSUES=$(echo "$REPO" | jq '.open_issues_count // 0')
+          OPEN_PRS=$(echo "$REPO" | jq '.open_issues // 0')
+
+          # -----------------------------
+          # CONTRIBUTORS COUNT
+          # -----------------------------
+          CONTRIBUTORS=$(curl -s \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/repos/${{ github.repository }}/stats/contributors)
+
+          CONTRIBUTORS_COUNT=$(echo "$CONTRIBUTORS" | jq 'length // 0')
+
+          # -----------------------------
+          # COMMIT ACTIVITY (last week)
+          # -----------------------------
+          COMMIT_ACTIVITY=$(curl -s \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/repos/${{ github.repository }}/stats/commit_activity)
+
+          WEEKLY_COMMITS=$(echo "$COMMIT_ACTIVITY" | jq '.[-1].total // 0')
+
+          # -----------------------------
+          # CODE FREQUENCY (last week)
+          # -----------------------------
+          CODE_FREQUENCY=$(curl -s \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/repos/${{ github.repository }}/stats/code_frequency)
+
+          WEEKLY_ADDITIONS=$(echo "$CODE_FREQUENCY" | jq '.[-1][1] // 0')
+          WEEKLY_DELETIONS=$(echo "$CODE_FREQUENCY" | jq '.[-1][2] // 0')
+
+          # -----------------------------
+          # WRITE CSV
+          # -----------------------------
+          FILE=insights/history.csv
+
+          if [ ! -f "$FILE" ]; then
+            echo "date,total_views,unique_visitors,total_clones,unique_cloners,stars,forks,watchers,subscribers,open_issues,open_prs,referrer_1,referrer_1_count,referrer_2,referrer_2_count,path_1,path_1_views,path_2,path_2_views,contributors_count,weekly_commits,weekly_additions,weekly_deletions" > "$FILE"
+          fi
+
+          echo "$DATE,$TOTAL_VIEWS,$UNIQUE_VISITORS,$TOTAL_CLONES,$UNIQUE_CLONERS,$STARS,$FORKS,$WATCHERS,$SUBSCRIBERS,$OPEN_ISSUES,$OPEN_PRS,\"$REF1\",$REF1_COUNT,\"$REF2\",$REF2_COUNT,\"$PATH1\",$PATH1_VIEWS,\"$PATH2\",$PATH2_VIEWS,$CONTRIBUTORS_COUNT,$WEEKLY_COMMITS,$WEEKLY_ADDITIONS,$WEEKLY_DELETIONS" >> "$FILE"
+
+      - name: Commit results
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add insights/history.csv
+          git commit -m "Update insights history: $(date -u)" || echo "No changes to commit"
+          git push
