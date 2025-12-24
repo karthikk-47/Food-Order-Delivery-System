@@ -51,8 +51,22 @@ public class SecurityConfig {
                 .exceptionHandling(ex -> ex.authenticationEntryPoint(jwtAuthenticationEntryPoint))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
+                        // Swagger/OpenAPI endpoints - PUBLIC ACCESS
+                        .requestMatchers(
+                                "/swagger-ui.html",
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**",
+                                "/v3/api-docs.yaml",
+                                "/swagger-resources/**",
+                                "/webjars/**")
+                        .permitAll()
+
+                        // Actuator endpoints - ADMIN ONLY
+                        .requestMatchers("/actuator/**").hasRole("ADMIN")
+
                         // WebSocket endpoints
                         .requestMatchers("/ws/**").permitAll()
+
                         // Auth endpoints
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/getAddress").permitAll()
@@ -61,9 +75,11 @@ public class SecurityConfig {
                         .requestMatchers("/api/homemaker/register", "/api/homemaker/login").permitAll()
                         .requestMatchers("/api/user/register", "/api/user/login").permitAll()
                         .requestMatchers("/api/admin/login").permitAll()
+
                         // Webhooks
                         .requestMatchers("/api/webhooks/**").permitAll()
                         .requestMatchers("/api/payments/webhook/**").permitAll()
+
                         // Role-based access
                         .requestMatchers("/api/order-payments/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/api/withdrawals/**").hasAnyRole("DELIVERYEXECUTIVE", "HOMEMAKER")
